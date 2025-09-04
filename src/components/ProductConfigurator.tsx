@@ -52,219 +52,253 @@ export const ProductConfigurator: React.FC = () => {
   };
 
   return (
-    <section id="collection" className="w-full max-w-[1734px] mt-[51px] max-md:mt-10">
-      <div className="flex items-start gap-[40px_43px] text-9xl text-[rgba(19,54,92,1)] font-normal flex-wrap ml-20 mb-[93px] max-md:text-[40px] max-md:mb-10">
-        <h2 className="basis-auto grow shrink mt-[31px] max-md:max-w-full max-md:text-[40px]">
-          НАША КОЛЛЕКЦИЯ
-        </h2>
-        <img
-          src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
-          className="aspect-[1] object-contain w-[106px] shrink-0 max-w-full"
-          alt="Декоративный элемент"
-        />
-      </div>
-
-      <p className="text-[rgba(19,54,92,1)] text-4xl font-normal ml-[89px] mb-[88px] max-md:max-w-full max-md:mb-10">
-        Выберите идеальный комплект постельного белья, полностью
-        адаптированный под ваши пожелания.
-      </p>
-
-      {/* Простыня */}
-      <div className="w-full max-w-[1495px] mx-auto mb-[72px]">
-        <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-4xl text-[rgba(19,54,92,1)] font-bold whitespace-nowrap text-center justify-center px-[70px] py-[31px] max-md:px-5 mb-[72px]">
-          <h3>Простыня</h3>
+    <section id="collection" className="w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto">
+        {/* Title Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-16 lg:mb-24">
+          <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+            НАША КОЛЛЕКЦИЯ
+          </h2>
+          <img
+            src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
+            className="aspect-[1] object-contain w-20 sm:w-24 lg:w-28 xl:w-[106px] shrink-0"
+            alt="Декоративный элемент"
+          />
         </div>
 
-        <div className="space-y-[72px]">
-          <div className="flex w-full items-stretch gap-[40px_76px] flex-wrap">
-            <label className="text-[rgba(19,54,92,1)] text-4xl font-bold grow shrink w-[137px]">
-              Цвет ткани
-            </label>
-            <ColorSelector
-              colors={colors}
-              selectedColor={sheetConfig.color}
-              onColorSelect={(color) => setSheetConfig(prev => ({ ...prev, color }))}
-              className="grow shrink basis-auto"
-            />
+        <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-16 lg:mb-24 leading-relaxed">
+          Выберите идеальный комплект постельного белья, полностью
+          адаптированный под ваши пожелания.
+        </p>
+
+        {/* Простыня */}
+        <div className="mb-16 lg:mb-24">
+          <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-6 sm:py-8 mb-12 lg:mb-16">
+            <h3>Простыня</h3>
           </div>
 
-          <div className="flex w-full items-stretch gap-[40px_100px] text-4xl flex-wrap">
-            <label className="text-[rgba(19,54,92,1)] font-bold grow shrink w-[89px]">
-              Размер
-            </label>
-            <SizeSelector
-              sizes={sheetSizes}
-              selectedSize={sheetConfig.size}
-              onSizeSelect={(size) => setSheetConfig(prev => ({ ...prev, size }))}
-              className="max-md:max-w-full"
-            />
-          </div>
+          <div className="space-y-12 lg:space-y-16">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Цвет ткани
+              </label>
+              <div className="flex-1">
+                <ColorSelector
+                  colors={colors}
+                  selectedColor={sheetConfig.color}
+                  onColorSelect={(color) => setSheetConfig(prev => ({ ...prev, color }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
 
-          <div className="flex w-full items-stretch gap-[39px] text-4xl">
-            <label className="text-[rgba(19,54,92,1)] font-bold grow shrink w-[155px]">
-              Количество
-            </label>
-            <QuantitySelector
-              selectedQuantity={sheetConfig.quantity}
-              onQuantitySelect={(quantity) => setSheetConfig(prev => ({ ...prev, quantity }))}
-            />
-          </div>
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Размер
+              </label>
+              <div className="flex-1">
+                <SizeSelector
+                  sizes={sheetSizes}
+                  selectedSize={sheetConfig.size}
+                  onSizeSelect={(size) => setSheetConfig(prev => ({ ...prev, size }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
 
-          <div className="flex w-[1252px] max-w-full items-stretch gap-5 text-4xl text-black font-normal whitespace-nowrap text-center flex-wrap justify-between mr-[147px] max-md:mr-2.5">
-            <button 
-              onClick={handleNext}
-              className="flex flex-col items-center pt-0.5 pb-[33px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-            >
-              <div>далее</div>
-            </button>
-            <button 
-              onClick={handleCancel}
-              className="flex flex-col items-center pt-0.5 pb-[38px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-            >
-              <div>отмена</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Наволочки */}
-      <div className="w-full max-w-[1495px] mx-auto mb-[72px]">
-        <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-4xl text-[rgba(19,54,92,1)] font-bold whitespace-nowrap text-center pt-[25px] pb-[45px] px-[70px] max-md:px-5 mb-[72px]">
-          <h3>Наволочки</h3>
-        </div>
-
-        <div className="space-y-[72px]">
-          <div className="flex w-full items-stretch gap-[40px_75px] flex-wrap">
-            <label className="text-[rgba(19,54,92,1)] text-4xl font-bold grow shrink w-[137px]">
-              Цвет ткани
-            </label>
-            <ColorSelector
-              colors={colors}
-              selectedColor={pillowcaseConfig.color}
-              onColorSelect={(color) => setPillowcaseConfig(prev => ({ ...prev, color }))}
-              className="grow shrink basis-auto"
-            />
-          </div>
-
-          <div className="flex w-full items-stretch gap-[40px_100px] text-4xl flex-wrap">
-            <label className="text-[rgba(19,54,92,1)] font-bold grow shrink w-[89px]">
-              Размер
-            </label>
-            <SizeSelector
-              sizes={pillowcaseSizes}
-              selectedSize={pillowcaseConfig.size}
-              onSizeSelect={(size) => setPillowcaseConfig(prev => ({ ...prev, size }))}
-              className="max-md:max-w-full"
-            />
-          </div>
-
-          <div className="flex w-full items-stretch gap-[39px] text-4xl">
-            <label className="text-[rgba(19,54,92,1)] font-bold grow shrink w-[155px]">
-              Количество
-            </label>
-            <QuantitySelector
-              selectedQuantity={pillowcaseConfig.quantity}
-              onQuantitySelect={(quantity) => setPillowcaseConfig(prev => ({ ...prev, quantity }))}
-            />
-          </div>
-
-          <div className="flex w-[1252px] max-w-full items-stretch gap-5 text-4xl text-black font-normal whitespace-nowrap text-center flex-wrap justify-between mr-[147px] max-md:mr-2.5">
-            <button 
-              onClick={handleNext}
-              className="flex flex-col items-center pt-0.5 pb-[33px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-            >
-              <div>далее</div>
-            </button>
-            <button 
-              onClick={handleCancel}
-              className="flex flex-col items-center pt-0.5 pb-[38px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-            >
-              <div>отмена</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Пододеяльник */}
-      <div className="w-full max-w-[1495px] mx-auto">
-        <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-4xl text-[rgba(19,54,92,1)] font-bold whitespace-nowrap text-center pt-[25px] pb-10 px-[70px] max-md:px-5 mb-[72px]">
-          <h3>Пододеяльник</h3>
-        </div>
-
-        <div className="space-y-[72px]">
-          <div className="flex w-full items-stretch gap-[40px_75px] flex-wrap">
-            <label className="text-[rgba(19,54,92,1)] text-4xl font-bold grow shrink w-[137px]">
-              Цвет ткани
-            </label>
-            <ColorSelector
-              colors={colors}
-              selectedColor={duvetConfig.color}
-              onColorSelect={(color) => setDuvetConfig(prev => ({ ...prev, color }))}
-              className="grow shrink basis-auto"
-            />
-          </div>
-
-          <div className="flex w-full items-stretch gap-[40px_64px] text-4xl flex-wrap">
-            <div className="flex flex-col text-[rgba(19,54,92,1)] font-bold whitespace-nowrap mt-2">
-              <label>Размер</label>
-              <label className="self-stretch mt-[199px] max-md:mt-10">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Количество
               </label>
-              <div className="mt-[231px] max-md:mt-10">Итого:</div>
-            </div>
-            <div className="text-black font-normal text-center grow shrink-0 basis-0 w-fit max-md:max-w-full">
-              <div className="grid grid-cols-4 gap-5 mb-[42px] max-md:grid-cols-2">
-                {duvetSizes.slice(0, 4).map((size) => (
-                  <button
-                    key={size}
-                    className={`pt-1.5 pb-[27px] px-[70px] border-4 transition-all ${
-                      duvetConfig.size === size
-                        ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
-                        : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
-                    } max-md:px-5`}
-                    onClick={() => setDuvetConfig(prev => ({ ...prev, size }))}
-                  >
-                    {size}
-                  </button>
-                ))}
+              <div className="flex-1">
+                <QuantitySelector
+                  selectedQuantity={sheetConfig.quantity}
+                  onQuantitySelect={(quantity) => setSheetConfig(prev => ({ ...prev, quantity }))}
+                  className="flex-wrap"
+                />
               </div>
-              <div className="grid grid-cols-4 gap-5 mb-[72px] max-md:grid-cols-2">
-                {duvetSizes.slice(4).map((size) => (
-                  <button
-                    key={size}
-                    className={`pt-1.5 pb-[27px] px-[70px] border-4 transition-all ${
-                      duvetConfig.size === size
-                        ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
-                        : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
-                    } max-md:px-5`}
-                    onClick={() => setDuvetConfig(prev => ({ ...prev, size }))}
-                  >
-                    {size}
-                  </button>
-                ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-8">
+              <button 
+                onClick={handleNext}
+                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+              >
+                далее
+              </button>
+              <button 
+                onClick={handleCancel}
+                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+              >
+                отмена
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Наволочки */}
+        <div className="mb-16 lg:mb-24">
+          <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-6 sm:py-8 mb-12 lg:mb-16">
+            <h3>Наволочки</h3>
+          </div>
+
+          <div className="space-y-12 lg:space-y-16">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Цвет ткани
+              </label>
+              <div className="flex-1">
+                <ColorSelector
+                  colors={colors}
+                  selectedColor={pillowcaseConfig.color}
+                  onColorSelect={(color) => setPillowcaseConfig(prev => ({ ...prev, color }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Размер
+              </label>
+              <div className="flex-1">
+                <SizeSelector
+                  sizes={pillowcaseSizes}
+                  selectedSize={pillowcaseConfig.size}
+                  onSizeSelect={(size) => setPillowcaseConfig(prev => ({ ...prev, size }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Количество
+              </label>
+              <div className="flex-1">
+                <QuantitySelector
+                  selectedQuantity={pillowcaseConfig.quantity}
+                  onQuantitySelect={(quantity) => setPillowcaseConfig(prev => ({ ...prev, quantity }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-8">
+              <button 
+                onClick={handleNext}
+                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+              >
+                далее
+              </button>
+              <button 
+                onClick={handleCancel}
+                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+              >
+                отмена
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Пододеяльник */}
+        <div>
+          <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-6 sm:py-8 mb-12 lg:mb-16">
+            <h3>Пододеяльник</h3>
+          </div>
+
+          <div className="space-y-12 lg:space-y-16">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+              <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                Цвет ткани
+              </label>
+              <div className="flex-1">
+                <ColorSelector
+                  colors={colors}
+                  selectedColor={duvetConfig.color}
+                  onColorSelect={(color) => setDuvetConfig(prev => ({ ...prev, color }))}
+                  className="flex-wrap"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-12 lg:space-y-16">
+              <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                  Размер
+                </label>
+                <div className="flex-1">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    {duvetSizes.slice(0, 4).map((size) => (
+                      <button
+                        key={size}
+                        className={`text-base sm:text-lg lg:text-xl xl:text-2xl text-black font-normal text-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-6 border-4 transition-all ${
+                          duvetConfig.size === size
+                            ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
+                            : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
+                        }`}
+                        onClick={() => setDuvetConfig(prev => ({ ...prev, size }))}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {duvetSizes.slice(4).map((size) => (
+                      <button
+                        key={size}
+                        className={`text-base sm:text-lg lg:text-xl xl:text-2xl text-black font-normal text-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-6 border-4 transition-all ${
+                          duvetConfig.size === size
+                            ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
+                            : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
+                        }`}
+                        onClick={() => setDuvetConfig(prev => ({ ...prev, size }))}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
               
-              <QuantitySelector
-                selectedQuantity={duvetConfig.quantity}
-                onQuantitySelect={(quantity) => setDuvetConfig(prev => ({ ...prev, quantity }))}
-                className="mb-[72px] justify-between"
-              />
-
-              <div className="flex items-stretch gap-5 whitespace-nowrap flex-wrap justify-between mb-[117px]">
-                <button 
-                  onClick={handleNext}
-                  className="flex flex-col items-center pt-0.5 pb-[33px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-                >
-                  <div>далее</div>
-                </button>
-                <button 
-                  onClick={handleCancel}
-                  className="flex flex-col items-center pt-0.5 pb-[38px] px-[70px] border-[rgba(219,170,80,1)] border-solid border-4 hover:bg-[rgba(219,170,80,0.1)] transition-colors max-md:max-w-full max-md:px-5"
-                >
-                  <div>отмена</div>
-                </button>
+              <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                  Количество
+                </label>
+                <div className="flex-1">
+                  <QuantitySelector
+                    selectedQuantity={duvetConfig.quantity}
+                    onQuantitySelect={(quantity) => setDuvetConfig(prev => ({ ...prev, quantity }))}
+                    className="flex-wrap"
+                  />
+                </div>
               </div>
-              <div className="w-[1249px] shrink-0 max-w-full h-1 border-[rgba(219,170,80,1)] border-solid border-4" />
+
+              <div className="pt-8 border-t-4 border-[rgba(219,170,80,1)]">
+                <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-12 mb-8">
+                  <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
+                    Итого:
+                  </div>
+                  <div className="flex-1 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)]">
+                    {/* Placeholder for total calculation */}
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                  <button 
+                    onClick={handleNext}
+                    className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                  >
+                    далее
+                  </button>
+                  <button 
+                    onClick={handleCancel}
+                    className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                  >
+                    отмена
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

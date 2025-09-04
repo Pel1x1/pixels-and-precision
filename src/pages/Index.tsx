@@ -9,12 +9,10 @@ import { Contacts } from '@/components/Contacts';
 
 const Index = () => {
   return (
-    <div className="bg-[rgba(247,239,219,1)] flex flex-col overflow-hidden items-stretch"
-    style={{overflow: "hidden"}}
-    >
+    <div className="bg-[rgba(247,239,219,1)] min-h-screen">
       <Header />
       
-      <main className="self-center flex w-full flex-col items-center max-md:max-w-full">
+      <main>
         <Hero />
         <About />
         <Advantages />
