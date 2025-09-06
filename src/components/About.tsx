@@ -6,6 +6,14 @@ export const About: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 items-start">
           <article className="lg:col-span-3 text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+            <div className="flex items-center justify-center gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+              <h2 className="text-center">О НАС</h2>
+              <img
+                src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"
+                className="aspect-[1] object-contain w-16 lg:w-20 xl:w-[85px] shrink-0"
+                alt="Декоративный элемент"
+              />
+            </div>
             <p className="space-y-6">
               <span className="block">
                 НЮКТА — бренд, вдохновлённый древнегреческой богиней Нюктой,
