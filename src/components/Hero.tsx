@@ -1,43 +1,45 @@
 import React from 'react';
-
+import { useIsMobile } from "@/hooks/use-mobile";
 export const Hero: React.FC = () => {
+  const isMobile = useIsMobile();
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+    <section className="w-full py-10">
+      <div className="max-w-7xl ">
+        <div className="grid grid-cols-1 lg:grid-cols-2  items-start">
         
           {/* Left Column - Image and About */}
-          <div className="lg:order-1 order-2 flex flex-col justify-end h-full mr-[70px]"> 
+          <div className={`lg:order-1 order-2 flex flex-col justify-center lg:justify-end 
+          ${ isMobile ? 'h-[75%] w-[80%] ml-[10%] mr-[10%] mt-2' : 'w-full h-full ml-[4.2rem]'}`} >
             <img
               src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/7917790ff807599acdf16a2c8aee6a70b08d6f56?placeholderIfAbsent=true"
-              className="w-full"
+              className="w-full rounded-[40px]"
               alt="Постельное белье НЮКТА"
             />
           </div>
 
           {/* Center Column - Main Content */}
-          <div className="lg:order-2 order-1 flex flex-col justify-between h-full">
-            <h1 className="text-6xl lg:text-8xl xl:text-[110px] text-[rgba(19,54,92,1)] font-normal flex items-center">
-              НЮКТА
-              <img
-                src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-16 lg:w-20 xl:w-[85px] -translate-y-11"
-                alt="Декоративный элемент"
-              />
+          <div className="lg:order-1 order-2 flex flex-col justify-between h-full w-full lg:ml-[10rem] lg:pr-[3rem]" style={{marginTop: isMobile?"-2.5rem":""}}>
+            <h1
+              className={"text-6xl lg:text-8xl xl:text-[110px] text-[rgba(19,54,92,1)] font-normal flex flex-col items-center lg:items-start lg:text-left"}
+            >
+              <p style={{marginBottom: isMobile? "1rem" : ""}}>НЮКТА</p>
+             
             </h1>
-            
-            <p className="text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed max-w-full">
-              НЮКТА — искусство создавать уют и комфорт. 
+
+            <p className="text-xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed w-full text-left">
+              НЮКТА — искусство создавать уют и комфорт.<br/>
               Постельное белье из
               Турецкого натурального сатина, шитое по вашим меркам.
               <br />
               <br />
               Для тех, кто ценит качество и нежность в каждой детали.
-              </p>
-            <button className="bg-[rgba(219,170,80,1)] text-2xl lg:text-3xl xl:text-4xl text-[rgba(247,239,219,1)] font-normal px-8 lg:px-12 xl:px-[70px] py-6 lg:py-8 hover:bg-[rgba(199,150,60,1)] transition-colors w-full max-w-md">
+            </p>
+
+            <button className="bg-[rgba(219,170,80,1)] mt-[2rem] text-2xl lg:text-3xl xl:text-4xl text-[rgba(247,239,219,1)] font-normal px-8 lg:px-12 xl:px-[70px] py-5 lg:py-5 hover:bg-[rgba(199,150,60,1)] transition-colors w-full  max-w-md text-center">
               Перейти в каталог
             </button>
           </div>
+
         </div>
       </div>
     </section>

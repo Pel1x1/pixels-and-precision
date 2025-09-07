@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import WidthDisplay from '@/hooks/use-sizer';
 
 export const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 py-6">
-      <div className="max-w-7xl mx-auto">
+    <header className="w-full py-5">
+      <div className="max-w-full ">
         <nav className="flex items-center justify-between w-full lg:justify-between lg:gap-8 xl:gap-12">
           <img
             src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/01f09ace6fc8f11e5aa08fab7050afd2a3af2a58?placeholderIfAbsent=true"
-            className="aspect-[0.97] object-contain w-20 sm:w-24 lg:w-[100px] shrink-0 ml-10"
+            className="aspect-[0.97] object-contain w-14 sm:w-24 lg:w-[90px] shrink-0 lg:ml-[10rem]"
             alt="НЮКТА логотип"
           />
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-arsenal justify-end flex-1 space-x-20">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-[5rem] text-2xl xl:text-2xl text-[rgba(19,54,92,1)] font-arsenal justify-end flex-1 space-x-20 mr-[10rem]">
             <a href="#about" className="hover:text-[rgba(219,170,80,1)] transition-colors whitespace-nowrap">
               О НАС
             </a>
