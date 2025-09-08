@@ -18,9 +18,9 @@ export const SizeSelector: React.FC<SizeSelectorProps> = ({
       {sizes.map((size, index) => (
         <button
           key={index}
-          className={`text-base sm:text-lg lg:text-xl xl:text-2xl px-4 sm:px-6 lg:px-8 xl:px-12 py-1 lg:py-2 border-2 transition-all whitespace-nowrap ${
+          className={`text-base sm:text-lg lg:text-xl xl:text-2xl px-4 sm:px-6 lg:px-8 xl:px-12 py-1 lg:py-2 border-2 transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
             selectedSize === size
-              ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
+              ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)] animate-scale-in'
               : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
           }`}
           onClick={() => onSizeSelect(size)}

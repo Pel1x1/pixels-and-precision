@@ -40,6 +40,7 @@ export const ProductConfigurator: React.FC = () => {
   const [activeSection, setActiveSection] = useState<SectionType | null>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [orderSummary, setOrderSummary] = useState<string>('');
+  const [validationError, setValidationError] = useState<string>('');
 
   const colors = [
     'rgba(61,141,129,1)', 'rgba(203,188,185,1)', 'rgba(207,212,200,1)', 'rgba(255,251,234,1)',
@@ -123,7 +124,43 @@ export const ProductConfigurator: React.FC = () => {
     }
   };
 
+  const validateSection = (section: SectionType) => {
+    let config: ProductState;
+    let sectionName: string;
+    
+    switch (section) {
+      case 'sheet':
+        config = sheetConfig;
+        sectionName = 'Простыня';
+        break;
+      case 'pillowcase':
+        config = pillowcaseConfig;
+        sectionName = 'Наволочки';
+        break;
+      case 'duvet':
+        config = duvetConfig;
+        sectionName = 'Пододеяльник';
+        break;
+    }
+    
+    if (!config.color) {
+      return `${sectionName}: Выберите цвет ткани`;
+    }
+    if (!config.size) {
+      return `${sectionName}: Выберите размер`;
+    }
+    return null;
+  };
+
   const handleNext = (section: SectionType) => {
+    const error = validateSection(section);
+    if (error) {
+      setValidationError(error);
+      setTimeout(() => setValidationError(''), 3000);
+      return;
+    }
+    
+    setValidationError('');
     const total = calculateTotal();
     const summary = generateOrderSummary();
     
@@ -147,6 +184,7 @@ export const ProductConfigurator: React.FC = () => {
     setActiveSection(null);
     setTotalAmount(0);
     setOrderSummary('');
+    setValidationError('');
   };
 
   const ProductSection: React.FC<{
@@ -162,13 +200,13 @@ export const ProductConfigurator: React.FC = () => {
       <div className="mb-8">
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
           <CollapsibleTrigger asChild>
-            <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-colors cursor-pointer">
+            <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02]">
               <h3>{title}</h3>
             </button>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="pt-8">
-            <div className="space-y-8">
+          <CollapsibleContent className="pt-8 animate-accordion-down data-[state=closed]:animate-accordion-up">
+            <div className="space-y-8 animate-fade-in">
               <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
                 <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                   Цвет ткани
@@ -210,16 +248,16 @@ export const ProductConfigurator: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-8">
+              <div className="flex gap-4 pt-8">
                 <button 
                   onClick={() => handleNext(type)}
-                  className="flex-1 sm:flex-initial bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                  className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
                 >
                   далее
                 </button>
                 <button 
                   onClick={handleCancel}
-                  className="flex-1 sm:flex-initial bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                  className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
                 >
                   отмена
                 </button>
@@ -245,6 +283,15 @@ export const ProductConfigurator: React.FC = () => {
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
+
+        {/* Validation Error */}
+        {validationError && (
+          <div className="mb-8 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in">
+            <p className="text-red-600 text-lg sm:text-xl lg:text-2xl font-medium text-center">
+              {validationError}
+            </p>
+          </div>
+        )}
 
         {/* Product Sections */}
         <ProductSection

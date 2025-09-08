@@ -18,9 +18,9 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
       {colors.map((color, index) => (
         <button
           key={index}
-          className={`aspect-[2/1] w-8 h-8 sm:w-20 sm:h-10 lg:w-[4rem] lg:h-[2rem] xl:w-[7rem] xl:h-[3rem] border-1 transition-all ${
+          className={`aspect-[2/1] w-8 h-8 sm:w-20 sm:h-10 lg:w-[4rem] lg:h-[2rem] xl:w-[7rem] xl:h-[3rem] border-1 transition-all duration-300 transform hover:scale-105 ${
             selectedColor === color 
-              ? 'border-[rgba(19,54,92,1)] border-[2px]' 
+              ? 'border-[rgba(19,54,92,1)] border-[2px] animate-scale-in' 
               : 'border-transparent hover:border-[rgba(219,170,80,1)]'
           }`}
           style={{ backgroundColor: color }}
