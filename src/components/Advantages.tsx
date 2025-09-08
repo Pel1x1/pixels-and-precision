@@ -11,7 +11,7 @@ export const Advantages: React.FC = () => {
   ];
 
   return (
-    <section className="w-full px-10 lg:px-[10rem] py-4 lg:py-12">
+    <section className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
       <div className="max-w-7xl">
         {/* Title Section */}
         <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">

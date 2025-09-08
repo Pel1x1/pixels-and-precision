@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ColorSelector } from './ColorSelector';
 import { SizeSelector } from './SizeSelector';
 import { QuantitySelector } from './QuantitySelector';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductState {
   color: string;
@@ -50,35 +51,30 @@ export const ProductConfigurator: React.FC = () => {
     setPillowcaseConfig({ color: '', size: '', quantity: 1 });
     setDuvetConfig({ color: '', size: '', quantity: 1 });
   };
-
+  const isMobile = useIsMobile();
   return (
-    <section id="collection" className="w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <section id="collection" className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
       <div className="max-w-7xl mx-auto">
         {/* Title Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-16 lg:mb-24">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-6 lg:mb-[4rem]">
           <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
             НАША КОЛЛЕКЦИЯ
           </h2>
-          <img
-            src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
-            className="aspect-[1] object-contain w-20 sm:w-24 lg:w-28 xl:w-[106px] shrink-0"
-            alt="Декоративный элемент"
-          />
         </div>
 
-        <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-16 lg:mb-24 leading-relaxed">
+        <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-6 lg:mb-[4rem] leading-relaxed">
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
 
         {/* Простыня */}
         <div className="mb-16 lg:mb-24">
-          <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-6 sm:py-8 mb-12 lg:mb-16">
+          <div className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-1 sm:py-5 mb-6 lg:mb-[4rem]">
             <h3>Простыня</h3>
           </div>
 
-          <div className="space-y-12 lg:space-y-16">
-            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+          <div className="lg:space-y-16">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12 mb-6 lg:mb-[4rem]">
               <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Цвет ткани
               </label>
@@ -92,16 +88,19 @@ export const ProductConfigurator: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12 mb-6 lg:mb-[4rem]">
               <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Размер
               </label>
-              <div className="flex-1">
+              <div className=
+              {isMobile?   "grid grid-cols-1 ":"flex-1  "}
+              
+              >
                 <SizeSelector
                   sizes={sheetSizes}
                   selectedSize={sheetConfig.size}
                   onSizeSelect={(size) => setSheetConfig(prev => ({ ...prev, size }))}
-                  className="flex-wrap"
+                  className="flex-wrap lg:pl-14"
                 />
               </div>
             </div>
@@ -114,21 +113,21 @@ export const ProductConfigurator: React.FC = () => {
                 <QuantitySelector
                   selectedQuantity={sheetConfig.quantity}
                   onQuantitySelect={(quantity) => setSheetConfig(prev => ({ ...prev, quantity }))}
-                  className="flex-wrap"
+                  className="flex-wrap lg:ml-[-0.555rem]"
                 />
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-8">
+            <div className="flex flex-col-2 sm:flex-row gap-4 sm:gap-6 pt-8">
               <button 
                 onClick={handleNext}
-                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                className="flex-1 sm:flex-initial bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-[10rem] py-1 sm:py-2 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
               >
                 далее
               </button>
               <button 
                 onClick={handleCancel}
-                className="flex-1 sm:flex-initial bg-transparent border-4 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-16 py-4 sm:py-6 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
+                className="flex-1 sm:flex-initial bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal px-8 sm:px-12 lg:px-[10rem] py-1 sm:py-2 hover:bg-[rgba(219,170,80,0.1)] transition-colors"
               >
                 отмена
               </button>
