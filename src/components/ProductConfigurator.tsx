@@ -200,13 +200,13 @@ export const ProductConfigurator: React.FC = () => {
       <div className="mb-8">
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
           <CollapsibleTrigger asChild>
-            <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02]">
+            <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]">
               <h3>{title}</h3>
             </button>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="pt-8 animate-accordion-down data-[state=closed]:animate-accordion-up">
-            <div className="space-y-8 animate-fade-in">
+          <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <div className="pt-8 space-y-8 animate-fade-in">
               <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
                 <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                   Цвет ткани
