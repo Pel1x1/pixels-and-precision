@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
         <nav className="flex items-center justify-between w-full lg:justify-between lg:gap-8 xl:gap-12">
           <img
             src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/01f09ace6fc8f11e5aa08fab7050afd2a3af2a58?placeholderIfAbsent=true"
-            className="aspect-[0.97] object-contain w-14 sm:w-24 lg:w-[90px] shrink-0 lg:ml-[10rem]"
+            className="aspect-[0.97] object-contain w-14 sm:w-24 lg:w-[90px] shrink-0 lg:ml-[10rem] ml-10"
             alt="НЮКТА логотип"
           />
           <div className="hidden lg:flex items-center gap-6 xl:gap-[5rem] text-2xl xl:text-2xl text-[rgba(19,54,92,1)] font-arsenal justify-end flex-1 space-x-20 mr-[10rem]">
@@ -32,7 +32,7 @@ export const Header: React.FC = () => {
           
           onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 mr-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>

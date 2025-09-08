@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
              
             </h1>
 
-            <p className="text-xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed w-full text-left">
+            <p className="text-xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed w-full text-left  px-10 lg:px-0">
               НЮКТА — искусство создавать уют и комфорт.<br/>
               Постельное белье из
               Турецкого натурального сатина, шитое по вашим меркам.
@@ -35,9 +35,16 @@ export const Hero: React.FC = () => {
               Для тех, кто ценит качество и нежность в каждой детали.
             </p>
 
-            <button className="bg-[rgba(219,170,80,1)] mt-[2rem] text-2xl lg:text-3xl xl:text-4xl text-[rgba(247,239,219,1)] font-normal px-8 lg:px-12 xl:px-[70px] py-5 lg:py-5 hover:bg-[rgba(199,150,60,1)] transition-colors w-full  max-w-md text-center">
+            <div className='flex flex-col items-center  lg:items-start'>
+            <button 
+            className="bg-[rgba(219,170,80,1)] mt-[2rem] text-2xl lg:text-3xl xl:text-4xl
+           text-[rgba(247,239,219,1)] font-normal px-11 lg:px-12 xl:px-[70px] py-2 lg:py-5
+           hover:bg-[rgba(199,150,60,1)] transition-colors lg:w-full  max-w-md text-center
+           
+           ">
               Перейти в каталог
             </button>
+            </div>
           </div>
 
         </div>
