@@ -16,7 +16,7 @@ export const About: React.FC = () => {
               <h2 className="text-center">О НАС</h2>
               <img
                 src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-16 lg:w-20 xl:w-[85px] shrink-0"
+                className="aspect-[1] object-contain w-11 lg:w-20 xl:w-[85px] shrink-0"
                 alt="Декоративный элемент"
               />
             </div>

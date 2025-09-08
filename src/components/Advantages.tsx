@@ -11,16 +11,16 @@ export const Advantages: React.FC = () => {
   ];
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full px-10 lg:px-[10rem] py-4 lg:py-12">
+      <div className="max-w-7xl">
         {/* Title Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-16 lg:mb-24">
-          <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+        <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
+          <h2 className="text-3xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-center">
             ПРЕИМУЩЕСТВА
           </h2>
           <img
             src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"
-            className="aspect-[1] object-contain w-16 sm:w-20 lg:w-24 xl:w-[85px] shrink-0"
+            className="aspect-[1] object-contain w-10 lg:w-20 xl:w-[85px] shrink-0"
             alt="Декоративный элемент"
           />
         </div>
@@ -32,7 +32,7 @@ export const Advantages: React.FC = () => {
               {advantages.slice(startIndex, startIndex + 2).map((advantage, index) => (
                 <article
                   key={startIndex + index}
-                  className="bg-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-white font-normal p-6 sm:p-8 lg:p-10 xl:p-11 leading-relaxed"
+                  className="bg-[rgba(219,170,80,1)] text-[1rem] sm:text-xl lg:text-2xl xl:text-3xl text-white font-normal p-6 sm:p-8 lg:p-10 xl:p-11 leading-relaxed"
                 >
                   <p>
                     {advantage.split('\n').map((line, lineIndex) => (
@@ -49,7 +49,7 @@ export const Advantages: React.FC = () => {
         </div>
 
         {/* Bottom Text */}
-        <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal text-center leading-relaxed max-w-4xl mx-auto">
+        <p className="text-[1rem] sm:text-xl lg:text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal text-left leading-relaxed ">
           Выбирая НЮКТА, вы получаете не просто постельное бельё, а заботу и
           комфорт для вашего сна и дома.
         </p>
