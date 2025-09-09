@@ -27,7 +27,7 @@ export const Contacts: React.FC = () => {
         </div>
       </div>
       {/* Contact Information */}
-        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem]">
+        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem] mb-8 lg:mb-20">
 
           <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
           КОНТАКТЫ
