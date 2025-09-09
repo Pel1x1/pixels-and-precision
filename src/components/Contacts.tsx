@@ -8,13 +8,13 @@ export const Contacts: React.FC = () => {
       {/* Hero Section with Background */}
       <div className="relative min-h-[250px] h-full w-full z-20">
         <img
-          src="/public/Vector 1.png"
+          src="@/lib/img/Vector 1.png"
           className="absolute inset-0 w-full h-auto object-contain"
           style={{visibility:isMobile?"hidden":"visible"}}
           alt="Красивая линия"
         />
         <img
-          src="/public/Vector 2.png"
+          src="@/lib/img/Vector 2.png"
           className="absolute inset-0 w-full h-auto object-contain"
           style={{visibility:isMobile?"visible":"hidden"}}
           alt="Красивая линия"
@@ -53,15 +53,15 @@ export const Contacts: React.FC = () => {
                 </p>
                 <div className="flex space-x-6 mt-2">
                   <a href="https://t.me/yourtelegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-                    <img src="/public/tg.png" alt="Telegram" className="w-12 h-12" />
+                    <img src="@/lib/img/tg.png" alt="Telegram" className="w-12 h-12" />
                   </a>
 
                   <a href="https://vk.com/yourvk" target="_blank" rel="noopener noreferrer" aria-label="VK">
-                    <img src="/public/vk.png" alt="VK" className="w-12 h-12" />
+                    <img src="@/lib/img/vk.png" alt="VK" className="w-12 h-12" />
                   </a>
 
                   <a href="https://wa.me/yourwhatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                    <img src="/public/wht.png" alt="WhatsApp" className="w-12 h-12" />
+                    <img src="@/lib/img/wht.png" alt="WhatsApp" className="w-12 h-12" />
                   </a>
                 </div>
 
