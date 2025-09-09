@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
         </nav>
         {menuOpen && (
           <div> 
-            <nav className="lg:hidden mt-4 pt-4 border-t border-[rgba(219,170,80,0.3)]">
+            <nav className="lg:hidden mt-4 pt-4 border-t border-[rgba(219,170,80,0.3)] ml-9">
               <div className="flex flex-col gap-4 text-xl text-[rgba(19,54,92,1)] font-arsenal">
                 <a href="#about" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2">
                   О НАС
