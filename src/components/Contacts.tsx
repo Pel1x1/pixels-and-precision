@@ -10,24 +10,26 @@ export const Contacts: React.FC = () => {
   return (
     <section id="contacts" className="w-full">
       {/* Hero Section with Background */}
-      <div className="relative min-h-[250px] h-full w-full z-20">
-        <img
-          src={vector1}
-          className="absolute inset-0 w-full h-auto object-contain"
-          style={{visibility:isMobile?"hidden":"visible"}}
-          alt="Красивая линия"
-        />
-        <img
-          src={vector2}
-          className="absolute inset-0 w-full h-auto object-contain"
-          style={{visibility:isMobile?"visible":"hidden"}}
-          alt="Красивая линия"
-        />
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block hidden">
+        <div className="relative min-h-[250px] h-full w-full ">
+          <img
+            src={vector1}
+            className="absolute inset-0 w-full h-auto object-contain"
+            style={{visibility:isMobile?"hidden":"visible"}}
+            alt="Красивая линия"
+          />
+          <img
+            src={vector2}
+            className="absolute inset-0 w-full h-auto object-contain"
+            style={{visibility:isMobile?"visible":"hidden"}}
+            alt="Красивая линия"
+          />
+        </div>
       </div>
-
       {/* Contact Information */}
-      <div className="w-full px-10 lg:px-[10rem] relative z-10 lg:mt-[-70px] mt-[-10rem] mb-8 lg:mb-20">
-        <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-6 lg:mb-16">
+        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem]">
+
+          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
           КОНТАКТЫ
         </h2>
         <div className="max-w-7xl ">
@@ -88,13 +90,15 @@ export const Contacts: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1 lg:py-4">
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2">
+      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
             Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
           </p>
         </div>
       </footer>
+      </div>
     </section>
   );
 };

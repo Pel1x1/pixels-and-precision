@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			screens: {
+				'custom-max': {'max': '1700px'}, // максимальная ширина 1700px
+				'custom-min': {'min': '1700px'}
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
