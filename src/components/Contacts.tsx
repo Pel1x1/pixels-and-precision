@@ -2,6 +2,9 @@ import React from 'react';
 import { useIsMobile } from "@/hooks/use-mobile";
 import vector1 from '@/lib/img/Vector 1.png';
 import vector2 from '@/lib/img/Vector 2.png';
+import tg from '@/lib/img/tg.png';
+import vk from '@/lib/img/vk.png';
+import wht from '@/lib/img/wht.png';
 export const Contacts: React.FC = () => {
   const isMobile = useIsMobile();
   return (
@@ -54,15 +57,15 @@ export const Contacts: React.FC = () => {
                 </p>
                 <div className="flex space-x-6 mt-2">
                   <a href="https://t.me/yourtelegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-                    <img src="/lib/img/tg.png" alt="Telegram" className="w-12 h-12" />
+                    <img src={tg} alt="Telegram" className="w-12 h-12" />
                   </a>
 
                   <a href="https://vk.com/yourvk" target="_blank" rel="noopener noreferrer" aria-label="VK">
-                    <img src="/lib/img/vk.png" alt="VK" className="w-12 h-12" />
+                    <img src={vk} alt="VK" className="w-12 h-12" />
                   </a>
 
                   <a href="https://wa.me/yourwhatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                    <img src="/lib/img/wht.png" alt="WhatsApp" className="w-12 h-12" />
+                    <img src={wht} alt="WhatsApp" className="w-12 h-12" />
                   </a>
                 </div>
 
