@@ -12,21 +12,15 @@ export const DeliveryPayment: React.FC = () => {
               <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
                 ДОСТАВКА
               </h2>
-              <img
-                src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-20 sm:w-24 lg:w-28 xl:w-[106px] shrink-0 sm:mt-4"
-                alt="Декоративный элемент"
-              />
             </div>
             
-            <article className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+            <article className="text-xl sm:text-1xl lg:text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
               <p className="space-y-4">
-                <span className="block">Доставка по всей России!</span>
                 <span className="block">
+                  Доставка по всей России!<br/>
                   Отправляем заказы до пункта выдачи любой транспортной компании
-                  на ваш выбор.
+                  на ваш выбор.<br/> Доставка по городу Ангарск — бесплатно!
                 </span>
-                <span className="block">Доставка по городу Ангарск — бесплатно!</span>
                 <span className="block">
                   Стоимость доставки зависит от региона и рассчитывается
                   автоматически при оформлении заказа. Вы сможете выбрать самый
@@ -34,17 +28,14 @@ export const DeliveryPayment: React.FC = () => {
                 </span>
               </p>
             </article>
-            
-            <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
-              ОПЛАТА
-            </h2>
+
           </div>
           
           {/* Right Column - Image */}
           <div className="flex justify-center lg:justify-end items-start">
             <img
               src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/86431bb74ad451df0cf60861b9a8ef9393bcaafc?placeholderIfAbsent=true"
-              className="aspect-[0.99] object-contain w-full max-w-md lg:max-w-lg xl:max-w-xl rounded-[0px_260px_0px_260px]"
+              className="aspect-[0.99] object-contain w-full max-w-md lg:max-w-lg xl:max-w-xl "
               alt="Изображение доставки"
             />
           </div>
@@ -52,6 +43,10 @@ export const DeliveryPayment: React.FC = () => {
 
         {/* Payment Information */}
         <article className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed mt-16 lg:mt-24">
+                      
+            <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+              ОПЛАТА
+            </h2>
           <p className="space-y-6">
             <span className="block">
               Оплата на сайте не производится. После оформления заказа, пожалуйста,

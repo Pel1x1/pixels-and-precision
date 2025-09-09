@@ -3,6 +3,7 @@ import { ColorSelector } from './ColorSelector';
 import { SizeSelector } from './SizeSelector';
 import { QuantitySelector } from './QuantitySelector';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductState {
   color: string;
@@ -195,7 +196,7 @@ export const ProductConfigurator: React.FC = () => {
     sizes: string[];
   }> = ({ type, title, config, setConfig, sizes }) => {
     const isOpen = activeSection === type;
-    
+    const isMobile = useIsMobile();
     return (
       <div className="mb-8">
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
@@ -207,9 +208,10 @@ export const ProductConfigurator: React.FC = () => {
           
           <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="pt-8 animate-fade-in">
-              <div className="grid grid-cols-2 gap-8 lg:gap-12">
-                {/* Строка 1: Цвет ткани */}
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+              <div className={isMobile ? "grid gap-8 lg:gap-12" : "grid gap-8 lg:gap-12"} 
+              style={{ gridTemplateColumns: isMobile ? "" : '180px auto' }}>
+                {/* Строки с лейблами и селекторами */}
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
                   Цвет ткани
                 </label>
                 <div className="w-full">
@@ -220,9 +222,8 @@ export const ProductConfigurator: React.FC = () => {
                     className="justify-start"
                   />
                 </div>
-                
-                {/* Строка 2: Размер */}
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
                   Размер
                 </label>
                 <div className="w-full">
@@ -233,9 +234,8 @@ export const ProductConfigurator: React.FC = () => {
                     className="justify-start"
                   />
                 </div>
-                
-                {/* Строка 3: Количество */}
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
                   Количество
                 </label>
                 <div className="w-full">
@@ -245,23 +245,26 @@ export const ProductConfigurator: React.FC = () => {
                     className="justify-start"
                   />
                 </div>
-                
-                {/* Строка 4: Кнопки на всю ширину */}
-                <div className="col-span-2 flex gap-4 pt-8">
-                  <button 
+
+                {/* Пустой блок слева для кнопок */}
+                <div></div>
+                {/* Правый блок с кнопками */}
+                <div className="w-full flex gap-4">
+                  <button
                     onClick={() => handleNext(type)}
-                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform"
                   >
                     далее
                   </button>
-                  <button 
+                  <button
                     onClick={handleCancel}
-                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform"
                   >
                     отмена
                   </button>
                 </div>
               </div>
+
             </div>
           </CollapsibleContent>
         </Collapsible>
@@ -320,8 +323,8 @@ export const ProductConfigurator: React.FC = () => {
 
         {/* Final Summary Section */}
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <div className="mt-8 pt-8 border-t-4 border-[rgba(219,170,80,1)]">
-            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12 mb-8">
+          <div className="mt-8 pt-8 border-b-4 border-[rgba(219,170,80,1)]">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12 mb-3">
               <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Итого:
               </div>
@@ -329,16 +332,21 @@ export const ProductConfigurator: React.FC = () => {
                 {totalAmount.toLocaleString('ru-RU')} ₽
               </div>
             </div>
-            
-            {orderSummary && (
-              <div className="mb-8">
-                <div className="text-[rgba(19,54,92,1)] text-lg sm:text-xl lg:text-2xl font-normal whitespace-pre-line bg-[rgba(219,170,80,0.1)] p-6 rounded-lg">
-                  {orderSummary}
-                </div>
-              </div>
-            )}
           </div>
+          
         )}
+        {orderSummary && (
+          <button
+            className="bg-[rgba(219,170,80,1)] mt-10 flex w-full
+             flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] 
+             font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)]
+            transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]"
+            onClick={() => window.open(`https://t.me/weksirtu?text=${encodeURIComponent(orderSummary)}`, "_blank")}
+          >
+            <h3>Заказать в Telegram</h3>
+          </button>
+        )}
+
       </div>
     </section>
   );
