@@ -14,19 +14,20 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`grid grid-cols-8 sm:grid-cols-8 lg:grid-cols-8 gap-3 sm:gap-4 lg:gap-8 ${className}`}>
+    <div className={`grid grid-cols-8 sm:grid-cols-8 lg:grid-cols-8 gap-3 sm:gap-3 lg:gap-4 ${className}`}>
       {colors.map((color, index) => (
         <button
           key={index}
-          className={`aspect-[2/1] w-8 h-8 sm:w-20 sm:h-10 lg:w-[4rem] lg:h-[2rem] xl:w-[7rem] xl:h-[3rem] border-1 transition-all duration-300 transform hover:scale-105 ${
-            selectedColor === color 
-              ? 'border-[rgba(19,54,92,1)] border-[2px] animate-scale-in' 
-              : 'border-transparent hover:border-[rgba(219,170,80,1)]'
+          className={`aspect-[2/1] w-8 h-8 sm:w-20 sm:h-10 lg:w-[4rem] lg:h-[2rem] xl:w-[6.75rem] xl:h-[3rem] border-2 transition-all duration-300 transform hover:scale-105 ${
+            selectedColor === color
+              ? 'border-[rgba(19,54,92,1)] animate-scale-in'
+              : 'border-[rgba(219,170,80,1)] hover:border-[rgba(19,54,92,1)]'
           }`}
           style={{ backgroundColor: color }}
           onClick={() => onColorSelect(color)}
           aria-label={`Выбрать цвет ${color}`}
         />
+
       ))}
     </div>
   );
