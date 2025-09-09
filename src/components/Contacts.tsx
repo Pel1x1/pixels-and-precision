@@ -1,47 +1,39 @@
 import React from 'react';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Contacts: React.FC = () => {
+  const isMobile = useIsMobile();
   return (
     <section id="contacts" className="w-full">
       {/* Hero Section with Background */}
-      <div className="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] w-full">
+      <div className="relative min-h-[250px] h-full w-full z-20">
         <img
-          src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/62a806a2cdf3c79677acfe13ef6ba3dc5ec335ba?placeholderIfAbsent=true"
-          className="absolute h-full w-full object-cover inset-0"
-          alt="Фон контактов"
+          src="/public/Vector 1.png"
+          className="absolute inset-0 w-full h-auto object-contain"
+          style={{visibility:isMobile?"hidden":"visible"}}
+          alt="Красивая линия"
         />
-        <div className="relative flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-          <div className="max-w-7xl mx-auto w-full">
-            <div className="flex flex-col items-center space-y-6 sm:space-y-8">
-              <img
-                src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-20 sm:w-24 lg:w-28 xl:w-[106px]"
-                alt="Декоративный элемент"
-              />
-              <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-                <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-center">
-                  КОНТАКТЫ
-                </h2>
-                <img
-                  src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/fa6bac477da9ebb902cc9e73446209403b76f894?placeholderIfAbsent=true"
-                  className="aspect-[1] object-contain w-16 sm:w-20 lg:w-24 xl:w-[101px] shrink-0"
-                  alt="Декоративный элемент"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <img
+          src="/public/Vector 2.png"
+          className="absolute inset-0 w-full h-auto object-contain"
+          style={{visibility:isMobile?"visible":"hidden"}}
+          alt="Красивая линия"
+        />
       </div>
 
       {/* Contact Information */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            <article className="lg:col-span-3 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+      <div className="w-full px-10 lg:px-[10rem] relative z-10 lg:mt-[-70px] mt-[-10rem] mb-12">
+        <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-6 lg:mb-16">
+          КОНТАКТЫ
+        </h2>
+        <div className="max-w-7xl ">
+          <div className=" gap-8 lg:gap-12">
+            <article className="lg:col-span-3 text-xl sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
               <div className="space-y-6">
+                
                 <p>Свяжитесь с нами любым удобным способом — мы всегда рады помочь!</p>
                 
-                <div className="space-y-2">
+                <div className="space-y-[-2px]">
                   <p>Телефон: +7 (XXX) XXX-XX-XX</p>
                   <p>
                     Электронная почта: {' '}
@@ -59,6 +51,20 @@ export const Contacts: React.FC = () => {
                   Для быстрого общения используйте форму обратной связи ниже или
                   напишите нам в социальных сетях.
                 </p>
+                <div className="flex space-x-6 mt-2">
+                  <a href="https://t.me/yourtelegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                    <img src="/public/tg.png" alt="Telegram" className="w-12 h-12" />
+                  </a>
+
+                  <a href="https://vk.com/yourvk" target="_blank" rel="noopener noreferrer" aria-label="VK">
+                    <img src="/public/vk.png" alt="VK" className="w-12 h-12" />
+                  </a>
+
+                  <a href="https://wa.me/yourwhatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <img src="/public/wht.png" alt="WhatsApp" className="w-12 h-12" />
+                  </a>
+                </div>
+
                 
                 <p>
                   Мы работаем без онлайн-оплаты на сайте — для оформления и оплаты
@@ -72,23 +78,16 @@ export const Contacts: React.FC = () => {
                 </div>
               </div>
             </article>
-            
-            <div className="lg:col-span-1 flex justify-center lg:justify-end items-start lg:mt-32">
-              <img
-                src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/0125581669a0d20229ca1d1058a827be9f9af864?placeholderIfAbsent=true"
-                className="aspect-[1] object-contain w-20 sm:w-24 lg:w-28 xl:w-[106px]"
-                alt="Декоративный элемент"
-              />
-            </div>
+
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-2 lg:py-4">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal">
-            Дизайнер: тг @weksirtu
+          <p className="text-xl sm:text-xl lg:text-2xl xl:text-2xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
+            Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
           </p>
         </div>
       </footer>

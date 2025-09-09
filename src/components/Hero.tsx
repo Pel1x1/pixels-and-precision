@@ -35,7 +35,7 @@ export const Hero: React.FC = () => {
               Для тех, кто ценит качество и нежность в каждой детали.
             </p>
 
-            <div className='flex flex-col items-center  lg:items-start'>
+            <div className='flex flex-col items-center  lg:items-start mt-4 lg:mt-0'>
             <button 
             className="bg-[rgba(219,170,80,1)] mt-[2rem] text-2xl lg:text-3xl xl:text-4xl
            text-[rgba(247,239,219,1)] font-normal px-11 lg:px-12 xl:px-[70px] py-2 lg:py-5

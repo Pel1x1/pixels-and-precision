@@ -2,19 +2,19 @@ import React from 'react';
 
 export const DeliveryPayment: React.FC = () => {
   return (
-    <section id="delivery" className="w-full px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto">
+    <section id="delivery" className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
+      <div className="max-w-7xl ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20">
           
           {/* Left Column - Delivery Content */}
-          <div className="space-y-12 lg:space-y-16">
+          <div className="space-y-6 lg:space-y-16">
             <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-8 lg:gap-12">
-              <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+              <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
                 ДОСТАВКА
               </h2>
             </div>
             
-            <article className="text-xl sm:text-1xl lg:text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+            <article className="text-[1.15rem] sm:text-1xl lg:text-2xl xl:text-[1.9rem] text-[rgba(19,54,92,1)] font-normal leading-relaxed">
               <p className="space-y-4">
                 <span className="block">
                   Доставка по всей России!<br/>
@@ -42,12 +42,12 @@ export const DeliveryPayment: React.FC = () => {
         </div>
 
         {/* Payment Information */}
-        <article className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed mt-16 lg:mt-24">
+        <article className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed mt-16 lg:mt-24">
                       
-            <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+            <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal lg:mb-16">
               ОПЛАТА
             </h2>
-          <p className="space-y-6">
+          <p className="space-y-6 mt-6">
             <span className="block">
               Оплата на сайте не производится. После оформления заказа, пожалуйста,
               свяжитесь с нами любым удобным способом через раздел «Контакты» для

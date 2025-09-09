@@ -15,7 +15,7 @@ export const Advantages: React.FC = () => {
       <div className="max-w-7xl">
         {/* Title Section */}
         <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
-          <h2 className="text-3xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-center">
+          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-center">
             ПРЕИМУЩЕСТВА
           </h2>
           <img
@@ -26,7 +26,7 @@ export const Advantages: React.FC = () => {
         </div>
 
         {/* Advantages Grid */}
-        <div className="space-y-8 lg:space-y-12 mb-16 lg:mb-24">
+        <div className="space-y-8 lg:space-y-12 mb-6 lg:mb-24">
           {[0, 2, 4].map((startIndex) => (
             <div key={startIndex} className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
               {advantages.slice(startIndex, startIndex + 2).map((advantage, index) => (
@@ -49,7 +49,7 @@ export const Advantages: React.FC = () => {
         </div>
 
         {/* Bottom Text */}
-        <p className="text-[1rem] sm:text-xl lg:text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal text-left leading-relaxed ">
+        <p className="text-[1.1rem] sm:text-xl lg:text-2xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal text-left leading-relaxed ">
           Выбирая НЮКТА, вы получаете не просто постельное бельё, а заботу и
           комфорт для вашего сна и дома.
         </p>

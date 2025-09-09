@@ -12,7 +12,7 @@ export const About: React.FC = () => {
            
           ${ isMobile ? 'h-[75%] w-[80%] ml-[10%] mr-[10%] mt-2' : 'w-full h-full pl-[10rem] pr-[0px] '}`} >
 
-            <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
+            <div className="flex gap-6 text-5xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
               <h2 className="text-center">О НАС</h2>
               <img
                 src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"

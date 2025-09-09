@@ -273,16 +273,16 @@ export const ProductConfigurator: React.FC = () => {
   };
 
   return (
-    <section id="collection" className="w-full px-6 sm:px-8 lg:px-16 xl:px-24 py-8 lg:py-12">
-      <div className="max-w-7xl mx-auto">
+    <section id="collection" className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
+      <div className="max-w-7xl">
         {/* Title Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-8 lg:mb-16">
-          <h2 className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
             НАША КОЛЛЕКЦИЯ
           </h2>
         </div>
 
-        <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-8 lg:mb-16 leading-relaxed">
+        <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-8 lg:mb-16 leading-relaxed">
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
@@ -323,8 +323,8 @@ export const ProductConfigurator: React.FC = () => {
 
         {/* Final Summary Section */}
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <div className="mt-8 pt-8 border-b-4 border-[rgba(219,170,80,1)]">
-            <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12 mb-3">
+          <div className="mt-8 pt-8 border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap">
+            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-3">
               <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Итого:
               </div>
@@ -333,6 +333,7 @@ export const ProductConfigurator: React.FC = () => {
               </div>
             </div>
           </div>
+
           
         )}
         {orderSummary && (
