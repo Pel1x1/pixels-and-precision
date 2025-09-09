@@ -18,11 +18,6 @@ export const Advantages: React.FC = () => {
           <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-center">
             ПРЕИМУЩЕСТВА
           </h2>
-          <img
-            src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/32a783704e4d94e36ed7b96fa96218e64be5778a?placeholderIfAbsent=true"
-            className="aspect-[1] object-contain w-10 lg:w-20 xl:w-[85px] shrink-0"
-            alt="Декоративный элемент"
-          />
         </div>
 
         {/* Advantages Grid */}
