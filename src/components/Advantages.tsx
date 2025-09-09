@@ -11,7 +11,7 @@ export const Advantages: React.FC = () => {
   ];
 
   return (
-    <section className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
+    <section className="w-full px-10 lg:px-[10rem] py-4 lg:py-10">
       <div className="max-w-7xl">
         {/* Title Section */}
         <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
@@ -21,13 +21,13 @@ export const Advantages: React.FC = () => {
         </div>
 
         {/* Advantages Grid */}
-        <div className="space-y-8 lg:space-y-12 mb-6 lg:mb-24">
+        <div className="space-y-2 lg:space-y-12 mb-4 lg:mb-24">
           {[0, 2, 4].map((startIndex) => (
-            <div key={startIndex} className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div key={startIndex} className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-8">
               {advantages.slice(startIndex, startIndex + 2).map((advantage, index) => (
                 <article
                   key={startIndex + index}
-                  className="bg-[rgba(219,170,80,1)] text-[1rem] sm:text-xl lg:text-2xl xl:text-3xl text-white font-normal p-6 sm:p-8 lg:p-10 xl:p-11 leading-relaxed"
+                  className="bg-[rgba(219,170,80,1)] text-[1rem] sm:text-xl lg:text-2xl xl:text-3xl text-white font-normal px-3 py-2 sm:p-8 lg:p-10 xl:p-11 leading-relaxed"
                 >
                   <p>
                     {advantage.split('\n').map((line, lineIndex) => (

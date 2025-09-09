@@ -4,7 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export const About: React.FC = () => {
   const isMobile = useIsMobile();
   return (
-    <section id="about" className="w-full py-4 lg:py-12">
+    <section id="about" className="w-full py-4 lg:py-10">
       <div className="max-w-[90rem]">
         <div className="grid grid-cols-1 items-start">
           <article className={`lg:col-span-3 text-[1.25rem] lg:text-3xl xl:text-3xl

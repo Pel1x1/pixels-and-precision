@@ -198,7 +198,7 @@ export const ProductConfigurator: React.FC = () => {
     const isOpen = activeSection === type;
     const isMobile = useIsMobile();
     return (
-      <div className="mb-8">
+      <div className="mb-4 lg:mb-10">
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
           <CollapsibleTrigger asChild>
             <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]">
@@ -208,7 +208,7 @@ export const ProductConfigurator: React.FC = () => {
           
           <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="pt-8 animate-fade-in">
-              <div className={isMobile ? "grid gap-8 lg:gap-12" : "grid gap-8 lg:gap-12"} 
+              <div className={isMobile ? "grid gap-4 lg:gap-10" : "grid gap-4 lg:gap-10"} 
               style={{ gridTemplateColumns: isMobile ? "" : '180px auto' }}>
                 {/* Строки с лейблами и селекторами */}
                 <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
@@ -273,23 +273,23 @@ export const ProductConfigurator: React.FC = () => {
   };
 
   return (
-    <section id="collection" className="w-full px-10 lg:px-[10rem] py-8 lg:py-12">
+    <section id="collection" className="w-full px-10 lg:px-[10rem] py-4 lg:py-10">
       <div className="max-w-7xl">
         {/* Title Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-8 lg:mb-16">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-4 lg:mb-10">
           <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
             НАША КОЛЛЕКЦИЯ
           </h2>
         </div>
 
-        <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-8 lg:mb-16 leading-relaxed">
+        <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10 leading-relaxed">
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
 
         {/* Validation Error */}
         {validationError && (
-          <div className="mb-8 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in">
+          <div className="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in">
             <p className="text-red-600 text-lg sm:text-xl lg:text-2xl font-medium text-center">
               {validationError}
             </p>
@@ -323,8 +323,8 @@ export const ProductConfigurator: React.FC = () => {
 
         {/* Final Summary Section */}
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <div className="mt-8 pt-8 border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap">
-            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-3">
+          <div className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap">
+            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4 ">
               <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Итого:
               </div>
@@ -338,7 +338,7 @@ export const ProductConfigurator: React.FC = () => {
         )}
         {orderSummary && (
           <button
-            className="bg-[rgba(219,170,80,1)] mt-10 flex w-full
+            className="bg-[rgba(219,170,80,1)] mt-4 lg:mt-10 flex w-full
              flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] 
              font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)]
             transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]"

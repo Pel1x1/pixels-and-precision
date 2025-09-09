@@ -26,14 +26,14 @@ export const Contacts: React.FC = () => {
       </div>
 
       {/* Contact Information */}
-      <div className="w-full px-10 lg:px-[10rem] relative z-10 lg:mt-[-70px] mt-[-10rem] mb-12">
+      <div className="w-full px-10 lg:px-[10rem] relative z-10 lg:mt-[-70px] mt-[-10rem] mb-8 lg:mb-20">
         <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-6 lg:mb-16">
           КОНТАКТЫ
         </h2>
         <div className="max-w-7xl ">
           <div className=" gap-8 lg:gap-12">
             <article className="lg:col-span-3 text-xl sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
-              <div className="space-y-6">
+              <div className="space-y-4 lg:space-y-6">
                 
                 <p>Свяжитесь с нами любым удобным способом — мы всегда рады помочь!</p>
                 
