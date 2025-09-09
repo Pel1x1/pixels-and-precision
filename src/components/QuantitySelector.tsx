@@ -20,9 +20,9 @@ export const QuantitySelector: React.FC<QuantitySelectorProps> = ({
       {quantities.map((quantity) => (
         <button
           key={quantity}
-          className={`text-base sm:text-lg lg:text-xl xl:text-2xl py-0 lg:py-2 flex items-center justify-center border-2 transition-all duration-300 transform hover:scale-105 ${
+          className={`text-base sm:text-lg lg:text-xl xl:text-2xl py-0 lg:py-2 flex items-center justify-center border-2 transition-all ${
             selectedQuantity === quantity
-              ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)] animate-scale-in'
+              ? 'border-[rgba(19,54,92,1)] bg-[rgba(219,170,80,0.1)]'
               : 'border-[rgba(219,170,80,1)] hover:bg-[rgba(219,170,80,0.05)]'
           }`}
           onClick={() => onQuantitySelect(quantity)}
