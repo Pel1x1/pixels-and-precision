@@ -8,7 +8,8 @@ import { DeliveryPayment } from '@/components/DeliveryPayment';
 import { Contacts } from '@/components/Contacts';
 const Index = () => {
   return (
-    <div className="bg-[rgba(247,239,219,1)] min-h-screen">
+    <div className="bg-[rgba(247,239,219,1)]">
+      <div className=' min-h-screen max-w-[1585px] mx-auto'>
       <Header />
       
       <main>
@@ -20,6 +21,7 @@ const Index = () => {
       </main>
       
       <Contacts />
+      </div>
     </div>
   );
 };

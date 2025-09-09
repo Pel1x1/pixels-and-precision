@@ -88,9 +88,9 @@ export const Contacts: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-2 lg:py-4">
+      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1 lg:py-4">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-xl sm:text-xl lg:text-2xl xl:text-2xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
+          <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
             Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
           </p>
         </div>
