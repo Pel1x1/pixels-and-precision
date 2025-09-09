@@ -207,62 +207,59 @@ export const ProductConfigurator: React.FC = () => {
           
           <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="pt-8 animate-fade-in">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                {/* Первая колонка - Заголовки */}
-                <div className="space-y-8">
-                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
-                    Цвет ткани
-                  </label>
-                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
-                    Размер
-                  </label>
-                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
-                    Количество
-                  </label>
+              <div className="grid grid-cols-2 gap-8 lg:gap-12">
+                {/* Строка 1: Цвет ткани */}
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+                  Цвет ткани
+                </label>
+                <div className="w-full">
+                  <ColorSelector
+                    colors={colors}
+                    selectedColor={config.color}
+                    onColorSelect={(color) => setConfig(prev => ({ ...prev, color }))}
+                    className="justify-start"
+                  />
                 </div>
                 
-                {/* Вторая колонка - Селекторы и кнопки */}
-                <div className="space-y-8">
-                  <div className="w-full">
-                    <ColorSelector
-                      colors={colors}
-                      selectedColor={config.color}
-                      onColorSelect={(color) => setConfig(prev => ({ ...prev, color }))}
-                      className="justify-start"
-                    />
-                  </div>
-                  
-                  <div className="w-full">
-                    <SizeSelector
-                      sizes={sizes}
-                      selectedSize={config.size}
-                      onSizeSelect={(size) => setConfig(prev => ({ ...prev, size }))}
-                      className="justify-start"
-                    />
-                  </div>
-                  
-                  <div className="w-full">
-                    <QuantitySelector
-                      selectedQuantity={config.quantity}
-                      onQuantitySelect={(quantity) => setConfig(prev => ({ ...prev, quantity }))}
-                      className="justify-start"
-                    />
-                  </div>
-                  
-                  <div className="flex gap-4 pt-8">
-                    <button 
-                      onClick={() => handleNext(type)}
-                      className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
-                    >
-                      далее
-                    </button>
-                    <button 
-                      onClick={handleCancel}
-                      className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
-                    >
-                      отмена
-                    </button>
-                  </div>
+                {/* Строка 2: Размер */}
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+                  Размер
+                </label>
+                <div className="w-full">
+                  <SizeSelector
+                    sizes={sizes}
+                    selectedSize={config.size}
+                    onSizeSelect={(size) => setConfig(prev => ({ ...prev, size }))}
+                    className="justify-start"
+                  />
+                </div>
+                
+                {/* Строка 3: Количество */}
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold flex items-center">
+                  Количество
+                </label>
+                <div className="w-full">
+                  <QuantitySelector
+                    selectedQuantity={config.quantity}
+                    onQuantitySelect={(quantity) => setConfig(prev => ({ ...prev, quantity }))}
+                    className="justify-start"
+                  />
+                </div>
+                
+                {/* Строка 4: Кнопки на всю ширину */}
+                <div className="col-span-2 flex gap-4 pt-8">
+                  <button 
+                    onClick={() => handleNext(type)}
+                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                  >
+                    далее
+                  </button>
+                  <button 
+                    onClick={handleCancel}
+                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                  >
+                    отмена
+                  </button>
                 </div>
               </div>
             </div>
