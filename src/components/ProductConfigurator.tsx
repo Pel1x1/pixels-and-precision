@@ -206,61 +206,64 @@ export const ProductConfigurator: React.FC = () => {
           </CollapsibleTrigger>
           
           <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-            <div className="pt-8 space-y-8 animate-fade-in">
-              <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
-                  Цвет ткани
-                </label>
-                <div className="flex-1">
-                  <ColorSelector
-                    colors={colors}
-                    selectedColor={config.color}
-                    onColorSelect={(color) => setConfig(prev => ({ ...prev, color }))}
-                    className="flex-wrap"
-                  />
+            <div className="pt-8 animate-fade-in">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                {/* Первая колонка - Заголовки */}
+                <div className="space-y-8">
+                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
+                    Цвет ткани
+                  </label>
+                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
+                    Размер
+                  </label>
+                  <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold block">
+                    Количество
+                  </label>
                 </div>
-              </div>
-
-              <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
-                  Размер
-                </label>
-                <div className="flex-1">
-                  <SizeSelector
-                    sizes={sizes}
-                    selectedSize={config.size}
-                    onSizeSelect={(size) => setConfig(prev => ({ ...prev, size }))}
-                    className="flex-wrap"
-                  />
+                
+                {/* Вторая колонка - Селекторы и кнопки */}
+                <div className="space-y-8">
+                  <div className="w-full">
+                    <ColorSelector
+                      colors={colors}
+                      selectedColor={config.color}
+                      onColorSelect={(color) => setConfig(prev => ({ ...prev, color }))}
+                      className="justify-start"
+                    />
+                  </div>
+                  
+                  <div className="w-full">
+                    <SizeSelector
+                      sizes={sizes}
+                      selectedSize={config.size}
+                      onSizeSelect={(size) => setConfig(prev => ({ ...prev, size }))}
+                      className="justify-start"
+                    />
+                  </div>
+                  
+                  <div className="w-full">
+                    <QuantitySelector
+                      selectedQuantity={config.quantity}
+                      onQuantitySelect={(quantity) => setConfig(prev => ({ ...prev, quantity }))}
+                      className="justify-start"
+                    />
+                  </div>
+                  
+                  <div className="flex gap-4 pt-8">
+                    <button 
+                      onClick={() => handleNext(type)}
+                      className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                    >
+                      далее
+                    </button>
+                    <button 
+                      onClick={handleCancel}
+                      className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
+                    >
+                      отмена
+                    </button>
+                  </div>
                 </div>
-              </div>
-
-              <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
-                  Количество
-                </label>
-                <div className="flex-1">
-                  <QuantitySelector
-                    selectedQuantity={config.quantity}
-                    onQuantitySelect={(quantity) => setConfig(prev => ({ ...prev, quantity }))}
-                    className="flex-wrap"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 pt-8">
-                <button 
-                  onClick={() => handleNext(type)}
-                  className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  далее
-                </button>
-                <button 
-                  onClick={handleCancel}
-                  className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-2 sm:py-3 hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  отмена
-                </button>
               </div>
             </div>
           </CollapsibleContent>
