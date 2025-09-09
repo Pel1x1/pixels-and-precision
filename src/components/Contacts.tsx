@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIsMobile } from "@/hooks/use-mobile";
-
+import vector1 from '@/lib/img/Vector 1.png';
+import vector2 from '@/lib/img/Vector 2.png';
 export const Contacts: React.FC = () => {
   const isMobile = useIsMobile();
   return (
@@ -8,13 +9,13 @@ export const Contacts: React.FC = () => {
       {/* Hero Section with Background */}
       <div className="relative min-h-[250px] h-full w-full z-20">
         <img
-          src="/lib/img/Vector 1.png"
+          src={vector1}
           className="absolute inset-0 w-full h-auto object-contain"
           style={{visibility:isMobile?"hidden":"visible"}}
           alt="Красивая линия"
         />
         <img
-          src="/lib/img/Vector 2.png"
+          src={vector2}
           className="absolute inset-0 w-full h-auto object-contain"
           style={{visibility:isMobile?"visible":"hidden"}}
           alt="Красивая линия"
