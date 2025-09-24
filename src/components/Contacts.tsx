@@ -34,20 +34,25 @@ export const Contacts: React.FC = () => {
         </h2>
         <div className="max-w-7xl ">
           <div className=" gap-8 lg:gap-12">
-            <article className="lg:col-span-3 text-xl sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+            <article className="lg:col-span-3 text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
               <div className="space-y-4 lg:space-y-6">
                 
                 <p>Свяжитесь с нами любым удобным способом — мы всегда рады помочь!</p>
                 
                 <div className="space-y-[-2px]">
-                  <p>Телефон: +7 (XXX) XXX-XX-XX</p>
+                  <p>Телефон: 
+                    <a 
+                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
+                      href="tel:+79501237503"
+                      >
+                      +7 (950) 123-75-03</a></p>
                   <p>
                     Электронная почта: {' '}
                     <a
-                      href="mailto:info@nyukta.ru"
-                      className="underline hover:text-[rgba(219,170,80,1)] transition-colors"
+                      href="mailto:nuktavibes@mail.ru"
+                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
                     >
-                      info@nyukta.ru
+                      nuktavibes@mail.ru
                     </a>
                   </p>
                   <p>Адрес: город Ангарск, ул.Грибная, д. 10</p>
@@ -58,15 +63,15 @@ export const Contacts: React.FC = () => {
                   напишите нам в социальных сетях.
                 </p>
                 <div className="flex space-x-6 mt-2">
-                  <a href="https://t.me/yourtelegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                  <a href="https://t.me/NuktaVibe" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
                     <img src={tg} alt="Telegram" className="w-12 h-12" />
                   </a>
 
-                  <a href="https://vk.com/yourvk" target="_blank" rel="noopener noreferrer" aria-label="VK">
+                  <a href="https://vk.com/club227935210" target="_blank" rel="noopener noreferrer" aria-label="VK">
                     <img src={vk} alt="VK" className="w-12 h-12" />
                   </a>
 
-                  <a href="https://wa.me/yourwhatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                  <a href="https://wa.me/+79501237503" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                     <img src={wht} alt="WhatsApp" className="w-12 h-12" />
                   </a>
                 </div>

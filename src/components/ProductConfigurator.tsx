@@ -4,7 +4,7 @@ import { SizeSelector } from './SizeSelector';
 import { QuantitySelector } from './QuantitySelector';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { useIsMobile } from "@/hooks/use-mobile";
-
+import { FabricSliderGallery } from "./FabricSlider";
 interface ProductState {
   color: string;
   size: string;
@@ -50,6 +50,17 @@ export const ProductConfigurator: React.FC = () => {
     'rgba(219,204,204,1)', 'rgba(255,227,239,1)', 'rgba(223,248,244,1)', 'rgba(219,228,236,1)',
     'rgba(158,175,203,1)', 'rgba(121,96,86,1)', 'rgba(241,241,241,1)', 'rgba(200,186,167,1)',
     'rgba(145,137,129,1)', 'rgba(206,212,178,1)', 'rgba(190,222,209,1)'
+  ];
+
+  const fabrics = [
+    { color: 'rgba(61,141,129,1)', img: '/img/fabrics/emerald.png' },
+    { color: 'rgba(203,188,185,1)', img: '/img/fabrics/lavanda.png' },
+    { color: 'rgba(207,212,200,1)', img:'/img/fabrics/mint.png'},
+    { color: 'rgba(255,251,234,1)', img:'/img/fabrics/cream.png'},
+    { color: 'rgba(188,200,208,1)', img:'/img/fabrics/water.png'},
+    { color: 'rgba(244,232,215,1)', img:'/img/fabrics/sand.png'},
+    { color: 'rgba(143,153,168,1)', img:'/img/fabrics/indigo.png'},
+    { color: 'rgba(224,202,202,1)', img:'/img/fabrics/pouder.png'},
   ];
 
   const sheetSizes = ['180 * 230', '230 * 260', '230 * 280', 'другое'];
@@ -216,10 +227,20 @@ export const ProductConfigurator: React.FC = () => {
                 </label>
                 <div className="w-full">
                   <ColorSelector
-                    colors={colors}
+                    colors={fabrics.map(f => f.color)}
                     selectedColor={config.color}
-                    onColorSelect={(color) => setConfig(prev => ({ ...prev, color }))}
+                    onColorSelect={color => setConfig(prev => ({ ...prev, color }))}
                     className="justify-start"
+                  />
+                </div>
+
+                <label></label>
+                <div style={{ height:  350, width: '100%' }} className="w-full">
+                  <FabricSliderGallery
+                    fabrics={fabrics}
+                    selectedColor={config.color}
+                    onColorSelect={color => setConfig(prev => ({ ...prev, color }))}
+                    visibleCount={3}
                   />
                 </div>
 
@@ -333,8 +354,6 @@ export const ProductConfigurator: React.FC = () => {
               </div>
             </div>
           </div>
-
-          
         )}
         {orderSummary && (
           <button

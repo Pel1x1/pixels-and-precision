@@ -14,7 +14,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`grid grid-cols-8 sm:grid-cols-8 lg:grid-cols-8 gap-3 sm:gap-3 lg:gap-4 ${className}`}>
+    <div className={`grid grid-cols-8 sm:grid-cols-8 lg:grid-cols-8 gap-[0.49rem] sm:gap-3 lg:gap-4 ${className}`}>
       {colors.map((color, index) => (
         <button
           key={index}
