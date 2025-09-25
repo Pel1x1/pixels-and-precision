@@ -20,7 +20,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
           key={index}
           className={`aspect-[2/1] w-8 h-8 sm:w-20 sm:h-10 lg:w-[4rem] lg:h-[2rem] xl:w-[6.75rem] xl:h-[3rem] border-2 transition-all duration-300 transform hover:scale-105 ${
             selectedColor === color
-              ? 'border-[rgba(19,54,92,1)] animate-scale-in'
+              ? 'border-[rgba(19,54,92,1)] animate-scale-in border-[2px]'
               : 'border-[rgba(219,170,80,1)] hover:border-[rgba(19,54,92,1)]'
           }`}
           style={{ backgroundColor: color }}

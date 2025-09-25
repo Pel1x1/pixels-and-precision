@@ -5,10 +5,14 @@ import { QuantitySelector } from './QuantitySelector';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FabricSliderGallery } from "./FabricSlider";
+import { FeatureSelector } from './FeatureSelector';
+import { Button } from 'react-day-picker';
+
 interface ProductState {
   color: string;
   size: string;
   quantity: number;
+  feature?: string; 
 }
 
 type SectionType = 'sheet' | 'pillowcase' | 'duvet';
@@ -20,40 +24,81 @@ interface ProductPrices {
 }
 
 export const ProductConfigurator: React.FC = () => {
-  const [sheetConfig, setSheetConfig] = useState<ProductState>({
-    color: '',
-    size: '',
-    quantity: 1
-  });
+  // Размеры и цены с учётом feature (варианта исполнения)
 
-  const [pillowcaseConfig, setPillowcaseConfig] = useState<ProductState>({
-    color: '',
-    size: '',
-    quantity: 1
-  });
+  const sheetSizesWithFeature: { [key: string]: string[] } = {
+    'без резинки': ['180 * 230', '230 * 260', '230 * 280', 'другое'],
+    'на резинке': ['140 * 200 * 30', '160 * 200 * 30', '180 * 200 * 30', 'другое'],
+  };
 
-  const [duvetConfig, setDuvetConfig] = useState<ProductState>({
-    color: '',
-    size: '',
-    quantity: 1
-  });
+  const sheetPricesWithFeature: { [key: string]: { [key: string]: number } } = {
+    'без резинки': {
+      '180 * 230': 3800,
+      '230 * 260': 4000,
+      '230 * 280': 4200,
+      'другое': 4200,
+    },
+    'на резинке': {
+      '140 * 200 * 30': 4800,
+      '160 * 200 * 30': 4000,
+      '180 * 200 * 30': 4200,
+      'другое': 5200,
+    }
+  };
 
-  const [activeSection, setActiveSection] = useState<SectionType | null>(null);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [orderSummary, setOrderSummary] = useState<string>('');
-  const [validationError, setValidationError] = useState<string>('');
+  const pillowcaseSizesWithFeature: { [key: string]: string[] } = {
+    'без молнии': ['50 * 70', '70 * 70', 'другое'],
+    'на молнии': ['50 * 70', '70 * 70', 'другое'],
+  };
+
+  const pillowcasePricesWithFeature: { [key: string]: { [key: string]: number } } = {
+    'без молнии': {
+      '50 * 70': 1150,
+      '70 * 70': 1250,
+      'другое': 1250,
+    },
+    'на молнии': {
+      '50 * 70': 1450,
+      '70 * 70': 1550,
+      'другое': 1550,
+    }
+  };
+
+  const duvetSizesWithFeature: { [key: string]: string[] } = {
+    'без молнии': ['150 * 200', '160 * 210', '175 * 205', '180 * 210', '200 * 200', 'другое'],
+    'на молнии': ['150 * 200', '160 * 210', '175 * 205', '180 * 210', '200 * 200', 'другое'],
+  };
+
+  const duvetPricesWithFeature: { [key: string]: { [key: string]: number } } = {
+    'без молнии': {
+      '150 * 200': 5300,
+      '160 * 210': 5500,
+      '175 * 205': 5500,
+      '180 * 210': 5700,
+      '200 * 200': 6000,
+      'другое' : 6000
+    },
+    'на молнии': {
+      '150 * 200': 6300,
+      '160 * 210': 6500,
+      '175 * 205': 6500,
+      '180 * 210': 6700,
+      '200 * 200': 7000,
+      'другое' : 7000
+    }
+  };
 
   const colors = [
     'rgba(61,141,129,1)', 'rgba(203,188,185,1)', 'rgba(207,212,200,1)', 'rgba(255,251,234,1)',
     'rgba(188,200,208,1)', 'rgba(244,232,215,1)', 'rgba(143,153,168,1)', 'rgba(224,202,202,1)',
     'rgba(206,206,206,1)', 'rgba(214,205,188,1)', 'rgba(227,157,140,1)', 'rgba(186,188,189,1)',
     'rgba(219,204,204,1)', 'rgba(255,227,239,1)', 'rgba(223,248,244,1)', 'rgba(219,228,236,1)',
-    'rgba(158,175,203,1)', 'rgba(121,96,86,1)', 'rgba(241,241,241,1)', 'rgba(200,186,167,1)',
-    'rgba(145,137,129,1)', 'rgba(206,212,178,1)', 'rgba(190,222,209,1)'
+    'rgba(158,175,203,1)', 'rgba(121,96,86,1)', 'rgba(200,186,167,1)', 'rgba(206,212,178,1)',
+    '', '', ''
   ];
 
   const fabrics = [
-    { color: 'rgba(61,141,129,1)', img: '/img/fabrics/emerald.png' },
+    { color: 'rgba(61,141,129,1)',  img: '/img/fabrics/emerald.png' },
     { color: 'rgba(203,188,185,1)', img: '/img/fabrics/lavanda.png' },
     { color: 'rgba(207,212,200,1)', img:'/img/fabrics/mint.png'},
     { color: 'rgba(255,251,234,1)', img:'/img/fabrics/cream.png'},
@@ -61,70 +106,85 @@ export const ProductConfigurator: React.FC = () => {
     { color: 'rgba(244,232,215,1)', img:'/img/fabrics/sand.png'},
     { color: 'rgba(143,153,168,1)', img:'/img/fabrics/indigo.png'},
     { color: 'rgba(224,202,202,1)', img:'/img/fabrics/pouder.png'},
+    { color: 'rgba(206,206,206,1)', img:'/img/fabrics/plaplina.png'},
+    { color: 'rgba(214,205,188,1)', img:'/img/fabrics/milk_chocolate.png'},
+    { color: 'rgba(227,157,140,1)', img:'/img/fabrics/terracota.png'},
+    { color: 'rgba(186,188,189,1)', img:'/img/fabrics/dark-grey.png'},
+    { color: 'rgba(219,204,204,1)', img:'/img/fabrics/dust-sliva.png'},
+    { color: 'rgba(255,227,239,1)', img:'/img/fabrics/pink.png'},
+    { color: 'rgba(223,248,244,1)', img:'/img/fabrics/mentol.png'},
+    { color: 'rgba(219,228,236,1)', img:'/img/fabrics/white-blue.png'},
+    { color: 'rgba(158,175,203,1)', img:'/img/fabrics/blue.png'},
+    { color: 'rgba(121,96,86,1)',  img:'/img/fabrics/chocolate.png'},
+    { color: 'rgba(241,241,241,1)', img:'/img/fabrics/white.png'},
+    { color: 'rgba(200,186,167,1)', img:'/img/fabrics/mokko.png'},
+    { color: 'rgba(145,137,129,1)', img:'/img/fabrics/black_diamond.png'},
+    { color: 'rgba(206,212,178,1)', img:'/img/fabrics/lime.png'},
+    { color: 'rgba(190,222,209,1)', img:'/img/fabrics/evkalipt.png'},
   ];
 
-  const sheetSizes = ['180 * 230', '230 * 260', '230 * 280', 'другое'];
-  const pillowcaseSizes = ['50 * 70', '70 * 70', 'другое'];
-  const duvetSizes = ['150 * 200', '150 * 210', '180 * 210', '200 * 200', '200 * 210', '200 * 220', '220 * 240', 'другое'];
+  const [sheetConfig, setSheetConfig] = useState<ProductState>({
+    color: '',
+    size: '',
+    quantity: 1,
+    feature: 'без резинки'
+  });
 
-  // Примерные цены для расчета
-  const prices: ProductPrices = {
-    sheet: {
-      '180 * 230': 2500,
-      '230 * 260': 3000,
-      '230 * 280': 3200,
-      'другое': 3500
-    },
-    pillowcase: {
-      '50 * 70': 800,
-      '70 * 70': 900,
-      'другое': 1000
-    },
-    duvet: {
-      '150 * 200': 3500,
-      '150 * 210': 3600,
-      '180 * 210': 3800,
-      '200 * 200': 4000,
-      '200 * 210': 4100,
-      '200 * 220': 4200,
-      '220 * 240': 4500,
-      'другое': 5000
-    }
-  };
+  const [pillowcaseConfig, setPillowcaseConfig] = useState<ProductState>({
+    color: '',
+    size: '',
+    quantity: 1,
+    feature: 'без молнии'
+  });
+
+  const [duvetConfig, setDuvetConfig] = useState<ProductState>({
+    color: '',
+    size: '',
+    quantity: 1,
+    feature: 'без молнии'
+  });
+
+  const [activeSection, setActiveSection] = useState<SectionType | null>(null);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [orderSummary, setOrderSummary] = useState<string>('');
+  const [validationError, setValidationError] = useState<string>('');
 
   const calculateTotal = () => {
     let total = 0;
-    
-    if (sheetConfig.size) {
-      total += (prices.sheet[sheetConfig.size] || 0) * sheetConfig.quantity;
+
+    if (sheetConfig.size && sheetConfig.feature) {
+      const price = sheetPricesWithFeature[sheetConfig.feature]?.[sheetConfig.size] || 0;
+      total += price * sheetConfig.quantity;
     }
-    
-    if (pillowcaseConfig.size) {
-      total += (prices.pillowcase[pillowcaseConfig.size] || 0) * pillowcaseConfig.quantity;
+
+    if (pillowcaseConfig.size && pillowcaseConfig.feature) {
+      const price = pillowcasePricesWithFeature[pillowcaseConfig.feature]?.[pillowcaseConfig.size] || 0;
+      total += price * pillowcaseConfig.quantity;
     }
-    
-    if (duvetConfig.size) {
-      total += (prices.duvet[duvetConfig.size] || 0) * duvetConfig.quantity;
+
+    if (duvetConfig.size && duvetConfig.feature) {
+      const price = duvetPricesWithFeature[duvetConfig.feature]?.[duvetConfig.size] || 0;
+      total += price * duvetConfig.quantity;
     }
-    
+
     return total;
   };
 
   const generateOrderSummary = () => {
     const summary = [];
-    
+
     if (sheetConfig.color || sheetConfig.size || sheetConfig.quantity > 1) {
-      summary.push(`Простыня, цвет: "${sheetConfig.color || 'не выбран'}", размер: "${sheetConfig.size || 'не выбран'}", количество: "${sheetConfig.quantity}"`);
+      summary.push(`Простыня, цвет: "${sheetConfig.color || 'не выбран'}", вид: "${sheetConfig.feature || 'не выбран'}", размер: "${sheetConfig.size || 'не выбран'}", количество: "${sheetConfig.quantity}"`);
     }
-    
+
     if (pillowcaseConfig.color || pillowcaseConfig.size || pillowcaseConfig.quantity > 1) {
-      summary.push(`Наволочки, цвет: "${pillowcaseConfig.color || 'не выбран'}", размер: "${pillowcaseConfig.size || 'не выбран'}", количество: "${pillowcaseConfig.quantity}"`);
+      summary.push(`Наволочки, цвет: "${pillowcaseConfig.color || 'не выбран'}", вид: "${pillowcaseConfig.feature || 'не выбран'}", размер: "${pillowcaseConfig.size || 'не выбран'}", количество: "${pillowcaseConfig.quantity}"`);
     }
-    
+
     if (duvetConfig.color || duvetConfig.size || duvetConfig.quantity > 1) {
-      summary.push(`Пододеяльник, цвет: "${duvetConfig.color || 'не выбран'}", размер: "${duvetConfig.size || 'не выбран'}", количество: "${duvetConfig.quantity}"`);
+      summary.push(`Пододеяльник, цвет: "${duvetConfig.color || 'не выбран'}", вид: "${duvetConfig.feature || 'не выбран'}", размер: "${duvetConfig.size || 'не выбран'}", количество: "${duvetConfig.quantity}"`);
     }
-    
+
     return summary.join('\n');
   };
 
@@ -139,7 +199,7 @@ export const ProductConfigurator: React.FC = () => {
   const validateSection = (section: SectionType) => {
     let config: ProductState;
     let sectionName: string;
-    
+
     switch (section) {
       case 'sheet':
         config = sheetConfig;
@@ -154,7 +214,7 @@ export const ProductConfigurator: React.FC = () => {
         sectionName = 'Пододеяльник';
         break;
     }
-    
+
     if (!config.color) {
       return `${sectionName}: Выберите цвет ткани`;
     }
@@ -171,11 +231,11 @@ export const ProductConfigurator: React.FC = () => {
       setTimeout(() => setValidationError(''), 3000);
       return;
     }
-    
+
     setValidationError('');
     const total = calculateTotal();
     const summary = generateOrderSummary();
-    
+
     setTotalAmount(total);
     setOrderSummary(summary);
 
@@ -184,30 +244,48 @@ export const ProductConfigurator: React.FC = () => {
     } else if (section === 'pillowcase') {
       setActiveSection('duvet');
     } else if (section === 'duvet') {
+      const element = document.getElementById('order-summary');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
       console.log('Конфигурация заказа:', { sheetConfig, pillowcaseConfig, duvetConfig, total, summary });
       setActiveSection(null);
     }
+    
+
   };
 
   const handleCancel = () => {
-    setSheetConfig({ color: '', size: '', quantity: 1 });
-    setPillowcaseConfig({ color: '', size: '', quantity: 1 });
-    setDuvetConfig({ color: '', size: '', quantity: 1 });
+    setSheetConfig({ color: '', size: '', quantity: 1, feature: 'без резинки' });
+    setPillowcaseConfig({ color: '', size: '', quantity: 1, feature: 'без молнии' });
+    setDuvetConfig({ color: '', size: '', quantity: 1, feature: 'без молнии' });
     setActiveSection(null);
     setTotalAmount(0);
     setOrderSummary('');
     setValidationError('');
   };
 
+  // Внутри ProductSection получаем набор размеров в зависимости от типа и выбранной опции
   const ProductSection: React.FC<{
     type: SectionType;
     title: string;
     config: ProductState;
     setConfig: React.Dispatch<React.SetStateAction<ProductState>>;
-    sizes: string[];
-  }> = ({ type, title, config, setConfig, sizes }) => {
+    sizes?: string[]; // Убираем: размеры будем брать внутри
+  }> = ({ type, title, config, setConfig }) => {
     const isOpen = activeSection === type;
     const isMobile = useIsMobile();
+
+    // Динамические размеры в зависимости от feature
+    let sizesForSection: string[] = [];
+    if (type === 'sheet') {
+      sizesForSection = sheetSizesWithFeature[config.feature || 'без резинки'] || [];
+    } else if (type === 'pillowcase') {
+      sizesForSection = pillowcaseSizesWithFeature[config.feature || 'без молнии'] || [];
+    } else if (type === 'duvet') {
+      sizesForSection = duvetSizesWithFeature[config.feature || 'без молнии'] || [];
+    }
+
     return (
       <div className="mb-4 lg:mb-10">
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
@@ -216,15 +294,11 @@ export const ProductConfigurator: React.FC = () => {
               <h3>{title}</h3>
             </button>
           </CollapsibleTrigger>
-          
+
           <CollapsibleContent className="overflow-hidden transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="pt-8 animate-fade-in">
-              <div className={isMobile ? "grid gap-4 lg:gap-10" : "grid gap-4 lg:gap-10"} 
-              style={{ gridTemplateColumns: isMobile ? "" : '180px auto' }}>
-                {/* Строки с лейблами и селекторами */}
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
-                  Цвет ткани
-                </label>
+              <div className={isMobile ? "grid gap-4 lg:gap-10" : "grid gap-4 lg:gap-10"} style={{ gridTemplateColumns: isMobile ? "" : '180px auto' }}>
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">Цвет ткани</label>
                 <div className="w-full">
                   <ColorSelector
                     colors={fabrics.map(f => f.color)}
@@ -234,31 +308,47 @@ export const ProductConfigurator: React.FC = () => {
                   />
                 </div>
 
-                <label></label>
-                <div style={{ height:  350, width: '100%' }} className="w-full">
-                  <FabricSliderGallery
-                    fabrics={fabrics}
-                    selectedColor={config.color}
-                    onColorSelect={color => setConfig(prev => ({ ...prev, color }))}
-                    visibleCount={3}
-                  />
-                </div>
+                {config.color ? (<label></label>) : null}
+                {config.color ? (
+                  <div style={{ height: isMobile ? 300 : 400, width: '100%' }} className="w-full">
+                    <FabricSliderGallery
+                      fabrics={fabrics}
+                      selectedColor={config.color}
+                      onColorSelect={color => setConfig(prev => ({ ...prev, color }))}
+                    />
+                  </div>) : null}
 
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
-                  Размер
-                </label>
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mt-4">Вид</label>
+                <FeatureSelector
+                  options={type === 'sheet' ? ['без резинки', 'на резинке'] : ['без молнии', 'на молнии']}
+                  selectedOption={config.feature}
+                  onOptionSelect={(option) => {
+                    setConfig(prev => {
+                      let validSizes: string[] = [];
+                      if (type === 'sheet') validSizes = sheetSizesWithFeature[option] || [];
+                      else if (type === 'pillowcase') validSizes = pillowcaseSizesWithFeature[option] || [];
+                      else if (type === 'duvet') validSizes = duvetSizesWithFeature[option] || [];
+
+                      return {
+                        ...prev,
+                        feature: option,
+                        size: validSizes.includes(prev.size) ? prev.size : '',
+                      };
+                    });
+                  }}
+                />
+
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mt-4">Размер</label>
                 <div className="w-full">
                   <SizeSelector
-                    sizes={sizes}
+                    sizes={sizesForSection}
                     selectedSize={config.size}
                     onSizeSelect={(size) => setConfig(prev => ({ ...prev, size }))}
                     className="justify-start"
                   />
                 </div>
 
-                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
-                  Количество
-                </label>
+                <label className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mt-4">Количество</label>
                 <div className="w-full">
                   <QuantitySelector
                     selectedQuantity={config.quantity}
@@ -267,10 +357,8 @@ export const ProductConfigurator: React.FC = () => {
                   />
                 </div>
 
-                {/* Пустой блок слева для кнопок */}
                 <div></div>
-                {/* Правый блок с кнопками */}
-                <div className="w-full flex gap-4">
+                <div className="w-full flex gap-4 mt-6">
                   <button
                     onClick={() => handleNext(type)}
                     className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform"
@@ -293,6 +381,7 @@ export const ProductConfigurator: React.FC = () => {
     );
   };
 
+
   return (
     <section id="collection" className="w-full px-10 lg:px-[10rem] py-4 lg:py-10">
       <div className="max-w-7xl">
@@ -303,14 +392,14 @@ export const ProductConfigurator: React.FC = () => {
           </h2>
         </div>
 
-        <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10 leading-relaxed">
+        <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10 leading-relaxed" id="order-summary">
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
 
         {/* Validation Error */}
         {validationError && (
-          <div className="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in">
+          <div className="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in" >
             <p className="text-red-600 text-lg sm:text-xl lg:text-2xl font-medium text-center">
               {validationError}
             </p>
@@ -323,7 +412,6 @@ export const ProductConfigurator: React.FC = () => {
           title="Простыня"
           config={sheetConfig}
           setConfig={setSheetConfig}
-          sizes={sheetSizes}
         />
 
         <ProductSection
@@ -331,7 +419,7 @@ export const ProductConfigurator: React.FC = () => {
           title="Наволочки"
           config={pillowcaseConfig}
           setConfig={setPillowcaseConfig}
-          sizes={pillowcaseSizes}
+          
         />
 
         <ProductSection
@@ -339,12 +427,11 @@ export const ProductConfigurator: React.FC = () => {
           title="Пододеяльник"
           config={duvetConfig}
           setConfig={setDuvetConfig}
-          sizes={duvetSizes}
         />
 
         {/* Final Summary Section */}
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <div className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap">
+          <div  className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap ">
             <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4 ">
               <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Итого:
@@ -355,18 +442,18 @@ export const ProductConfigurator: React.FC = () => {
             </div>
           </div>
         )}
+
         {orderSummary && (
           <button
             className="bg-[rgba(219,170,80,1)] mt-4 lg:mt-10 flex w-full
              flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] 
              font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)]
-            transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]"
+             transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]"
             onClick={() => window.open(`https://t.me/weksirtu?text=${encodeURIComponent(orderSummary)}`, "_blank")}
           >
             <h3>Заказать в Telegram</h3>
           </button>
         )}
-
       </div>
     </section>
   );
