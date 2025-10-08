@@ -6,7 +6,8 @@ import { Advantages } from '@/components/Advantages';
 import { ProductConfigurator } from '@/components/ProductConfigurator';
 import { DeliveryPayment } from '@/components/DeliveryPayment';
 import { Contacts } from '@/components/Contacts';
-const Index = () => {
+
+const Index: React.FC = () => {
   return (
     <div className="bg-[rgba(247,239,219,1)] overflow-y-hidden">
       <div className=' min-h-screen max-w-[1585px] mx-auto'>

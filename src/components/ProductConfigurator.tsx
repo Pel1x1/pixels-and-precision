@@ -150,6 +150,11 @@ export const ProductConfigurator: React.FC = () => {
   const [orderSummary, setOrderSummary] = useState<string>('');
   const [validationError, setValidationError] = useState<string>('');
 
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [formErrors, setFormErrors] = useState({ phone: '', email: '' });
+  const [showPaymentFields, setShowPaymentFields] = useState(false);
+
   const calculateTotal = () => {
     let total = 0;
 
@@ -225,6 +230,8 @@ export const ProductConfigurator: React.FC = () => {
     return null;
   };
 
+
+
   const handleNext = (section: SectionType) => {
     const error = validateSection(section);
     if (error) {
@@ -266,6 +273,82 @@ export const ProductConfigurator: React.FC = () => {
     setValidationError('');
   };
 
+  const cleanPhone = phone => phone.replace(/[^0-9+]/g, '');
+const cleanEmail = email => email.trim();
+
+const validatePhone = (phone) => {
+  const cleaned = cleanPhone(phone);
+  const phonePattern = /^\+7\d{10}$/;
+  return phonePattern.test(cleaned);
+};
+
+const validateEmail = (email) => {
+  const cleaned = cleanEmail(email);
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailPattern.test(cleaned);
+};
+
+  const handleShowPaymentFields = () => {
+    let valid = true;
+    const errors = { phone: '', email: '' };
+
+    if (!phone) {
+      errors.phone = 'Пожалуйста, введите номер телефона';
+      valid = false;
+    } else if (!validatePhone(phone)) {
+      errors.phone = 'Неверный формат телефона. Используйте +7xxxxxxxxxx';
+      valid = false;
+    }
+
+    if (!email) {
+      errors.email = 'Пожалуйста, введите email';
+      valid = false;
+    } else if (!validateEmail(email)) {
+      errors.email = 'Неверный формат email';
+      valid = false;
+    }
+
+    setFormErrors(errors);
+
+    if (valid) {
+       handlePayment();
+    }
+  };
+
+  const handlePayment = async () => {
+  const paymentData = {
+    orderId: `order_${Date.now()}`, // уникальный ID заказа, можно любой
+    amount: totalAmount * 100, // в копейках, если сумма в рублях
+    description: orderSummary,
+    email: email,
+    phone: cleanPhone(phone),
+  };
+
+  try {
+      const response = await fetch('http://79.174.78.29/api/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.paymentUrl) {
+        // Открываем ссылку на оплату в новом окне
+        window.open(data.paymentUrl, '_blank');
+      } else {
+        alert('Ошибка при создании платежа: ' + (data.error || 'неизвестная ошибка'));
+      }
+    } catch (error) {
+      alert('Сетевая ошибка: ' + error.message);
+    }
+  };
+
+
+
+  
   // Внутри ProductSection получаем набор размеров в зависимости от типа и выбранной опции
   const ProductSection: React.FC<{
     type: SectionType;
@@ -434,27 +517,46 @@ export const ProductConfigurator: React.FC = () => {
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
           <div  className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap ">
             <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4 ">
-              <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+              <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit ">
                 Итого:
               </div>
               <div className="flex-1 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)]">
                 {totalAmount.toLocaleString('ru-RU')} ₽
               </div>
             </div>
+            <div className="mb-4 text-xl sm:text-2xl ">
+              <input
+                type="telephone"
+                placeholder="+71234567890"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full p-3 mb-2 rounded border-[rgba(219,170,80,1)] border-2"
+                required
+              />
+              {formErrors.phone && <div className="text-red-600">{formErrors.phone}</div>}
+              <br/>
+              <input
+                type="email"
+                placeholder="mail@mail.ru"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
+                required
+              />
+              {formErrors.email && <div className="text-red-600">{formErrors.email}</div>}
+            </div>
           </div>
         )}
 
-        {orderSummary && (
-          <button
-            className="bg-[rgba(219,170,80,1)] mt-4 lg:mt-10 flex w-full
-             flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] 
-             font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)]
-             transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]"
-            onClick={() => window.open(`https://t.me/weksirtu?text=${encodeURIComponent(orderSummary)}`, "_blank")}
-          >
-            <h3>Заказать в Telegram</h3>
-          </button>
-        )}
+      {/* Кнопка оплаты появляется только после заполнения обязательных полей */}
+      {activeSection === null && (totalAmount > 0 || orderSummary) && (
+        <button
+          className="bg-[rgba(219,170,80,1)] mt-4 lg:mt-10 w-full text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center px-6 py-3 hover:bg-[rgba(199,150,60,1)] transition-all duration-300"
+          onClick={handleShowPaymentFields}
+        >
+          Оплатить онлайн
+        </button>
+      )}
       </div>
     </section>
   );
