@@ -122,23 +122,24 @@ export const ProductConfigurator: React.FC = () => {
     { color: 'rgba(206,212,178,1)', img:'/img/fabrics/lime.png'},
     { color: 'rgba(190,222,209,1)', img:'/img/fabrics/evkalipt.png'},
   ];
+  const defaultColor = fabrics[0]?.color || colors[0] || ''; // если вдруг fabrics нет
 
   const [sheetConfig, setSheetConfig] = useState<ProductState>({
-    color: '',
+    color: defaultColor,
     size: '',
     quantity: 1,
     feature: 'без резинки'
   });
 
   const [pillowcaseConfig, setPillowcaseConfig] = useState<ProductState>({
-    color: '',
+    color: defaultColor,
     size: '',
     quantity: 1,
     feature: 'без молнии'
   });
 
   const [duvetConfig, setDuvetConfig] = useState<ProductState>({
-    color: '',
+    color: defaultColor,
     size: '',
     quantity: 1,
     feature: 'без молнии'

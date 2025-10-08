@@ -21,7 +21,14 @@ export const FabricSliderGallery: React.FC<FabricSliderGalleryProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
-
+  const [currentIndex, setCurrentIndex] = useState(() => fabrics.findIndex(f => f.color === selectedColor));
+  
+  useEffect(() => {
+  const newIndex = fabrics.findIndex(f => f.color === selectedColor);
+  if (newIndex >= 0 && newIndex !== currentIndex) {
+    setCurrentIndex(newIndex);
+  }
+}, [selectedColor]);
   // Определяем мобильное состояние и visibleCount
   useEffect(() => {
     const handleResize = () => {
@@ -64,7 +71,7 @@ export const FabricSliderGallery: React.FC<FabricSliderGalleryProps> = ({
 
     // Безопасный вызов прокрутки
     requestAnimationFrame(() => {
-      container.scrollTo({ left: scrollLeft, behavior: isMobile ? 'auto' : 'smooth' });
+      container.scrollTo({ left: scrollLeft , behavior: isMobile ? 'auto' : 'instant' });
     });
   }, [selectedColor, fabrics, isMobile]);
 
