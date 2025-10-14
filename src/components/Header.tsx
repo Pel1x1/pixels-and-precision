@@ -38,27 +38,26 @@ export const Header: React.FC = () => {
           </button>
         </nav>
         {menuOpen && (
-          <div> 
-            <nav className="lg:hidden mt-4 pt-4 border-t border-[rgba(219,170,80,0.3)] ">
-              <div className="flex flex-col gap-4 text-xl text-[rgba(19,54,92,1)] font-arsenal w-max mx-auto ml-[250px]">
-                <a href="#about" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
-                  О НАС
-                </a>
-                <a href="#collection" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
-                  НАША КОЛЛЕКЦИЯ
-                </a>
-                <a href="#delivery" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
-                  ДОСТАВКА
-                </a>
-                <a href="#contacts" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
-                  КОНТАКТЫ
-                </a>
-              </div>
-            </nav>
+  <div> 
+    <nav className="lg:hidden mt-4 pt-4 border-t border-[rgba(219,170,80,0.3)] ">
+      <div className="flex flex-col gap-4 text-xl text-[rgba(19,54,92,1)] font-arsenal w-max mx-auto ml-10">
+        <a href="#about" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
+          О НАС
+        </a>
+        <a href="#collection" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
+          НАША КОЛЛЕКЦИЯ
+        </a>
+        <a href="#delivery" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
+          ДОСТАВКА
+        </a>
+        <a href="#contacts" className="hover:text-[rgba(219,170,80,1)] transition-colors py-2 text-left w-full">
+          КОНТАКТЫ
+        </a>
+      </div>
+    </nav>
+  </div>
+)}
 
-
-        </div>
-        )}
       </div>
     </header>
 
