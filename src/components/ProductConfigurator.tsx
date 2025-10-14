@@ -200,13 +200,13 @@ export const ProductConfigurator: React.FC = () => {
     const parts: string[] = [];
 
     if (sheetConfig.size && sheetConfig.feature) {
-      parts.push(`Простыня (${mapFeatureToCode(sheetConfig.feature, 'sheet')}), размер: ${cleanSize(sheetConfig.size)}, цвет: ${mapColorToName(sheetConfig.color)}, кол-во: ${sheetConfig.quantity}`);
+      parts.push(`Простыня ${mapFeatureToCode(sheetConfig.feature, 'sheet')}, размер: ${cleanSize(sheetConfig.size)}, цвет: ${mapColorToName(sheetConfig.color)}, кол-во: ${sheetConfig.quantity}`);
     }
     if (pillowcaseConfig.size && pillowcaseConfig.feature) {
-      parts.push(`Наволочка (${mapFeatureToCode(pillowcaseConfig.feature, 'pillowcase')}), размер: ${cleanSize(pillowcaseConfig.size)}, цвет: ${mapColorToName(pillowcaseConfig.color)}, кол-во: ${pillowcaseConfig.quantity}`);
+      parts.push(`Наволочка ${mapFeatureToCode(pillowcaseConfig.feature, 'pillowcase')}, размер: ${cleanSize(pillowcaseConfig.size)}, цвет: ${mapColorToName(pillowcaseConfig.color)}, кол-во: ${pillowcaseConfig.quantity}`);
     }
     if (duvetConfig.size && duvetConfig.feature) {
-      parts.push(`Пододеяльник (${mapFeatureToCode(duvetConfig.feature, 'duvet')}), размер: ${cleanSize(duvetConfig.size)}, цвет: ${mapColorToName(duvetConfig.color)}, кол-во: ${duvetConfig.quantity}\n`);
+      parts.push(`Пододеяльник ${mapFeatureToCode(duvetConfig.feature, 'duvet')}, размер: ${cleanSize(duvetConfig.size)}, цвет: ${mapColorToName(duvetConfig.color)}, кол-во: ${duvetConfig.quantity}`);
     }
 
     return parts.join('\n');

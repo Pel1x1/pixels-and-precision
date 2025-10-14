@@ -10,6 +10,32 @@ const PAYMENT_SCRIPT_URL = 'https://integrationjs.tbank.ru/integration.js';
 const TERMINAL_KEY = '1759418551647DEMO';
 const BACKEND_URL = 'https://83-166-247-114.regru.cloud';
 
+async function generateTokenFront(params, secret) {
+  // Исключаем вложенные объекты и поле Token
+  const keys = Object.keys(params).filter(k => k !== 'Token' && typeof params[k] !== 'object').sort();
+
+  let str = '';
+  for (const key of keys) {
+    const val = params[key];
+    if (val !== undefined && val !== null && val !== '') {
+      str += val.toString();
+    }
+  }
+  str += secret;
+
+  // Кодируем строку в Uint8Array
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+
+  // Вычисляем хеш
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  // Преобразуем ArrayBuffer в hex строку
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
+
+
 export const PaymentForm: React.FC<{ amount: number; description: string }> = ({ amount, description }) => {
   const [integration, setIntegration] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -67,8 +93,8 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         Amount: amount * 100,
         Description: safeDescription,
       };
-      console.log(safeDescription);
-      console.log(initParams);
+      console.log(generateTokenFront(initParams, "k&516pqvRDeA3tuM"));
+
 
       let res;
       if (integration.helpers && integration.helpers.request) {
