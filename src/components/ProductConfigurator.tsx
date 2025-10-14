@@ -206,7 +206,7 @@ export const ProductConfigurator: React.FC = () => {
       parts.push(`Наволочка (${mapFeatureToCode(pillowcaseConfig.feature, 'pillowcase')}), размер: ${cleanSize(pillowcaseConfig.size)}, цвет: ${mapColorToName(pillowcaseConfig.color)}, кол-во: ${pillowcaseConfig.quantity}`);
     }
     if (duvetConfig.size && duvetConfig.feature) {
-      parts.push(`Пододеяльник (${mapFeatureToCode(duvetConfig.feature, 'duvet')}), размер: ${cleanSize(duvetConfig.size)}, цвет: ${mapColorToName(duvetConfig.color)}, кол-во: ${duvetConfig.quantity}`);
+      parts.push(`Пододеяльник (${mapFeatureToCode(duvetConfig.feature, 'duvet')}), размер: ${cleanSize(duvetConfig.size)}, цвет: ${mapColorToName(duvetConfig.color)}, кол-во: ${duvetConfig.quantity}\n`);
     }
 
     return parts.join('\n');
