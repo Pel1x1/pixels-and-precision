@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ColorSelector } from './ColorSelector';
 import { SizeSelector } from './SizeSelector';
 import { QuantitySelector } from './QuantitySelector';
@@ -7,6 +7,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { FabricSliderGallery } from "./FabricSlider";
 import { FeatureSelector } from './FeatureSelector';
 import { Button } from 'react-day-picker';
+
+import { PaymentForm } from './PaymentForm';
 
 interface ProductState {
   color: string;
@@ -126,21 +128,21 @@ export const ProductConfigurator: React.FC = () => {
 
   const [sheetConfig, setSheetConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '',
+    size: '180 * 230',
     quantity: 1,
     feature: 'без резинки'
   });
 
   const [pillowcaseConfig, setPillowcaseConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '',
+    size: '50 * 70',
     quantity: 1,
     feature: 'без молнии'
   });
 
   const [duvetConfig, setDuvetConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '',
+    size: '150 * 200',
     quantity: 1,
     feature: 'без молнии'
   });
@@ -230,8 +232,6 @@ export const ProductConfigurator: React.FC = () => {
     return null;
   };
 
-
-
   const handleNext = (section: SectionType) => {
     const error = validateSection(section);
     if (error) {
@@ -288,7 +288,11 @@ const validateEmail = (email) => {
   return emailPattern.test(cleaned);
 };
 
+
+  // Используйте handlePayment внутри handleShowPaymentFields, чтобы после валидации запускать оплату
   const handleShowPaymentFields = () => {
+    // Ваша валидация телефона и email
+    // Если валидно, вызвать handlePayment
     let valid = true;
     const errors = { phone: '', email: '' };
 
@@ -309,43 +313,7 @@ const validateEmail = (email) => {
     }
 
     setFormErrors(errors);
-
-    if (valid) {
-       handlePayment();
-    }
   };
-
-  const handlePayment = async () => {
-  const paymentData = {
-    orderId: `order_${Date.now()}`, // уникальный ID заказа, можно любой
-    amount: totalAmount * 100, // в копейках, если сумма в рублях
-    description: orderSummary,
-    email: email,
-    phone: cleanPhone(phone),
-  };
-
-  try {
-      const response = await fetch('http://79.174.78.29/api/create-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(paymentData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.paymentUrl) {
-        // Открываем ссылку на оплату в новом окне
-        window.open(data.paymentUrl, '_blank');
-      } else {
-        alert('Ошибка при создании платежа: ' + (data.error || 'неизвестная ошибка'));
-      }
-    } catch (error) {
-      alert('Сетевая ошибка: ' + error.message);
-    }
-  };
-
 
 
   
@@ -355,7 +323,6 @@ const validateEmail = (email) => {
     title: string;
     config: ProductState;
     setConfig: React.Dispatch<React.SetStateAction<ProductState>>;
-    sizes?: string[]; // Убираем: размеры будем брать внутри
   }> = ({ type, title, config, setConfig }) => {
     const isOpen = activeSection === type;
     const isMobile = useIsMobile();
@@ -550,12 +517,7 @@ const validateEmail = (email) => {
 
       {/* Кнопка оплаты появляется только после заполнения обязательных полей */}
       {activeSection === null && (totalAmount > 0 || orderSummary) && (
-        <button
-          className="bg-[rgba(219,170,80,1)] mt-4 lg:mt-10 w-full text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center px-6 py-3 hover:bg-[rgba(199,150,60,1)] transition-all duration-300"
-          onClick={handleShowPaymentFields}
-        >
-          Оплатить онлайн
-        </button>
+        <PaymentForm amount={totalAmount} description={orderSummary}/>
       )}
       </div>
     </section>
