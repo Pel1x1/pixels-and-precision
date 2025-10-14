@@ -558,7 +558,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
 
       {/* Кнопка оплаты появляется только после заполнения обязательных полей */}
       {activeSection === null && (totalAmount > 0 || orderSummary) && (
-        <div className='h-10'>
+        <div className='mt-10'>
           <PaymentForm amount={totalAmount} description={orderSummary}/>
         </div>
       )}
