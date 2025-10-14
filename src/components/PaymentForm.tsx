@@ -86,7 +86,8 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         return;
       }
 
-      const safeDescription = (description || 'Оплата заказа').slice(0, 250);
+      
+      const safeDescription = description.replace(/\n/g, ' ').slice(0, 250) || "Оплата заказа";
       const initParams = {
         OrderId: `${Date.now()}${Math.floor(Math.random() * 100)}`,
         TerminalKey: TERMINAL_KEY,
