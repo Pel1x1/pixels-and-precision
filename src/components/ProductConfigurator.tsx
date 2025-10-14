@@ -518,9 +518,10 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           title="Пододеяльник"
           config={duvetConfig}
           setConfig={setDuvetConfig}
+          
         />
 
-        {/* Final Summary Section */}
+        {/* Final Summary Section 
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
           <div  className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap ">
             <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4 ">
@@ -553,11 +554,13 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               {formErrors.email && <div className="text-red-600">{formErrors.email}</div>}
             </div>
           </div>
-        )}
+        )}*/}
 
       {/* Кнопка оплаты появляется только после заполнения обязательных полей */}
       {activeSection === null && (totalAmount > 0 || orderSummary) && (
-        <PaymentForm amount={totalAmount} description={orderSummary}/>
+        <div className='h-10'>
+          <PaymentForm amount={totalAmount} description={orderSummary}/>
+        </div>
       )}
       </div>
     </section>

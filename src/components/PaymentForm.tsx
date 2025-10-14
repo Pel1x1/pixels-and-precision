@@ -121,10 +121,16 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
 
   return (
     <>
-      <div id="payment-container" style={{ minHeight: 600, marginTop: 20 }}></div>
-      <button disabled={loading} onClick={startPayment} style={{ marginTop: 20, padding: '10px 20px' }}>
+      <button disabled={loading} onClick={startPayment} 
+      className='flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold 
+      text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all 
+      duration-300 cursor-pointer transform hover:scale-[1.02] bg-[#eeb750]
+      
+      '>
         {loading ? 'Загрузка платежного модуля...' : 'Оплатить онлайн'}
       </button>
+      <div id="payment-container" style={{ minHeight: 600, marginTop: 20 }}></div>
+      
     </>
   );
 };
