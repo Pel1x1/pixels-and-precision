@@ -71,7 +71,7 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
       if (integration.helpers && integration.helpers.request) {
         res = await integration.helpers.request(`${BACKEND_URL}/api/initPayment`, 'POST', initParams);
       } else {
-        const response = await fetch(`${BACKEND_URL}/initPayment`, {
+        const response = await fetch(`${BACKEND_URL}/api/initPayment`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(initParams),
