@@ -8,7 +8,7 @@ declare global {
 
 const PAYMENT_SCRIPT_URL = 'https://integrationjs.tbank.ru/integration.js';
 const TERMINAL_KEY = '1759418551647DEMO';
-const BACKEND_URL = 'https://83-166-247-114.regru.cloud/';
+const BACKEND_URL = 'https://83-166-247-114.regru.cloud';
 
 export const PaymentForm: React.FC<{ amount: number; description: string }> = ({ amount, description }) => {
   const [integration, setIntegration] = useState<any>(null);
