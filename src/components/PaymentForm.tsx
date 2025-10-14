@@ -94,8 +94,6 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         Amount: amount * 100,
         Description: safeDescription,
       };
-      console.log(generateTokenFront(initParams, "k&516pqvRDeA3tuM"));
-      console.log(initParams);
 
       let res;
       if (integration.helpers && integration.helpers.request) {
