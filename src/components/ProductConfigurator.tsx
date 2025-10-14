@@ -196,6 +196,22 @@ export const ProductConfigurator: React.FC = () => {
     return summary.join('\n');
   };
 
+  const generateOrderSummaryCompact = () => {
+    const parts: string[] = [];
+
+    if (sheetConfig.size && sheetConfig.feature) {
+      parts.push(`Простыня (${mapFeatureToCode(sheetConfig.feature, 'sheet')}), размер: ${cleanSize(sheetConfig.size)}, цвет: ${mapColorToName(sheetConfig.color)}, кол-во: ${sheetConfig.quantity}`);
+    }
+    if (pillowcaseConfig.size && pillowcaseConfig.feature) {
+      parts.push(`Наволочка (${mapFeatureToCode(pillowcaseConfig.feature, 'pillowcase')}), размер: ${cleanSize(pillowcaseConfig.size)}, цвет: ${mapColorToName(pillowcaseConfig.color)}, кол-во: ${pillowcaseConfig.quantity}`);
+    }
+    if (duvetConfig.size && duvetConfig.feature) {
+      parts.push(`Пододеяльник (${mapFeatureToCode(duvetConfig.feature, 'duvet')}), размер: ${cleanSize(duvetConfig.size)}, цвет: ${mapColorToName(duvetConfig.color)}, кол-во: ${duvetConfig.quantity}`);
+    }
+
+    return parts.join('\n');
+  };
+
   const handleSectionToggle = (section: SectionType) => {
     if (activeSection === section) {
       setActiveSection(null);
@@ -242,7 +258,8 @@ export const ProductConfigurator: React.FC = () => {
 
     setValidationError('');
     const total = calculateTotal();
-    const summary = generateOrderSummary();
+    const summary = generateOrderSummaryCompact();
+
 
     setTotalAmount(total);
     setOrderSummary(summary);
@@ -315,6 +332,29 @@ const validateEmail = (email) => {
     setFormErrors(errors);
   };
 
+  const mapFeatureToCode = (feature: string | undefined, type: SectionType): string => {
+  if (type === 'pillowcase') {
+    return feature === 'на молнии' ? '1' : '0';
+  }
+  if (type === 'sheet') {
+    return feature === 'на резинке' ? '1' : '0';
+  }
+  if (type === 'duvet') {
+    return feature === 'на молнии' ? '1' : '0';
+  }
+  return '0';
+};
+
+const mapColorToName = (color: string): string => {
+  const fabric = fabrics.find(f => f.color === color);
+  if (!fabric) return 'unknown';
+  // Извлечь имя файла без расширения
+  const parts = fabric.img.split('/');
+  const filename = parts[parts.length - 1];
+  return filename.replace('.png', '');
+};
+
+const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/g, 'x');
 
   
   // Внутри ProductSection получаем набор размеров в зависимости от типа и выбранной опции
