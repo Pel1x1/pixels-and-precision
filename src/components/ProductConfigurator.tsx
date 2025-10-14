@@ -182,15 +182,15 @@ export const ProductConfigurator: React.FC = () => {
     const summary = [];
 
     if (sheetConfig.color || sheetConfig.size || sheetConfig.quantity > 1) {
-      summary.push(`Простыня, цвет: "${sheetConfig.color || 'не выбран'}", вид: "${sheetConfig.feature || 'не выбран'}", размер: "${sheetConfig.size || 'не выбран'}", количество: "${sheetConfig.quantity}"`);
+      summary.push(`Простыня, ц: "${sheetConfig.color || 'не выбран'}", вид: "${sheetConfig.feature || 'не выбран'}", р: "${sheetConfig.size || 'не выбран'}", колво: "${sheetConfig.quantity}"`);
     }
 
     if (pillowcaseConfig.color || pillowcaseConfig.size || pillowcaseConfig.quantity > 1) {
-      summary.push(`Наволочки, цвет: "${pillowcaseConfig.color || 'не выбран'}", вид: "${pillowcaseConfig.feature || 'не выбран'}", размер: "${pillowcaseConfig.size || 'не выбран'}", количество: "${pillowcaseConfig.quantity}"`);
+      summary.push(`Наволочки, ц: "${pillowcaseConfig.color || 'не выбран'}", вид: "${pillowcaseConfig.feature || 'не выбран'}", р: "${pillowcaseConfig.size || 'не выбран'}", колво: "${pillowcaseConfig.quantity}"`);
     }
 
     if (duvetConfig.color || duvetConfig.size || duvetConfig.quantity > 1) {
-      summary.push(`Пододеяльник, цвет: "${duvetConfig.color || 'не выбран'}", вид: "${duvetConfig.feature || 'не выбран'}", размер: "${duvetConfig.size || 'не выбран'}", количество: "${duvetConfig.quantity}"`);
+      summary.push(`Пододеяльник, ц: "${duvetConfig.color || 'не выбран'}", вид: "${duvetConfig.feature || 'не выбран'}", р: "${duvetConfig.size || 'не выбран'}", колво: "${duvetConfig.quantity}"`);
     }
 
     return summary.join('\n');
