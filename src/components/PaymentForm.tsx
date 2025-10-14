@@ -67,6 +67,8 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         Amount: amount * 100,
         Description: safeDescription,
       };
+      console.log(safeDescription);
+      console.log(initParams);
 
       let res;
       if (integration.helpers && integration.helpers.request) {
