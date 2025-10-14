@@ -79,7 +79,12 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         res = await response.json();
       }
 
-      await paymentIframe.mount(container, res.PaymentURL);
+      console.log('Payment init response:', res);
+        if (!res || !res.PaymentURL) {
+          alert('Ошибка: отсутствует PaymentURL в ответе сервера');
+          return;
+        }
+        await paymentIframe.mount(container, res.PaymentURL);
     } catch (e) {
       console.error('Ошибка при запуске платежной формы:', e);
       alert('Ошибка запуска платежной формы');
