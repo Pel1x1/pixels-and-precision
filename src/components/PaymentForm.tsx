@@ -60,11 +60,12 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         return;
       }
 
+      const safeDescription = (description || 'Оплата заказа').slice(0, 250);
       const initParams = {
         OrderId: `${Date.now()}${Math.floor(Math.random() * 100)}`,
         TerminalKey: TERMINAL_KEY,
         Amount: amount * 100,
-        Description: description || 'Оплата заказа',
+        Description: safeDescription,
       };
 
       let res;
