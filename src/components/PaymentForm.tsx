@@ -10,35 +10,10 @@ const PAYMENT_SCRIPT_URL = 'https://integrationjs.tbank.ru/integration.js';
 const TERMINAL_KEY = '1759418551647DEMO';
 const BACKEND_URL = 'https://83-166-247-114.regru.cloud';
 
-async function generateTokenFront(params, secret) {
-  // Исключаем вложенные объекты и поле Token
-  const keys = Object.keys(params).filter(k => k !== 'Token' && typeof params[k] !== 'object').sort();
-
-  let str = '';
-  for (const key of keys) {
-    const val = params[key];
-    if (val !== undefined && val !== null && val !== '') {
-      str += val.toString();
-    }
-  }
-  str += secret;
-
-  // Кодируем строку в Uint8Array
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-
-  // Вычисляем хеш
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  // Преобразуем ArrayBuffer в hex строку
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
-}
-
-
 export const PaymentForm: React.FC<{ amount: number; description: string }> = ({ amount, description }) => {
   const [integration, setIntegration] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+    const [showPaymentContainer, setShowPaymentContainer] = useState(false);
 
   useEffect(() => {
     if (integration) return;
@@ -86,7 +61,6 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         return;
       }
 
-      
       const safeDescription = description.replace(/\n/g, ' ').slice(0, 250) || "Оплата заказа";
       const initParams = {
         OrderId: `${Date.now()}${Math.floor(Math.random() * 100)}`,
@@ -108,11 +82,13 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
       }
 
       console.log('Payment init response:', res);
-        if (!res || !res.PaymentURL) {
-          alert('Ошибка: отсутствует PaymentURL в ответе сервера');
-          return;
-        }
-        await paymentIframe.mount(container, res.PaymentURL);
+      if (!res || !res.PaymentURL) {
+        alert('Ошибка: отсутствует PaymentURL в ответе сервера');
+        return;
+      }
+
+      await paymentIframe.mount(container, res.PaymentURL);
+      setShowPaymentContainer(true); // Показываем контейнер после успешного монтирования
     } catch (e) {
       console.error('Ошибка при запуске платежной формы:', e);
       alert('Ошибка запуска платежной формы');
@@ -121,16 +97,23 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
 
   return (
     <>
-      <button disabled={loading} onClick={startPayment} 
-      className='flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold 
-      text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all 
-      duration-300 cursor-pointer transform hover:scale-[1.02] bg-[#e0aa45]
-      
-      '>
+      <button
+        disabled={loading}
+        onClick={startPayment}
+        className='flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02] bg-[#e0aa45]'
+      >
         {loading ? 'Загрузка платежного модуля...' : 'Оплатить онлайн'}
       </button>
-      <div id="payment-container" style={{ minHeight: 600, marginTop: 20 }}></div>
-      
+
+      {/* Показываем контейнер только после монтирования iframe */}
+      <div
+        id="payment-container"
+        style={{
+          minHeight: 400,
+          marginTop: 20,
+          display: showPaymentContainer ? 'block' : 'none',
+        }}
+      ></div>
     </>
   );
 };
