@@ -20,7 +20,6 @@ const Index: React.FC = () => {
         <ProductConfigurator />
         <DeliveryPayment />
       </main>
-      
       <Contacts />
       </div>
     </div>

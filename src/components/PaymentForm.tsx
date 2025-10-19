@@ -8,12 +8,14 @@ declare global {
 
 const PAYMENT_SCRIPT_URL = 'https://integrationjs.tbank.ru/integration.js';
 const TERMINAL_KEY = '1759418551647DEMO';
-const BACKEND_URL = 'https://83-166-247-114.regru.cloud';
+const BACKEND_URL = 'https://pelixi.ru';
 
 export const PaymentForm: React.FC<{ amount: number; description: string }> = ({ amount, description }) => {
   const [integration, setIntegration] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-    const [showPaymentContainer, setShowPaymentContainer] = useState(false);
+  const [showPaymentContainer, setShowPaymentContainer] = useState(false);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
+  const [canceling, setCanceling] = useState(false);
 
   useEffect(() => {
     if (integration) return;
@@ -49,17 +51,14 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
 
   const startPayment = async () => {
     if (!integration) {
-      alert('Платежный модуль пока не загружен. Попробуйте позже.');
+      alert('Платёжный модуль не загружен.');
       return;
     }
 
     try {
       const paymentIframe = await integration.iframe.create('main-integration', {});
       const container = document.getElementById('payment-container');
-      if (!container) {
-        alert('Контейнер для встраивания платежной формы не найден.');
-        return;
-      }
+      if (!container) return alert('Контейнер не найден.');
 
       const safeDescription = description.replace(/\n/g, ' ').slice(0, 250) || "Оплата заказа";
       const initParams = {
@@ -69,29 +68,51 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
         Description: safeDescription,
       };
 
-      let res;
-      if (integration.helpers && integration.helpers.request) {
-        res = await integration.helpers.request(`${BACKEND_URL}/api/initPayment`, 'POST', initParams);
-      } else {
-        const response = await fetch(`${BACKEND_URL}/api/initPayment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(initParams),
-        });
-        res = await response.json();
-      }
-
+      const response = await fetch(`${BACKEND_URL}/api/initPayment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(initParams),
+      });
+      const res = await response.json();
       console.log('Payment init response:', res);
-      if (!res || !res.PaymentURL) {
-        alert('Ошибка: отсутствует PaymentURL в ответе сервера');
-        return;
-      }
 
+      if (!res || !res.PaymentURL) return alert('Ошибка: отсутствует PaymentURL в ответе.');
+
+      setPaymentId(res.PaymentId);
       await paymentIframe.mount(container, res.PaymentURL);
-      setShowPaymentContainer(true); // Показываем контейнер после успешного монтирования
+      setShowPaymentContainer(true);
     } catch (e) {
       console.error('Ошибка при запуске платежной формы:', e);
-      alert('Ошибка запуска платежной формы');
+      alert('Ошибка запуска платежной формы.');
+    }
+  };
+
+  const cancelPayment = async () => {
+    if (!paymentId) return alert('Сначала нужно инициировать платёж.');
+    setCanceling(true);
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/cancelPayment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          PaymentId: paymentId,
+          IP: '192.168.1.2', // заменить на реальный IP клиента, если нужно
+        }),
+      });
+      const data = await response.json();
+      console.log('Cancel response:', data);
+
+      if (data.Success) {
+        alert(`Платёж отменён успешно. Новый статус: ${data.Status}`);
+        setShowPaymentContainer(false);
+      } else {
+        alert(`Ошибка отмены: ${data.Message || 'Неизвестная ошибка'}`);
+      }
+    } catch (err) {
+      console.error('Ошибка при отмене платежа:', err);
+      alert('Ошибка отмены платежа.');
+    } finally {
+      setCanceling(false);
     }
   };
 
@@ -114,6 +135,14 @@ export const PaymentForm: React.FC<{ amount: number; description: string }> = ({
           display: showPaymentContainer ? 'block' : 'none',
         }}
       ></div>
+      {/*<button
+        disabled={canceling}
+        onClick={cancelPayment}
+        style={{display: showPaymentContainer ? 'block' : 'none'}}
+        className="mt-6 bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg text-lg transition-all"
+      >
+        {canceling ? 'Отменяем...' : 'Отменить платёж'}
+      </button>*/}
     </>
   );
 };

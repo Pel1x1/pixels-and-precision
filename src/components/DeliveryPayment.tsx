@@ -41,24 +41,7 @@ export const DeliveryPayment: React.FC = () => {
           </div>
         </div>
 
-        {/* Payment Information */}
-        <article className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal leading-relaxed mt-4 lg:mt-10">
-                      
-            <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal lg:mb-10">
-              ОПЛАТА
-            </h2>
-          <p className="space-y-4 mt-4">
-            <span className="block">
-              Оплата на сайте не производится. После оформления заказа, пожалуйста,
-              свяжитесь с нами любым удобным способом через раздел «Контакты» для
-              уточнения деталей и оплаты.
-            </span>
-            <span className="block">
-              Мы принимаем 100% предоплату после согласования заказа. Также возможна
-              оплата в рассрочку на 4 части для вашего удобства.
-            </span>
-          </p>
-        </article>
+        
       </div>
     </section>
   );

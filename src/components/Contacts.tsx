@@ -32,7 +32,7 @@ export const Contacts: React.FC = () => {
           <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
           КОНТАКТЫ
         </h2>
-        <div className="max-w-7xl ">
+        <div className="max-w-7xl">
           <div className=" gap-8 lg:gap-12">
             <article className="lg:col-span-3 text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
               <div className="space-y-4 lg:space-y-6">
@@ -75,12 +75,6 @@ export const Contacts: React.FC = () => {
                     <img src={wht} alt="WhatsApp" className="w-12 h-12" />
                   </a>
                 </div>
-
-                
-                <p>
-                  Мы работаем без онлайн-оплаты на сайте — для оформления и оплаты
-                  заказа, пожалуйста, свяжитесь с нами через указанные контакты.
-                </p>
                 
                 <div className="space-y-2">
                   <p>Часы работы: (МСК +5)</p>
@@ -95,14 +89,14 @@ export const Contacts: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2">
-      <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
-            Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
-          </p>
-        </div>
-      </footer>
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-y-hidden">
+        <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1 overflow-y-hidden">
+          <div className="max-w-7xl mx-auto text-center">
+            <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
+              Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
+            </p>
+          </div>
+        </footer>
       </div>
     </section>
   );

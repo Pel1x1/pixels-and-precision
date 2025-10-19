@@ -9,8 +9,6 @@ import NotFound from "./pages/NotFound";
 import React, { useEffect, useState } from "react";
 const queryClient = new QueryClient();
 
-
-
 const App = () => {
 
   return (
