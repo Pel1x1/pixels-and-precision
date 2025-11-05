@@ -7,7 +7,7 @@ declare global {
 }
 
 const PAYMENT_SCRIPT_URL = 'https://integrationjs.tbank.ru/integration.js';
-const TERMINAL_KEY = '1759418551647DEMO';
+const TERMINAL_KEY = '1759418551689';
 const BACKEND_URL = 'https://pelixi.ru';
 
 export const PaymentForm: React.FC<{ amount: number; description: string }> = ({ amount, description }) => {

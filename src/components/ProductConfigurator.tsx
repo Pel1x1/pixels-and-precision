@@ -7,6 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { FabricSliderGallery } from "./FabricSlider";
 import { FeatureSelector } from './FeatureSelector';
 import { Button } from 'react-day-picker';
+import { AddressInput } from './AddressInput';
 
 import { PaymentForm } from './PaymentForm';
 
@@ -100,29 +101,29 @@ export const ProductConfigurator: React.FC = () => {
   ];
 
   const fabrics = [
-    { color: 'rgba(61,141,129,1)',  img: '/img/fabrics/emerald.png' },
-    { color: 'rgba(203,188,185,1)', img: '/img/fabrics/lavanda.png' },
-    { color: 'rgba(207,212,200,1)', img:'/img/fabrics/mint.png'},
-    { color: 'rgba(255,251,234,1)', img:'/img/fabrics/cream.png'},
-    { color: 'rgba(188,200,208,1)', img:'/img/fabrics/water.png'},
-    { color: 'rgba(244,232,215,1)', img:'/img/fabrics/sand.png'},
-    { color: 'rgba(143,153,168,1)', img:'/img/fabrics/indigo.png'},
-    { color: 'rgba(224,202,202,1)', img:'/img/fabrics/pouder.png'},
-    { color: 'rgba(206,206,206,1)', img:'/img/fabrics/plaplina.png'},
-    { color: 'rgba(214,205,188,1)', img:'/img/fabrics/milk_chocolate.png'},
-    { color: 'rgba(227,157,140,1)', img:'/img/fabrics/terracota.png'},
-    { color: 'rgba(186,188,189,1)', img:'/img/fabrics/dark-grey.png'},
-    { color: 'rgba(219,204,204,1)', img:'/img/fabrics/dust-sliva.png'},
-    { color: 'rgba(255,227,239,1)', img:'/img/fabrics/pink.png'},
-    { color: 'rgba(223,248,244,1)', img:'/img/fabrics/mentol.png'},
-    { color: 'rgba(219,228,236,1)', img:'/img/fabrics/white-blue.png'},
-    { color: 'rgba(158,175,203,1)', img:'/img/fabrics/blue.png'},
-    { color: 'rgba(121,96,86,1)',  img:'/img/fabrics/chocolate.png'},
-    { color: 'rgba(241,241,241,1)', img:'/img/fabrics/white.png'},
-    { color: 'rgba(200,186,167,1)', img:'/img/fabrics/mokko.png'},
-    { color: 'rgba(145,137,129,1)', img:'/img/fabrics/black_diamond.png'},
-    { color: 'rgba(206,212,178,1)', img:'/img/fabrics/lime.png'},
-    { color: 'rgba(190,222,209,1)', img:'/img/fabrics/evkalipt.png'},
+    { color: 'rgba(61,141,129,1)',  img: '/img/fabrics/emerald.webp' },
+    { color: 'rgba(203,188,185,1)', img: '/img/fabrics/lavanda.webp' },
+    { color: 'rgba(207,212,200,1)', img:'/img/fabrics/mint.webp'},
+    { color: 'rgba(255,251,234,1)', img:'/img/fabrics/cream.webp'},
+    { color: 'rgba(188,200,208,1)', img:'/img/fabrics/water.webp'},
+    { color: 'rgba(244,232,215,1)', img:'/img/fabrics/sand.webp'},
+    { color: 'rgba(143,153,168,1)', img:'/img/fabrics/indigo.webp'},
+    { color: 'rgba(224,202,202,1)', img:'/img/fabrics/pouder.webp'},
+    { color: 'rgba(206,206,206,1)', img:'/img/fabrics/plaplina.webp'},
+    { color: 'rgba(214,205,188,1)', img:'/img/fabrics/milk_chocolate.webp'},
+    { color: 'rgba(227,157,140,1)', img:'/img/fabrics/terracota.webp'},
+    { color: 'rgba(186,188,189,1)', img:'/img/fabrics/dark-grey.webp'},
+    { color: 'rgba(219,204,204,1)', img:'/img/fabrics/dust-sliva.webp'},
+    { color: 'rgba(255,227,239,1)', img:'/img/fabrics/pink.webp'},
+    { color: 'rgba(223,248,244,1)', img:'/img/fabrics/mentol.webp'},
+    { color: 'rgba(219,228,236,1)', img:'/img/fabrics/white-blue.webp'},
+    { color: 'rgba(158,175,203,1)', img:'/img/fabrics/blue.webp'},
+    { color: 'rgba(121,96,86,1)',  img:'/img/fabrics/chocolate.webp'},
+    { color: 'rgba(241,241,241,1)', img:'/img/fabrics/white.webp'},
+    { color: 'rgba(200,186,167,1)', img:'/img/fabrics/mokko.webp'},
+    { color: 'rgba(145,137,129,1)', img:'/img/fabrics/black_diamond.webp'},
+    { color: 'rgba(206,212,178,1)', img:'/img/fabrics/lime.webp'},
+    { color: 'rgba(190,222,209,1)', img:'/img/fabrics/evkalipt.webp'},
   ];
   const defaultColor = fabrics[0]?.color || colors[0] || ''; // если вдруг fabrics нет
 
@@ -156,6 +157,10 @@ export const ProductConfigurator: React.FC = () => {
   const [email, setEmail] = useState('');
   const [formErrors, setFormErrors] = useState({ phone: '', email: '' });
   const [showPaymentFields, setShowPaymentFields] = useState(false);
+
+  const [address, setAddress] = useState('');
+  const [addressValid, setAddressValid] = useState(false);
+
 
   const calculateTotal = () => {
     let total = 0;
@@ -329,6 +334,14 @@ const validateEmail = (email) => {
       valid = false;
     }
 
+    if (!address) {
+      valid = false;
+      alert("Введите адрес доставки");
+    } else if (!addressValid) {
+      valid = false;
+      alert("Проверьте корректность адреса");
+    }
+
     setFormErrors(errors);
   };
 
@@ -351,7 +364,7 @@ const mapColorToName = (color: string): string => {
   // Извлечь имя файла без расширения
   const parts = fabric.img.split('/');
   const filename = parts[parts.length - 1];
-  return filename.replace('.png', '');
+  return filename.replace('.webp', '');
 };
 
 const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/g, 'x');
@@ -521,20 +534,21 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           
         />
 
-        {/* Final Summary Section 
         {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <div  className="border-b-4 border-[rgba(219,170,80,1)] whitespace-nowrap ">
-            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4 ">
-              <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit ">
+          <>
+          <div className=" whitespace-nowrap">
+            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4">
+              <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
                 Итого:
               </div>
               <div className="flex-1 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)]">
                 {totalAmount.toLocaleString('ru-RU')} ₽
               </div>
             </div>
+
             <div className="mb-4 text-xl sm:text-2xl ">
               <input
-                type="telephone"
+                type="tel"
                 placeholder="+71234567890"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -542,7 +556,9 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
                 required
               />
               {formErrors.phone && <div className="text-red-600">{formErrors.phone}</div>}
-              <br/>
+
+              <br />
+
               <input
                 type="email"
                 placeholder="mail@mail.ru"
@@ -552,17 +568,52 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
                 required
               />
               {formErrors.email && <div className="text-red-600">{formErrors.email}</div>}
-            </div>
-          </div>
-        )}*/}
 
-      {/* Кнопка оплаты появляется только после заполнения обязательных полей */}
-      {activeSection === null && (totalAmount > 0 || orderSummary) && (
-        <div className='mt-10'>
-          <PaymentForm amount={totalAmount} description={orderSummary}/>
+              <br />
+
+              <input
+                type="text"
+                placeholder="город Ангарск, переулок Грибной, дом 10"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
+                required
+              />
+              {!address && (
+                <div className="text-red-600">Пожалуйста, введите адрес</div>
+              )}
+
+            </div>
+              {/* Кнопка показать оплату */}
+              <button
+                onClick={() => {
+                  handleShowPaymentFields();
+                  if (validatePhone(phone) && validateEmail(email)) {
+                    setShowPaymentFields(true);
+                  } else {
+                    setShowPaymentFields(false);
+                  }
+                }}
+                className="mt-4 w-full bg-[rgba(219,170,80,1)] text-white text-2xl py-3 rounded hover:bg-[rgba(199,150,60,1)] transition-all"
+              >
+                Перейти к оплате
+              </button>
+            </div>
+
+
+            {/* Оплата отображается только при валидных полях */}
+            {showPaymentFields && (
+              <div className="mt-10">
+                <PaymentForm 
+                amount={totalAmount} 
+                description={`${orderSummary}\nТелефон: ${phone}\nEmail: ${email}\nАдрес: ${address}`}
+                />
+              </div>
+            )}
+          
+          </>
+        )}
         </div>
-      )}
-      </div>
     </section>
   );
 };
