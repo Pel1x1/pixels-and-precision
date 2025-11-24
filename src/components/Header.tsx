@@ -8,7 +8,7 @@ export const Header: React.FC = () => {
       <div className="max-w-full ">
         <nav className="flex items-center justify-between w-full lg:justify-between lg:gap-8 xl:gap-12">
           <img
-            src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/01f09ace6fc8f11e5aa08fab7050afd2a3af2a58?placeholderIfAbsent=true"
+            src="/img/logo.png"
             className="aspect-[0.97] object-contain w-14 sm:w-24 lg:w-[90px] shrink-0 lg:ml-[10rem] ml-10"
             alt="НЮКТА логотип"
           />

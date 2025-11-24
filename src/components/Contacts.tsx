@@ -10,7 +10,7 @@ export const Contacts: React.FC = () => {
   return (
     <section id="contacts" className="w-full">
       {/* Hero Section with Background */}
-      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block hidden">
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block ">
         <div className="relative min-h-[250px] h-full w-full ">
           <img
             src={vector1}

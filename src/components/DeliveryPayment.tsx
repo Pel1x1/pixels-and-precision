@@ -34,7 +34,7 @@ export const DeliveryPayment: React.FC = () => {
           {/* Right Column - Image */}
           <div className="flex justify-center lg:justify-end items-start">
             <img
-              src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/86431bb74ad451df0cf60861b9a8ef9393bcaafc?placeholderIfAbsent=true"
+              src="/img/delivery.png"
               className="aspect-[0.99] object-contain w-full max-w-md lg:max-w-lg xl:max-w-xl "
               alt="Изображение доставки"
             />

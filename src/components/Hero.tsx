@@ -11,7 +11,7 @@ export const Hero: React.FC = () => {
           <div className={`lg:order-1 order-2 flex flex-col justify-center lg:justify-end 
           ${ isMobile ? 'h-[75%] w-[80%] ml-[10%] mr-[10%] mt-2' : 'w-full h-full ml-[4.2rem]'}`} >
             <img
-              src="https://api.builder.io/api/v1/image/assets/e80f950f6d514655b299aa20146ab877/7917790ff807599acdf16a2c8aee6a70b08d6f56?placeholderIfAbsent=true"
+              src="/img/hero.png"
               className="w-full rounded-[40px]"
               alt="Постельное белье НЮКТА"
             />
