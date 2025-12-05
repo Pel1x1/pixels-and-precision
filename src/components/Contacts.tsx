@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from "@/hooks/use-mobile";
+import vector1 from '@/lib/img/Vector 1.png';
+import vector2 from '@/lib/img/Vector 2.png';
+import tg from '@/lib/img/tg.png';
+import vk from '@/lib/img/vk.png';
+import wht from '@/lib/img/wht.png';
 
 interface ContactDetails {
   phone: { label: string; value: string; href: string };
@@ -34,137 +39,130 @@ interface ContactsData {
 }
 
 const iconMap: Record<string, string> = {
-  Telegram: '/img/contacts/tg.png',
-  VK: '/img/contacts/vk.png',
-  WhatsApp: '/img/contacts/wht.png'
+  Telegram: tg,
+  VK: vk,
+  WhatsApp: wht
 };
 
-export function Contacts() {
+export const Contacts: React.FC = () => {
+  const isMobile = useIsMobile();
   const [data, setData] = useState<ContactsData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     fetch('/modx/index.php?id=9')
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
         setData(data);
         setLoading(false);
       })
       .catch(err => {
-        setError(err.message);
+        console.error('Error loading contacts:', err);
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center py-20">Загрузка...</div>;
-  if (error) return <div className="text-red-500 py-20">Ошибка загрузки: {error}</div>;
+  if (loading) return null;
   if (!data) return null;
 
   return (
-    <section className="py-20 px-4 sm:px-8 lg:px-16">
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
-        <h1 className="text-4xl sm:text-5xl font-bold text-center mb-8 text-gray-900">
+    <section id="contacts" className="w-full">
+      {/* Hero Section with Background */}
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block ">
+        <div className="relative min-h-[250px] h-full w-full ">
+          <img
+            src={vector1}
+            className="absolute inset-0 w-full h-auto object-contain"
+            style={{visibility:isMobile?"hidden":"visible"}}
+            alt="Красивая линия"
+          />
+          <img
+            src={vector2}
+            className="absolute inset-0 w-full h-auto object-contain"
+            style={{visibility:isMobile?"visible":"hidden"}}
+            alt="Красивая линия"
+          />
+        </div>
+      </div>
+      {/* Contact Information */}
+        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem] mb-8 lg:mb-20">
+
+
+          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
           {data.title}
-        </h1>
+        </h2>
+        <div className="max-w-7xl">
+          <div className=" gap-8 lg:gap-12">
+            <article className="lg:col-span-3 text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
+              <div className="space-y-4 lg:space-y-6">
+                
+                <p>{data.introduction}</p>
+                
+                <div className="space-y-[-2px]">
+                  <p>{data.contactDetails.phone.label}
+                    <a 
+                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
+                      href={data.contactDetails.phone.href}
+                      >
+                      {data.contactDetails.phone.value}</a></p>
+                  <p>
+                    {data.contactDetails.email.label}{' '}
+                    <a
+                      href={data.contactDetails.email.href}
+                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
+                    >
+                      {data.contactDetails.email.value}
+                    </a>
+                  </p>
+                  <p>Адрес: {data.contactDetails.address}</p>
+                </div>
+                
+                <p>
+                  {data.feedbackText}
+                </p>
+                <div className="flex space-x-6 mt-2">
+                  {data.socialLinks.map((link) => (
+                    <a 
+                      key={link.name}
+                      href={link.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      aria-label={link.name}
+                    >
+                      <img 
+                        src={iconMap[link.name] || ''} 
+                        alt={link.name} 
+                        className="w-12 h-12" 
+                      />
+                    </a>
+                  ))}
+                </div>
+                
+                <div className="space-y-2">
+                  <p>{data.workingHours.label}</p>
+                  {data.workingHours.schedule.map((hours, idx) => (
+                    <p key={idx}>{hours}</p>
+                  ))}
+                </div>
+              </div>
+            </article>
 
-        {/* Introduction */}
-        <p className="text-center text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-          {data.introduction}
-        </p>
 
-        {/* Contact Details Grid */}
-        <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-8 mb-16`}>
-          {/* Phone */}
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-2">{data.contactDetails.phone.label}</h3>
-            <a
-              href={data.contactDetails.phone.href}
-              className="text-lg font-medium text-blue-600 hover:text-blue-700 transition"
-            >
-              {data.contactDetails.phone.value}
-            </a>
           </div>
+        </div>
+      </div>
 
-          {/* Email */}
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-2">{data.contactDetails.email.label}</h3>
-            <a
-              href={data.contactDetails.email.href}
-              className="text-lg font-medium text-blue-600 hover:text-blue-700 transition break-all"
-            >
-              {data.contactDetails.email.value}
-            </a>
-          </div>
 
-          {/* Address */}
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-2">Адрес:</h3>
-            <p className="text-gray-700 leading-relaxed">
-              {data.contactDetails.address}
+      {/* Footer */}
+      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-y-hidden">
+        <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1 overflow-y-hidden">
+          <div className="max-w-7xl mx-auto text-center">
+            <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
+              {data.footerText} <a href={data.footerLink.url}>{data.footerLink.text}</a>
             </p>
           </div>
-        </div>
-
-        {/* Feedback Text */}
-        <p className="text-center text-gray-600 mb-12 text-lg">
-          {data.feedbackText}
-        </p>
-
-        {/* Social Links */}
-        <div className="flex justify-center gap-8 mb-16 flex-wrap">
-          {data.socialLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
-            >
-              <img
-                src={iconMap[link.name] || '/img/contacts/default.png'}
-                alt={link.name}
-                className="w-5 h-5"
-              />
-              <span>{link.name}</span>
-            </a>
-          ))}
-        </div>
-
-        {/* Working Hours */}
-        <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 mb-12">
-          <h3 className="font-semibold text-lg text-gray-900 mb-4">
-            {data.workingHours.label}
-          </h3>
-          <div className="space-y-2">
-            {data.workingHours.schedule.map((hours, idx) => (
-              <p key={idx} className="text-gray-700">
-                {hours}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center pt-8 border-t border-gray-200">
-          <p className="text-gray-600 mb-2">
-            {data.footerText}{' '}
-            <a
-              href={data.footerLink.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-700 font-medium transition"
-            >
-              {data.footerLink.text}
-            </a>
-          </p>
-        </div>
+        </footer>
       </div>
     </section>
   );
-}
+};
