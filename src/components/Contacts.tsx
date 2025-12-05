@@ -1,103 +1,170 @@
-import React from 'react';
-import { useIsMobile } from "@/hooks/use-mobile";
-import vector1 from '@/lib/img/Vector 1.png';
-import vector2 from '@/lib/img/Vector 2.png';
-import tg from '@/lib/img/tg.png';
-import vk from '@/lib/img/vk.png';
-import wht from '@/lib/img/wht.png';
-export const Contacts: React.FC = () => {
+import React, { useEffect, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+interface ContactDetails {
+  phone: { label: string; value: string; href: string };
+  email: { label: string; value: string; href: string };
+  address: string;
+}
+
+interface WorkingHours {
+  label: string;
+  schedule: string[];
+}
+
+interface SocialLink {
+  name: string;
+  url: string;
+}
+
+interface FooterLink {
+  text: string;
+  url: string;
+}
+
+interface ContactsData {
+  title: string;
+  introduction: string;
+  contactDetails: ContactDetails;
+  feedbackText: string;
+  socialLinks: SocialLink[];
+  workingHours: WorkingHours;
+  footerText: string;
+  footerLink: FooterLink;
+}
+
+const iconMap: Record<string, string> = {
+  Telegram: '/img/contacts/tg.png',
+  VK: '/img/contacts/vk.png',
+  WhatsApp: '/img/contacts/wht.png'
+};
+
+export function Contacts() {
+  const [data, setData] = useState<ContactsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    fetch('/modx/index.php?id=9')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div className="flex items-center justify-center py-20">Загрузка...</div>;
+  if (error) return <div className="text-red-500 py-20">Ошибка загрузки: {error}</div>;
+  if (!data) return null;
+
   return (
-    <section id="contacts" className="w-full">
-      {/* Hero Section with Background */}
-      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block ">
-        <div className="relative min-h-[250px] h-full w-full ">
-          <img
-            src={vector1}
-            className="absolute inset-0 w-full h-auto object-contain"
-            style={{visibility:isMobile?"hidden":"visible"}}
-            alt="Красивая линия"
-          />
-          <img
-            src={vector2}
-            className="absolute inset-0 w-full h-auto object-contain"
-            style={{visibility:isMobile?"visible":"hidden"}}
-            alt="Красивая линия"
-          />
-        </div>
-      </div>
-      {/* Contact Information */}
-        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem] mb-8 lg:mb-20">
+    <section className="py-20 px-4 sm:px-8 lg:px-16">
+      <div className="max-w-6xl mx-auto">
+        {/* Title */}
+        <h1 className="text-4xl sm:text-5xl font-bold text-center mb-8 text-gray-900">
+          {data.title}
+        </h1>
 
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
-          КОНТАКТЫ
-        </h2>
-        <div className="max-w-7xl">
-          <div className=" gap-8 lg:gap-12">
-            <article className="lg:col-span-3 text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed">
-              <div className="space-y-4 lg:space-y-6">
-                
-                <p>Свяжитесь с нами любым удобным способом — мы всегда рады помочь!</p>
-                
-                <div className="space-y-[-2px]">
-                  <p>Телефон: 
-                    <a 
-                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
-                      href="tel:+79501237503"
-                      >
-                      +7 (950) 123-75-03</a></p>
-                  <p>
-                    Электронная почта: {' '}
-                    <a
-                      href="mailto:nuktavibes@mail.ru"
-                      className="text-[rgba(219,170,80,1)] xl:text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors"
-                    >
-                      nuktavibes@mail.ru
-                    </a>
-                  </p>
-                  <p>Адрес: Россия, Иркутская область, город Ангарск, переулок Грибной, дом 10</p>
-                </div>
-                
-                <p>
-                  Для быстрого общения используйте форму обратной связи ниже или
-                  напишите нам в социальных сетях.
-                </p>
-                <div className="flex space-x-6 mt-2">
-                  <a href="https://t.me/NuktaVibe" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-                    <img src={tg} alt="Telegram" className="w-12 h-12" />
-                  </a>
+        {/* Introduction */}
+        <p className="text-center text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+          {data.introduction}
+        </p>
 
-                  <a href="https://vk.com/club227935210" target="_blank" rel="noopener noreferrer" aria-label="VK">
-                    <img src={vk} alt="VK" className="w-12 h-12" />
-                  </a>
-
-                  <a href="https://wa.me/+79501237503" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                    <img src={wht} alt="WhatsApp" className="w-12 h-12" />
-                  </a>
-                </div>
-                
-                <div className="space-y-2">
-                  <p>Часы работы: (МСК +5)</p>
-                  <p>Пн-Пт: 9:00 – 18:00</p>
-                  <p>Сб-Вс: выходной</p>
-                </div>
-              </div>
-            </article>
-
+        {/* Contact Details Grid */}
+        <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-8 mb-16`}>
+          {/* Phone */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="font-semibold text-gray-900 mb-2">{data.contactDetails.phone.label}</h3>
+            <a
+              href={data.contactDetails.phone.href}
+              className="text-lg font-medium text-blue-600 hover:text-blue-700 transition"
+            >
+              {data.contactDetails.phone.value}
+            </a>
           </div>
-        </div>
-      </div>
 
-      {/* Footer */}
-      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-y-hidden">
-        <footer className="bg-[rgba(219,170,80,1)] w-full px-4 sm:px-6 lg:px-8 py-0 lg:py-1 overflow-y-hidden">
-          <div className="max-w-7xl mx-auto text-center">
-            <p className="text-sm sm:text-sm lg:text-xl xl:text-xl text-[rgba(19,54,92,1)] font-normal hover:text-[#2b7bd1] transition-colors">
-              Разработка сайтов: <a href='https://t.me/weksirtu'>t.me/weksirtu</a>
+          {/* Email */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="font-semibold text-gray-900 mb-2">{data.contactDetails.email.label}</h3>
+            <a
+              href={data.contactDetails.email.href}
+              className="text-lg font-medium text-blue-600 hover:text-blue-700 transition break-all"
+            >
+              {data.contactDetails.email.value}
+            </a>
+          </div>
+
+          {/* Address */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="font-semibold text-gray-900 mb-2">Адрес:</h3>
+            <p className="text-gray-700 leading-relaxed">
+              {data.contactDetails.address}
             </p>
           </div>
-        </footer>
+        </div>
+
+        {/* Feedback Text */}
+        <p className="text-center text-gray-600 mb-12 text-lg">
+          {data.feedbackText}
+        </p>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-8 mb-16 flex-wrap">
+          {data.socialLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
+            >
+              <img
+                src={iconMap[link.name] || '/img/contacts/default.png'}
+                alt={link.name}
+                className="w-5 h-5"
+              />
+              <span>{link.name}</span>
+            </a>
+          ))}
+        </div>
+
+        {/* Working Hours */}
+        <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 mb-12">
+          <h3 className="font-semibold text-lg text-gray-900 mb-4">
+            {data.workingHours.label}
+          </h3>
+          <div className="space-y-2">
+            {data.workingHours.schedule.map((hours, idx) => (
+              <p key={idx} className="text-gray-700">
+                {hours}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center pt-8 border-t border-gray-200">
+          <p className="text-gray-600 mb-2">
+            {data.footerText}{' '}
+            <a
+              href={data.footerLink.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 font-medium transition"
+            >
+              {data.footerLink.text}
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );
-};
+}

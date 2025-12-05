@@ -8,8 +8,8 @@ import { FabricSliderGallery } from "./FabricSlider";
 import { FeatureSelector } from './FeatureSelector';
 import { Button } from 'react-day-picker';
 import { AddressInput } from './AddressInput';
-
 import { PaymentForm } from './PaymentForm';
+
 
 interface ProductState {
   color: string;
@@ -18,135 +18,110 @@ interface ProductState {
   feature?: string; 
 }
 
+
 type SectionType = 'sheet' | 'pillowcase' | 'duvet';
 
-interface ProductPrices {
-  sheet: { [key: string]: number };
-  pillowcase: { [key: string]: number };
-  duvet: { [key: string]: number };
+
+interface ConfigData {
+  fabrics: Array<{ color: string; img: string }>;
+  sheetSizesWithFeature: { [key: string]: string[] };
+  sheetPricesWithFeature: { [key: string]: { [key: string]: number } };
+  pillowcaseSizesWithFeature: { [key: string]: string[] };
+  pillowcasePricesWithFeature: { [key: string]: { [key: string]: number } };
+  duvetSizesWithFeature: { [key: string]: string[] };
+  duvetPricesWithFeature: { [key: string]: { [key: string]: number } };
 }
 
+
 export const ProductConfigurator: React.FC = () => {
-  // Размеры и цены с учётом feature (варианта исполнения)
+  // Состояние для данных с API
+  const [configData, setConfigData] = useState<ConfigData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const sheetSizesWithFeature: { [key: string]: string[] } = {
-    'без резинки': ['180 * 230', '230 * 260', '230 * 280', 'другое'],
-    'на резинке': ['140 * 200 * 30', '160 * 200 * 30', '180 * 200 * 30', 'другое'],
-  };
+  // Загружаем данные с MODX API при монтировании компонента
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://xn--80ativ2d.xn--p1ai/modx/index.php?id=6');
+        
+        if (!response.ok) {
+          throw new Error(`Ошибка загрузки конфига: ${response.status}`);
+        }
+        
+        const data: ConfigData = await response.json();
+        setConfigData(data);
+        setError(null);
+      } catch (err) {
+        console.error('Ошибка загрузки конфигурации:', err);
+        setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const sheetPricesWithFeature: { [key: string]: { [key: string]: number } } = {
-    'без резинки': {
-      '180 * 230': 3800,
-      '230 * 260': 4000,
-      '230 * 280': 4200,
-      'другое': 4200,
-    },
-    'на резинке': {
-      '140 * 200 * 30': 4800,
-      '160 * 200 * 30': 4000,
-      '180 * 200 * 30': 4200,
-      'другое': 5200,
-    }
-  };
+    fetchConfig();
+  }, []);
 
-  const pillowcaseSizesWithFeature: { [key: string]: string[] } = {
-    'без молнии': ['50 * 70', '70 * 70', 'другое'],
-    'на молнии': ['50 * 70', '70 * 70', 'другое'],
-  };
+  // Получаем данные из состояния или используем пустые значения при загрузке
+  const fabrics = configData?.fabrics || [];
+  const sheetSizesWithFeature = configData?.sheetSizesWithFeature || {};
+  const sheetPricesWithFeature = configData?.sheetPricesWithFeature || {};
+  const pillowcaseSizesWithFeature = configData?.pillowcaseSizesWithFeature || {};
+  const pillowcasePricesWithFeature = configData?.pillowcasePricesWithFeature || {};
+  const duvetSizesWithFeature = configData?.duvetSizesWithFeature || {};
+  const duvetPricesWithFeature = configData?.duvetPricesWithFeature || {};
 
-  const pillowcasePricesWithFeature: { [key: string]: { [key: string]: number } } = {
-    'без молнии': {
-      '50 * 70': 1150,
-      '70 * 70': 1250,
-      'другое': 1250,
-    },
-    'на молнии': {
-      '50 * 70': 1450,
-      '70 * 70': 1550,
-      'другое': 1550,
-    }
-  };
-
-  const duvetSizesWithFeature: { [key: string]: string[] } = {
-    'без молнии': ['150 * 200', '160 * 210', '175 * 205', '180 * 210', '200 * 200', 'другое'],
-    'на молнии': ['150 * 200', '160 * 210', '175 * 205', '180 * 210', '200 * 200', 'другое'],
-  };
-
-  const duvetPricesWithFeature: { [key: string]: { [key: string]: number } } = {
-    'без молнии': {
-      '150 * 200': 5300,
-      '160 * 210': 5500,
-      '175 * 205': 5500,
-      '180 * 210': 5700,
-      '200 * 200': 6000,
-      'другое' : 6000
-    },
-    'на молнии': {
-      '150 * 200': 6300,
-      '160 * 210': 6500,
-      '175 * 205': 6500,
-      '180 * 210': 6700,
-      '200 * 200': 7000,
-      'другое' : 7000
-    }
-  };
-
-  const colors = [
-    'rgba(61,141,129,1)', 'rgba(203,188,185,1)', 'rgba(207,212,200,1)', 'rgba(255,251,234,1)',
-    'rgba(188,200,208,1)', 'rgba(244,232,215,1)', 'rgba(143,153,168,1)', 'rgba(224,202,202,1)',
-    'rgba(206,206,206,1)', 'rgba(214,205,188,1)', 'rgba(227,157,140,1)', 'rgba(186,188,189,1)',
-    'rgba(219,204,204,1)', 'rgba(255,227,239,1)', 'rgba(223,248,244,1)', 'rgba(219,228,236,1)',
-    'rgba(158,175,203,1)', 'rgba(121,96,86,1)', 'rgba(200,186,167,1)', 'rgba(206,212,178,1)',
-    '', '', ''
-  ];
-
-  const fabrics = [
-    { color: 'rgba(61,141,129,1)',  img: '/img/fabrics/emerald.webp' },
-    { color: 'rgba(203,188,185,1)', img: '/img/fabrics/lavanda.webp' },
-    { color: 'rgba(207,212,200,1)', img:'/img/fabrics/mint.webp'},
-    { color: 'rgba(255,251,234,1)', img:'/img/fabrics/cream.webp'},
-    { color: 'rgba(188,200,208,1)', img:'/img/fabrics/water.webp'},
-    { color: 'rgba(244,232,215,1)', img:'/img/fabrics/sand.webp'},
-    { color: 'rgba(143,153,168,1)', img:'/img/fabrics/indigo.webp'},
-    { color: 'rgba(224,202,202,1)', img:'/img/fabrics/pouder.webp'},
-    { color: 'rgba(206,206,206,1)', img:'/img/fabrics/plaplina.webp'},
-    { color: 'rgba(214,205,188,1)', img:'/img/fabrics/milk_chocolate.webp'},
-    { color: 'rgba(227,157,140,1)', img:'/img/fabrics/terracota.webp'},
-    { color: 'rgba(186,188,189,1)', img:'/img/fabrics/dark-grey.webp'},
-    { color: 'rgba(219,204,204,1)', img:'/img/fabrics/dust-sliva.webp'},
-    { color: 'rgba(255,227,239,1)', img:'/img/fabrics/pink.webp'},
-    { color: 'rgba(223,248,244,1)', img:'/img/fabrics/mentol.webp'},
-    { color: 'rgba(219,228,236,1)', img:'/img/fabrics/white-blue.webp'},
-    { color: 'rgba(158,175,203,1)', img:'/img/fabrics/blue.webp'},
-    { color: 'rgba(121,96,86,1)',  img:'/img/fabrics/chocolate.webp'},
-    { color: 'rgba(241,241,241,1)', img:'/img/fabrics/white.webp'},
-    { color: 'rgba(200,186,167,1)', img:'/img/fabrics/mokko.webp'},
-    { color: 'rgba(145,137,129,1)', img:'/img/fabrics/black_diamond.webp'},
-    { color: 'rgba(206,212,178,1)', img:'/img/fabrics/lime.webp'},
-    { color: 'rgba(190,222,209,1)', img:'/img/fabrics/evkalipt.webp'},
-  ];
-  const defaultColor = fabrics[0]?.color || colors[0] || ''; // если вдруг fabrics нет
+  const defaultColor = fabrics[0]?.color || '';
 
   const [sheetConfig, setSheetConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '180 * 230',
+    size: '',
     quantity: 1,
     feature: 'без резинки'
   });
 
   const [pillowcaseConfig, setPillowcaseConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '50 * 70',
+    size: '',
     quantity: 1,
     feature: 'без молнии'
   });
 
   const [duvetConfig, setDuvetConfig] = useState<ProductState>({
     color: defaultColor,
-    size: '150 * 200',
+    size: '',
     quantity: 1,
     feature: 'без молнии'
   });
+
+  // Обновляем default sizes когда данные загружены
+  useEffect(() => {
+    if (configData) {
+      const defaultSheetSize = sheetSizesWithFeature['без резинки']?.[0] || '';
+      const defaultPillowcaseSize = pillowcaseSizesWithFeature['без молнии']?.[0] || '';
+      const defaultDuvetSize = duvetSizesWithFeature['без молнии']?.[0] || '';
+
+      setSheetConfig(prev => ({
+        ...prev,
+        color: defaultColor,
+        size: defaultSheetSize
+      }));
+
+      setPillowcaseConfig(prev => ({
+        ...prev,
+        color: defaultColor,
+        size: defaultPillowcaseSize
+      }));
+
+      setDuvetConfig(prev => ({
+        ...prev,
+        color: defaultColor,
+        size: defaultDuvetSize
+      }));
+    }
+  }, [configData]);
 
   const [activeSection, setActiveSection] = useState<SectionType | null>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -160,7 +135,6 @@ export const ProductConfigurator: React.FC = () => {
 
   const [address, setAddress] = useState('');
   const [addressValid, setAddressValid] = useState(false);
-
 
   const calculateTotal = () => {
     let total = 0;
@@ -181,24 +155,6 @@ export const ProductConfigurator: React.FC = () => {
     }
 
     return total;
-  };
-
-  const generateOrderSummary = () => {
-    const summary = [];
-
-    if (sheetConfig.color || sheetConfig.size || sheetConfig.quantity > 1) {
-      summary.push(`Простыня, ц: "${sheetConfig.color || 'не выбран'}", вид: "${sheetConfig.feature || 'не выбран'}", р: "${sheetConfig.size || 'не выбран'}", колво: "${sheetConfig.quantity}"`);
-    }
-
-    if (pillowcaseConfig.color || pillowcaseConfig.size || pillowcaseConfig.quantity > 1) {
-      summary.push(`Наволочки, ц: "${pillowcaseConfig.color || 'не выбран'}", вид: "${pillowcaseConfig.feature || 'не выбран'}", р: "${pillowcaseConfig.size || 'не выбран'}", колво: "${pillowcaseConfig.quantity}"`);
-    }
-
-    if (duvetConfig.color || duvetConfig.size || duvetConfig.quantity > 1) {
-      summary.push(`Пододеяльник, ц: "${duvetConfig.color || 'не выбран'}", вид: "${duvetConfig.feature || 'не выбран'}", р: "${duvetConfig.size || 'не выбран'}", колво: "${duvetConfig.quantity}"`);
-    }
-
-    return summary.join('\n');
   };
 
   const generateOrderSummaryCompact = () => {
@@ -265,7 +221,6 @@ export const ProductConfigurator: React.FC = () => {
     const total = calculateTotal();
     const summary = generateOrderSummaryCompact();
 
-
     setTotalAmount(total);
     setOrderSummary(summary);
 
@@ -281,8 +236,6 @@ export const ProductConfigurator: React.FC = () => {
       console.log('Конфигурация заказа:', { sheetConfig, pillowcaseConfig, duvetConfig, total, summary });
       setActiveSection(null);
     }
-    
-
   };
 
   const handleCancel = () => {
@@ -294,7 +247,6 @@ export const ProductConfigurator: React.FC = () => {
     setOrderSummary('');
     setValidationError('');
   };
-
   const cleanPhone = phone => phone.replace(/[^0-9+]/g, '');
 const cleanEmail = email => email.trim();
 
