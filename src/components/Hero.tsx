@@ -1,52 +1,66 @@
 import React from 'react';
 import { useIsMobile } from "@/hooks/use-mobile";
+import { QuickContactForm } from './QuickContactForm';
+
 export const Hero: React.FC = () => {
   const isMobile = useIsMobile();
+  
   return (
-    <section className="w-full py-[1rem] lg:py-10">
-      <div className="max-w-7xl ">
-        <div className="grid grid-cols-1 lg:grid-cols-2  items-start">
-        
-          {/* Left Column - Image and About */}
-          <div className={`lg:order-1 order-2 flex flex-col justify-center lg:justify-end 
-          ${ isMobile ? 'h-[75%] w-[80%] ml-[10%] mr-[10%] mt-2' : 'w-full h-full ml-[4.2rem]'}`} >
+    <section className="w-full py-6 lg:py-12 px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          
+          {/* Left Column - Image */}
+          <div className="lg:order-1 order-2">
             <img
               src="/img/hero.png"
-              className="w-full rounded-[40px]"
+              className="w-full rounded-[30px] shadow-xl"
               alt="Постельное белье НЮКТА"
             />
           </div>
 
-          {/* Center Column - Main Content */}
-          <div className="lg:order-1 order-2 flex flex-col justify-between h-full w-full lg:ml-[10rem] lg:pr-[3rem]" style={{marginTop: isMobile?"-1rem":""}}>
-            <h1
-              className={"text-6xl lg:text-8xl xl:text-[110px] text-[rgba(19,54,92,1)] font-normal flex flex-col items-center lg:items-start lg:text-left"}
-            >
-              <p style={{marginBottom: isMobile? "1rem" : ""}}>НЮКТА</p>
-             
+          {/* Right Column - Content + Form */}
+          <div className="lg:order-2 order-1 flex flex-col gap-6">
+            {/* Brand name */}
+            <h1 className="text-5xl lg:text-7xl xl:text-8xl text-[rgba(19,54,92,1)] font-normal text-center lg:text-left">
+              НЮКТА
             </h1>
-
-            <p className="text-xl lg:text-3xl xl:text-3xl text-[rgba(19,54,92,1)] font-normal leading-relaxed w-full text-left px-10 lg:px-0">
-              НЮКТА — искусство создавать уют и комфорт.<br/>
-              Постельное белье из Турецкого натурального сатина, шитое по вашим меркам.<br/><br/>
-
-              Для тех, кто ценит качество и нежность в каждой детали.
+            
+            {/* Main headline - specific and clear */}
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-semibold text-center lg:text-left leading-tight">
+              Постельное бельё на заказ<br/>из турецкого сатина
+            </h2>
+            
+            {/* Delivery badge */}
+            <p className="text-lg text-[rgba(219,170,80,1)] font-medium text-center lg:text-left">
+              Доставка по всей России
             </p>
 
-            <div className='flex flex-col items-center  lg:items-start mt-[1rem] lg:mt-0'>
-              <a href='#collection'>
-              <button 
-              className="bg-[rgba(219,170,80,1)] mt-[2rem] text-2xl lg:text-3xl xl:text-4xl
-            text-[rgba(247,239,219,1)] font-normal px-11 lg:px-12 xl:px-[70px] py-2 lg:py-5
-            hover:bg-[rgba(199,150,60,1)] transition-colors lg:w-full  max-w-md text-center
-            
-            ">
-                Перейти в каталог
-              </button>
-            </a>
+            {/* UTP - benefits focused */}
+            <p className="text-lg lg:text-xl text-[rgba(19,54,92,0.8)] leading-relaxed text-center lg:text-left">
+              Сатин, который дарит прохладу летом и тепло зимой.<br/>
+              Сшито идеально по вашим размерам — никаких сползаний и морщин.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <a href="#collection">
+                <button className="bg-[rgba(219,170,80,1)] text-white text-lg lg:text-xl font-semibold px-8 py-4 hover:bg-[rgba(199,150,60,1)] transition-colors w-full sm:w-auto">
+                  Подобрать ткань и размер
+                </button>
+              </a>
+            </div>
+
+            {/* Quick Contact Form - visible on desktop */}
+            <div className="hidden lg:block mt-4">
+              <QuickContactForm />
             </div>
           </div>
-
+        </div>
+        
+        {/* Quick Contact Form - mobile */}
+        <div className="lg:hidden mt-8 flex justify-center">
+          <QuickContactForm />
         </div>
       </div>
     </section>
