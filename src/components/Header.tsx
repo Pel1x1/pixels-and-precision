@@ -6,10 +6,10 @@ export const Header: React.FC = () => {
   
   return (
     <header className="w-full py-4 bg-[rgba(247,239,219,1)] sticky top-0 z-40 shadow-sm">
-      <div className="max-w-[1585px] mx-auto px-4 lg:px-8">
+      <div className="max-w-[1585px] px-10 lg:px-[10.5rem]">
         <nav className="flex items-center justify-between w-full">
           {/* Logo - clickable to home */}
-          <a href="/" className="shrink-0">
+          <a href="/" className="shrink-0 ">
             <img
               src="/img/logo.png"
               className="aspect-[0.97] object-contain w-12 sm:w-16 lg:w-[70px]"
@@ -37,13 +37,13 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Phone number - desktop */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-10">
             <a 
-              href="tel:+79991234567" 
+              href="tel:+79501237503" 
               className="flex items-center gap-2 text-[rgba(19,54,92,1)] hover:text-[rgba(219,170,80,1)] transition-colors font-semibold text-lg"
             >
               <Phone className="w-5 h-5" />
-              +7 (999) 123-45-67
+              +7 (950) 123-75-03
             </a>
             <a 
               href="#collection"
@@ -56,7 +56,7 @@ export const Header: React.FC = () => {
           {/* Mobile: phone + burger */}
           <div className="flex lg:hidden items-center gap-3">
             <a 
-              href="tel:+79991234567" 
+              href="tel:+79501237503" 
               className="p-2 text-[rgba(19,54,92,1)]"
               aria-label="Позвонить"
             >
@@ -94,11 +94,11 @@ export const Header: React.FC = () => {
                 КОНТАКТЫ
               </a>
               <a 
-                href="tel:+79991234567" 
+                href="tel:+79501237503" 
                 className="flex items-center gap-2 text-[rgba(219,170,80,1)] font-semibold py-2"
               >
                 <Phone className="w-5 h-5" />
-                +7 (999) 123-45-67
+                +7 (950) 123-75-03
               </a>
             </div>
           </nav>

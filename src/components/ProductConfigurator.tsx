@@ -9,6 +9,7 @@ import { FeatureSelector } from './FeatureSelector';
 import { Button } from 'react-day-picker';
 import { AddressInput } from './AddressInput';
 import { PaymentForm } from './PaymentForm';
+import vector1 from '@/lib/img/Vector 1.png';
 
 
 interface ProductState {
@@ -122,6 +123,7 @@ export const ProductConfigurator: React.FC = () => {
       }));
     }
   }, [configData]);
+  const isMobile = useIsMobile();
 
   const [activeSection, setActiveSection] = useState<SectionType | null>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -447,6 +449,8 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
             НАША КОЛЛЕКЦИЯ
           </h2>
         </div>
+
+        
 
         <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10 leading-relaxed" id="order-summary">
           Выберите идеальный комплект постельного белья, полностью

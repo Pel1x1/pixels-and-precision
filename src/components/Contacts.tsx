@@ -68,26 +68,19 @@ export const Contacts: React.FC = () => {
   return (
     <section id="contacts" className="w-full">
       {/* Hero Section with Background */}
-      <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block ">
-        <div className="relative min-h-[250px] h-full w-full ">
-          <img
-            src={vector1}
-            className="absolute inset-0 w-full h-auto object-contain"
-            style={{visibility:isMobile?"hidden":"visible"}}
-            alt="Красивая линия"
-          />
-          <img
-            src={vector2}
-            className="absolute inset-0 w-full h-auto object-contain"
-            style={{visibility:isMobile?"visible":"hidden"}}
-            alt="Красивая линия"
-          />
+      <div 
+          className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 z-20 custom-max:block ">
+          <div className="relative min-h-[250px] h-full w-full " style={{ minHeight: isMobile? "0px" : "250px"}}>
+            <img
+              src={vector1}
+              className="absolute inset-0 w-full h-auto object-contain"
+              alt="Красивая линия"
+              style={{visibility:isMobile?"hidden":"visible", }}
+            />
+          </div>
         </div>
-      </div>
       {/* Contact Information */}
-        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[-10rem] lg:mt-[-65px] custom-min:mt-[4rem] mb-8 lg:mb-20">
-
-
+        <div className="w-full px-10 lg:px-[10rem] relative z-10 mt-[0rem] lg:mt-[-65px] custom-min:mt-[4rem] mb-8 lg:mb-20">
           <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-[7.5rem] text-[rgba(19,54,92,1)] font-normal text-left mb-4 lg:mb-10">
           {data.title}
         </h2>

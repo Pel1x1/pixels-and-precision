@@ -20,7 +20,7 @@ export const FloatingButtons: React.FC = () => {
     <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
       {/* WhatsApp */}
       <a
-        href="https://wa.me/79991234567"
+        href="https://wa.me/79501237503"
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
@@ -31,7 +31,7 @@ export const FloatingButtons: React.FC = () => {
 
       {/* Telegram */}
       <a
-        href="https://t.me/nyukta"
+        href="https://t.me/NuktaVibe"
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 bg-[#0088cc] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
