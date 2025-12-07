@@ -61,7 +61,7 @@ export const About: React.FC = () => {
                 : 'w-full h-full pl-[10rem] pr-[0px]'
             }`}
           >
-            <div className="flex gap-6 text-5xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
+            <div className="flex gap-6 text-[2.8rem] lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
               <h2 className="text-center">{aboutData.title}</h2>
               <img
                 src={aboutData.decorIconUrl}

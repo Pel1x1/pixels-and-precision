@@ -18,16 +18,6 @@ export const FloatingButtons: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
-      {/* WhatsApp */}
-      <a
-        href="https://wa.me/79501237503"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-        aria-label="Написать в WhatsApp"
-      >
-        <img src="/img/wht.png" alt="WhatsApp" className="w-7 h-7" />
-      </a>
 
       {/* Telegram */}
       <a
@@ -38,6 +28,28 @@ export const FloatingButtons: React.FC = () => {
         aria-label="Написать в Telegram"
       >
         <img src="/img/tg.png" alt="Telegram" className="w-7 h-7" />
+      </a>
+
+      {/* WhatsApp */}
+      <a
+        href="https://wa.me/79501237503"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+        aria-label="Написать в WhatsApp"
+      >
+        <img src="/img/wht.png" alt="WhatsApp" className="w-7 h-7" />
+      </a>
+      
+      {/* VK */}
+      <a
+        href="https://vk.com/club227935210"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 bg-[#c9e5f3] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+        aria-label="Написать в Vk"
+      >
+        <img src="/img/vk.png" alt="Vk" className="w-7 h-7" />
       </a>
 
       {/* Scroll to top */}

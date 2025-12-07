@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
             hover:bg-[rgba(199,150,60,1)] transition-colors lg:w-full  max-w-md text-center
             
             ">
-                Перейти в каталог
+                Хочу консультацию
               </button>
             </a>
             </div>

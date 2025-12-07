@@ -9,7 +9,7 @@ export const DeliveryPayment: React.FC = () => {
           {/* Left Column - Delivery Content */}
           <div className="space-y-4 lg:space-y-10">
             <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-12">
-              <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+              <h2 className="text-[2.8rem] sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
                 ДОСТАВКА
               </h2>
             </div>

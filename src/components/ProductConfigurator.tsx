@@ -445,7 +445,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
       <div className="max-w-7xl">
         {/* Title Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-4 lg:mb-10">
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
+          <h2 className="text-[2.8rem] sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
             НАША КОЛЛЕКЦИЯ
           </h2>
         </div>

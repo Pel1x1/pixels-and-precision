@@ -97,7 +97,7 @@ export const Reviews: React.FC = () => {
       <div className="max-w-7xl relative">
         {/* Заголовок из MODX */}
         <div className="flex gap-6 text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10">
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-left">
+          <h2 className="text-[2.8rem] sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal text-left">
             {data.title}
           </h2>
         </div>
