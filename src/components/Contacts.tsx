@@ -64,7 +64,7 @@ export const Contacts: React.FC = () => {
 
   if (loading) return null;
   if (!data) return null;
-
+  
   return (
     <section id="contacts" className="w-full">
       {/* Hero Section with Background */}
