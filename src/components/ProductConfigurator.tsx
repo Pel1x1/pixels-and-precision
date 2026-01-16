@@ -19,6 +19,14 @@ interface ProductState {
   feature?: string; 
 }
 
+interface CartItem {
+  id: string;
+  section: SectionType;
+  title: string;
+  config: ProductState;
+  price: number;
+}
+
 
 type SectionType = 'sheet' | 'pillowcase' | 'duvet';
 
@@ -39,6 +47,8 @@ export const ProductConfigurator: React.FC = () => {
   const [configData, setConfigData] = useState<ConfigData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const topRef = React.useRef<HTMLDivElement | null>(null);
 
   // Загружаем данные с MODX API при монтировании компонента
   useEffect(() => {
@@ -125,11 +135,14 @@ export const ProductConfigurator: React.FC = () => {
   }, [configData]);
   const isMobile = useIsMobile();
 
-  const [activeSection, setActiveSection] = useState<SectionType | null>(null);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [orderSummary, setOrderSummary] = useState<string>('');
   const [validationError, setValidationError] = useState<string>('');
 
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [totalAmount, setTotalAmount] = useState<number>(0); // оставить, но считать от cartItems
+  const [orderSummary, setOrderSummary] = useState<string>('');
+  // activeSection больше не нужен как «шаг», можно убрать или оставить для аккордеона
+  const [activeSection, setActiveSection] = useState<SectionType | null>(null);
+  
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [formErrors, setFormErrors] = useState({ phone: '', email: '' });
@@ -137,6 +150,53 @@ export const ProductConfigurator: React.FC = () => {
 
   const [address, setAddress] = useState('');
   const [addressValid, setAddressValid] = useState(false);
+
+  const getConfigPrice = (config: ProductState, type: SectionType): number => {
+    if (!config.size || !config.feature) return 0;
+
+    let base = 0;
+    if (type === 'sheet') {
+      base = sheetPricesWithFeature[config.feature]?.[config.size] || 0;
+    } else if (type === 'pillowcase') {
+      base = pillowcasePricesWithFeature[config.feature]?.[config.size] || 0;
+    } else if (type === 'duvet') {
+      base = duvetPricesWithFeature[config.feature]?.[config.size] || 0;
+    }
+
+    return base * config.quantity;
+  };
+  
+  useEffect(() => {
+    const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+    setTotalAmount(total);
+
+    const summaryLines = cartItems.map(item => formatItemSummary(item.section, item.config));
+    setOrderSummary(summaryLines.join('\n'));
+  }, [cartItems]);
+
+
+  const formatItemSummary = (type: SectionType, config: ProductState): string => {
+    if (!config.size || !config.feature) return '';
+
+    const size = cleanSize(config.size);
+    const colorName = mapColorToName(config.color);
+
+    // человекочитаемое название
+    const featureLabel = config.feature; 
+    if (type === 'sheet') {
+      return `${featureLabel}, размер: ${size}, цвет: ${colorName}, кол-во: ${config.quantity}`;
+    }
+    if (type === 'pillowcase') {
+      return `${featureLabel}, размер: ${size}, цвет: ${colorName}, кол-во: ${config.quantity}`;
+    }
+    if (type === 'duvet') {
+      return `${featureLabel}, размер: ${size}, цвет: ${colorName}, кол-во: ${config.quantity}`;
+    }
+    return '';
+  };
+
+  
+
 
   const calculateTotal = () => {
     let total = 0;
@@ -183,62 +243,53 @@ export const ProductConfigurator: React.FC = () => {
     }
   };
 
-  const validateSection = (section: SectionType) => {
-    let config: ProductState;
-    let sectionName: string;
+  const validateSection = (section: SectionType, config: ProductState) => {
+    let sectionName = '';
+    if (section === 'sheet') sectionName = 'Простыня';
+    if (section === 'pillowcase') sectionName = 'Наволочки';
+    if (section === 'duvet') sectionName = 'Пододеяльник';
 
-    switch (section) {
-      case 'sheet':
-        config = sheetConfig;
-        sectionName = 'Простыня';
-        break;
-      case 'pillowcase':
-        config = pillowcaseConfig;
-        sectionName = 'Наволочки';
-        break;
-      case 'duvet':
-        config = duvetConfig;
-        sectionName = 'Пододеяльник';
-        break;
-    }
-
-    if (!config.color) {
-      return `${sectionName}: Выберите цвет ткани`;
-    }
-    if (!config.size) {
-      return `${sectionName}: Выберите размер`;
-    }
+    if (!config.color) return `${sectionName}: Выберите цвет ткани`;
+    if (!config.feature) return `${sectionName}: Выберите вид`;
+    if (!config.size) return `${sectionName}: Выберите размер`;
+    if (!config.quantity || config.quantity <= 0) return `${sectionName}: Укажите количество`;
     return null;
   };
 
-  const handleNext = (section: SectionType) => {
-    const error = validateSection(section);
-    if (error) {
-      setValidationError(error);
-      setTimeout(() => setValidationError(''), 3000);
-      return;
-    }
+  const handleAddToCart = (section: SectionType, config: ProductState) => {
+  const error = validateSection(section, config);
+  if (error) {
+    setValidationError(error);
+    setTimeout(() => setValidationError(''), 3000);
+    return;
+  }
 
-    setValidationError('');
-    const total = calculateTotal();
-    const summary = generateOrderSummaryCompact();
+  const price = getConfigPrice(config, section);
 
-    setTotalAmount(total);
-    setOrderSummary(summary);
+  const title =
+    section === 'sheet'
+      ? 'Простыня'
+      : section === 'pillowcase'
+      ? 'Наволочка'
+      : 'Пододеяльник';
 
-    if (section === 'sheet') {
-      setActiveSection('pillowcase');
-    } else if (section === 'pillowcase') {
-      setActiveSection('duvet');
-    } else if (section === 'duvet') {
-      const element = document.getElementById('order-summary');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-      console.log('Конфигурация заказа:', { sheetConfig, pillowcaseConfig, duvetConfig, total, summary });
-      setActiveSection(null);
-    }
-  };
+  const id = `${section}-${config.color}-${config.feature}-${config.size}-${Date.now()}`;
+
+  setCartItems(prev => [
+    ...prev,
+    {
+      id,
+      section,
+      title,
+      config,
+      price,
+    },
+  ]);
+    setActiveSection(null);
+  if (topRef.current) {
+    topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
 
   const handleCancel = () => {
     setSheetConfig({ color: '', size: '', quantity: 1, feature: 'без резинки' });
@@ -267,8 +318,6 @@ const validateEmail = (email) => {
 
   // Используйте handlePayment внутри handleShowPaymentFields, чтобы после валидации запускать оплату
   const handleShowPaymentFields = () => {
-    // Ваша валидация телефона и email
-    // Если валидно, вызвать handlePayment
     let valid = true;
     const errors = { phone: '', email: '' };
 
@@ -290,14 +339,13 @@ const validateEmail = (email) => {
 
     if (!address) {
       valid = false;
-      alert("Введите адрес доставки");
-    } else if (!addressValid) {
-      valid = false;
-      alert("Проверьте корректность адреса");
+      alert('Введите адрес доставки');
     }
 
     setFormErrors(errors);
+    return valid;
   };
+
 
   const mapFeatureToCode = (feature: string | undefined, type: SectionType): string => {
   if (type === 'pillowcase') {
@@ -345,7 +393,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
     }
 
     return (
-      <div className="mb-4 lg:mb-10">
+      <div className="mb-4 lg:mb-10" >
         <Collapsible open={isOpen} onOpenChange={() => handleSectionToggle(type)}>
           <CollapsibleTrigger asChild>
             <button className="bg-[rgba(219,170,80,1)] flex w-full flex-col items-center text-2xl sm:text-3xl lg:text-4xl text-[rgba(19,54,92,1)] font-bold text-center justify-center px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-6 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 cursor-pointer transform hover:scale-[1.02] data-[state=open]:bg-[rgba(199,150,60,1)]">
@@ -418,18 +466,27 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
                 <div></div>
                 <div className="w-full flex gap-4 mt-6">
                   <button
-                    onClick={() => handleNext(type)}
-                    className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform"
+                    onClick={() => handleAddToCart(type, config)}
+                    className="flex-1 bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-white font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(199,150,60,1)] transition-all duration-300 transform"
                   >
-                    далее
+                    добавить в корзину
                   </button>
+
                   <button
-                    onClick={handleCancel}
+                    onClick={() =>
+                      setConfig({
+                        color: defaultColor,
+                        size: '',
+                        quantity: 1,
+                        feature: type === 'sheet' ? 'без резинки' : 'без молнии',
+                      })
+                    }
                     className="flex-1 bg-transparent border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-black font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(219,170,80,0.1)] transition-all duration-300 transform"
                   >
-                    отмена
+                    сбросить
                   </button>
                 </div>
+
               </div>
 
             </div>
@@ -438,11 +495,9 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
       </div>
     );
   };
-
-
-  return (
+  return ( 
     <section id="collection" className="w-full px-10 lg:px-[10rem] py-4 lg:py-10">
-      <div className="max-w-7xl">
+      <div className="max-w-7xl" >
         {/* Title Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 lg:gap-12 mb-4 lg:mb-10">
           <h2 className="text-[2.8rem] sm:text-6xl lg:text-8xl xl:text-9xl text-[rgba(19,54,92,1)] font-normal">
@@ -451,12 +506,12 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
         </div>
 
         
-
+        
         <p className="text-[1.1rem] sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)] font-normal mb-4 lg:mb-10 leading-relaxed" id="order-summary">
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
-
+        <div ref={topRef}/>
         {/* Validation Error */}
         {validationError && (
           <div className="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-fade-in" >
@@ -489,86 +544,112 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           setConfig={setDuvetConfig}
           
         />
+        {cartItems.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-[rgba(19,54,92,1)] text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+              Корзина
+            </h3>
 
-        {activeSection === null && (totalAmount > 0 || orderSummary) && (
-          <>
-          <div className=" whitespace-nowrap">
-            <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4">
-              <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
-                Итого:
-              </div>
-              <div className="flex-1 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)]">
-                {totalAmount.toLocaleString('ru-RU')} ₽
-              </div>
+            <div className="space-y-4 mb-6">
+              {cartItems.map(item => (
+                <div
+                  key={item.id}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[rgba(219,170,80,0.4)] pb-3"
+                >
+                  <div className="text-[rgba(19,54,92,1)] text-lg sm:text-xl">
+                    <div className="font-semibold">{item.title}</div>
+                    <div className="text-sm sm:text-base">
+                      {formatItemSummary(item.section, item.config)}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mt-2 sm:mt-0">
+                    <div className="text-lg sm:text-xl text-[rgba(19,54,92,1)]">
+                      {item.price.toLocaleString('ru-RU')} ₽
+                    </div>
+                    <button
+                      onClick={() =>
+                        setCartItems(prev => prev.filter(ci => ci.id !== item.id))
+                      }
+                      className="text-sm text-red-600 hover:underline"
+                    >
+                      удалить
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="mb-4 text-xl sm:text-2xl ">
-              <input
-                type="tel"
-                placeholder="+71234567890"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full p-3 mb-2 rounded border-[rgba(219,170,80,1)] border-2"
-                required
-              />
-              {formErrors.phone && <div className="text-red-600">{formErrors.phone}</div>}
+            <div className=" whitespace-nowrap" id="order-summary">
+              <div className="flex flex-row lg:flex-row lg:items-start gap-6 lg:gap-12 mb-4">
+                <div className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold min-w-fit">
+                  Итого:
+                </div>
+                <div className="flex-1 text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-[rgba(19,54,92,1)]">
+                  {totalAmount.toLocaleString('ru-RU')} ₽
+                </div>
+              </div>
 
-              <br />
+              <div className="mb-4 text-xl sm:text-2xl ">
+                <input
+                  type="tel"
+                  placeholder="+71234567890"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full p-3 mb-2 rounded border-[rgba(219,170,80,1)] border-2"
+                  required
+                />
+                {formErrors.phone && <div className="text-red-600">{formErrors.phone}</div>}
 
-              <input
-                type="email"
-                placeholder="mail@mail.ru"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
-                required
-              />
-              {formErrors.email && <div className="text-red-600">{formErrors.email}</div>}
+                <br />
 
-              <br />
+                <input
+                  type="email"
+                  placeholder="mail@mail.ru"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
+                  required
+                />
+                {formErrors.email && <div className="text-red-600">{formErrors.email}</div>}
 
-              <input
-                type="text"
-                placeholder="город Ангарск, переулок Грибной, дом 10"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
-                required
-              />
-              {!address && (
-                <div className="text-red-600">Пожалуйста, введите адрес</div>
-              )}
+                <br />
 
-            </div>
-              {/* Кнопка показать оплату */}
+                <input
+                  type="text"
+                  placeholder="город Ангарск, переулок Грибной, дом 10"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full p-3 mb-2 border-[rgba(219,170,80,1)] border-2 rounded"
+                  required
+                />
+                {!address && (
+                  <div className="text-red-600">Пожалуйста, введите адрес</div>
+                )}
+
+              </div>
+
               <button
                 onClick={() => {
-                  handleShowPaymentFields();
-                  if (validatePhone(phone) && validateEmail(email)) {
-                    setShowPaymentFields(true);
-                  } else {
-                    setShowPaymentFields(false);
-                  }
+                  const ok = handleShowPaymentFields();
+                  setShowPaymentFields(ok);
                 }}
                 className="mt-4 w-full bg-[rgba(219,170,80,1)] text-white text-2xl py-3 rounded hover:bg-[rgba(199,150,60,1)] transition-all"
               >
-                Перейти к оплате
+                Оформить заказ
               </button>
+
             </div>
 
-
-            {/* Оплата отображается только при валидных полях */}
             {showPaymentFields && (
               <div className="mt-10">
-                <PaymentForm 
-                amount={totalAmount} 
-                description={`${orderSummary}\nТелефон: ${phone}\nEmail: ${email}\nАдрес: ${address}`}
-                />
-              </div>
-            )}
-          
-          </>
-        )}
+                <PaymentForm
+                    amount={totalAmount}
+                    description={`${orderSummary}\nТелефон: ${phone}\nEmail: ${email}\nАдрес: ${address}`}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
     </section>
   );
