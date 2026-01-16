@@ -544,7 +544,6 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           setConfig={setDuvetConfig}
           
         />
-        <div className='h-[200px]'/>
         {cartItems.length > 0 && (
           <div className="mt-8">
             <h3 className="text-[rgba(19,54,92,1)] text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
