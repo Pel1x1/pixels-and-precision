@@ -10,6 +10,7 @@ import { Button } from 'react-day-picker';
 import { AddressInput } from './AddressInput';
 import { PaymentForm } from './PaymentForm';
 import vector1 from '@/lib/img/Vector 1.png';
+import { ReadySets, ReadySetItem } from './ReadySets';
 
 
 interface ProductState {
@@ -21,14 +22,16 @@ interface ProductState {
 
 interface CartItem {
   id: string;
-  section: SectionType;
+  section: SectionType | 'ready-set';
   title: string;
   config: ProductState;
   price: number;
+  readySetData?: ReadySetItem;
 }
 
 
 type SectionType = 'sheet' | 'pillowcase' | 'duvet';
+type CollectionTab = 'custom' | 'ready';
 
 
 interface ConfigData {
@@ -143,6 +146,9 @@ export const ProductConfigurator: React.FC = () => {
   // activeSection больше не нужен как «шаг», можно убрать или оставить для аккордеона
   const [activeSection, setActiveSection] = useState<SectionType | null>(null);
   
+  // Tab state for collection
+  const [collectionTab, setCollectionTab] = useState<CollectionTab>('custom');
+  
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [formErrors, setFormErrors] = useState({ phone: '', email: '' });
@@ -170,12 +176,16 @@ export const ProductConfigurator: React.FC = () => {
     const total = cartItems.reduce((sum, item) => sum + item.price, 0);
     setTotalAmount(total);
 
-    const summaryLines = cartItems.map(item => formatItemSummary(item.section, item.config));
+    const summaryLines = cartItems.map(item => formatItemSummary(item.section, item.config, item.readySetData));
     setOrderSummary(summaryLines.join('\n'));
   }, [cartItems]);
 
 
-  const formatItemSummary = (type: SectionType, config: ProductState): string => {
+  const formatItemSummary = (type: SectionType | 'ready-set', config: ProductState, readySetData?: ReadySetItem): string => {
+    if (type === 'ready-set' && readySetData) {
+      return `${readySetData.name} (${readySetData.bedSize}) — Простыня: ${readySetData.description.sheet}, Наволочка: ${readySetData.description.pillowcase}, Пододеяльник: ${readySetData.description.duvet}`;
+    }
+    
     if (!config.size || !config.feature) return '';
 
     const size = cleanSize(config.size);
@@ -193,6 +203,23 @@ export const ProductConfigurator: React.FC = () => {
       return `${featureLabel}, размер: ${size}, цвет: ${colorName}, кол-во: ${config.quantity}`;
     }
     return '';
+  };
+  
+  // Handler to add ready set to cart
+  const handleAddReadySetToCart = (set: ReadySetItem) => {
+    const newItem: CartItem = {
+      id: `ready-set-${set.id}-${Date.now()}`,
+      section: 'ready-set',
+      title: set.name,
+      config: { color: set.color, size: set.bedSize, quantity: 1 },
+      price: set.price,
+      readySetData: set,
+    };
+    setCartItems(prev => [...prev, newItem]);
+    
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   
@@ -511,6 +538,31 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           Выберите идеальный комплект постельного белья, полностью
           адаптированный под ваши пожелания.
         </p>
+        
+        {/* Collection Tabs */}
+        <div className="flex gap-2 sm:gap-4 mb-6 lg:mb-10">
+          <button
+            onClick={() => setCollectionTab('custom')}
+            className={`flex-1 sm:flex-none text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-300 ${
+              collectionTab === 'custom'
+                ? 'bg-[rgba(219,170,80,1)] text-white'
+                : 'bg-white border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+            }`}
+          >
+            Индивидуальный пошив
+          </button>
+          <button
+            onClick={() => setCollectionTab('ready')}
+            className={`flex-1 sm:flex-none text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-300 ${
+              collectionTab === 'ready'
+                ? 'bg-[rgba(219,170,80,1)] text-white'
+                : 'bg-white border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+            }`}
+          >
+            Готовые комплекты
+          </button>
+        </div>
+        
         <div ref={topRef}/>
         {/* Validation Error */}
         {validationError && (
@@ -521,29 +573,36 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           </div>
         )}
 
-        {/* Product Sections */}
-        <ProductSection
-          type="sheet"
-          title="Простыня"
-          config={sheetConfig}
-          setConfig={setSheetConfig}
-        />
+        {/* Custom Product Sections */}
+        {collectionTab === 'custom' && (
+          <>
+            <ProductSection
+              type="sheet"
+              title="Простыня"
+              config={sheetConfig}
+              setConfig={setSheetConfig}
+            />
 
-        <ProductSection
-          type="pillowcase"
-          title="Наволочки"
-          config={pillowcaseConfig}
-          setConfig={setPillowcaseConfig}
-          
-        />
+            <ProductSection
+              type="pillowcase"
+              title="Наволочки"
+              config={pillowcaseConfig}
+              setConfig={setPillowcaseConfig}
+            />
 
-        <ProductSection
-          type="duvet"
-          title="Пододеяльник"
-          config={duvetConfig}
-          setConfig={setDuvetConfig}
-          
-        />
+            <ProductSection
+              type="duvet"
+              title="Пододеяльник"
+              config={duvetConfig}
+              setConfig={setDuvetConfig}
+            />
+          </>
+        )}
+        
+        {/* Ready Sets */}
+        {collectionTab === 'ready' && (
+          <ReadySets onAddToCart={handleAddReadySetToCart} />
+        )}
         {cartItems.length > 0 && (
           <div className="mt-8">
             <h3 className="text-[rgba(19,54,92,1)] text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
@@ -559,7 +618,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
                   <div className="text-[rgba(19,54,92,1)] text-lg sm:text-xl">
                     <div className="font-semibold">{item.title}</div>
                     <div className="text-sm sm:text-base">
-                      {formatItemSummary(item.section, item.config)}
+                      {formatItemSummary(item.section, item.config, item.readySetData)}
                     </div>
                   </div>
                   <div className="flex items-center gap-4 mt-2 sm:mt-0">
