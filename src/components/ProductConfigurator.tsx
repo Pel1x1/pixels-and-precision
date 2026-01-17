@@ -58,7 +58,7 @@ export const ProductConfigurator: React.FC = () => {
     const fetchConfig = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://xn--80ativ2d.xn--p1ai/modx/index.php?id=6');
+        const response = await fetch('https://xn--80ativ2d.xn--p1ai/modx/index.php?id=14');
         
         if (!response.ok) {
           throw new Error(`Ошибка загрузки конфига: ${response.status}`);
@@ -540,23 +540,29 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
         </p>
         
         {/* Collection Tabs */}
-        <div className="flex gap-2 sm:gap-4 mb-6 lg:mb-10">
+        <div className="flex gap-[2%] mb-6 lg:mb-10 justify-center">
           <button
             onClick={() => setCollectionTab('custom')}
-            className={`flex-1 sm:flex-none text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-300 ${
+            className={`flex-1 w-[49%] sm:flex-none text-[0.9rem] sm:text-xl lg:text-2xl xl:text-3xl 
+              font-bold py-3 sm:py-4 transition-all duration-300 
+              hover:scale-[1.02]
+              ${
               collectionTab === 'custom'
-                ? 'bg-[rgba(219,170,80,1)] text-white'
-                : 'bg-white border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+                ? 'bg-transparent border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)]'
+                : 'bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
             }`}
           >
             Индивидуальный пошив
           </button>
           <button
             onClick={() => setCollectionTab('ready')}
-            className={`flex-1 sm:flex-none text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold py-3 sm:py-4 px-4 sm:px-8 rounded-lg transition-all duration-300 ${
+            className={`flex-1 w-[49%] sm:flex-none text-[0.9rem] sm:text-xl lg:text-2xl xl:text-3xl 
+              font-bold py-3 sm:py-4 transition-all duration-300 
+              hover:scale-[1.02]
+              ${
               collectionTab === 'ready'
-                ? 'bg-[rgba(219,170,80,1)] text-white'
-                : 'bg-white border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+                ? 'bg-transparent text-[rgba(19,54,92,1)]  border-2 border-[rgba(219,170,80,1)]'
+                : 'bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
             }`}
           >
             Готовые комплекты

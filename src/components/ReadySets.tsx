@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export interface ReadySetItem {
@@ -19,111 +19,9 @@ interface ReadySetsProps {
   onAddToCart: (item: ReadySetItem) => void;
 }
 
-// Примерные данные готовых комплектов
-const readySetsData: ReadySetItem[] = [
-  {
-    id: 'set-1',
-    name: 'Комплект "Крем"',
-    bedSize: '1.5-спальный',
-    images: [
-      '/img/fabrics/cream.webp',
-      '/img/fabrics/pouder.webp',
-      '/img/fabrics/sand.webp',
-    ],
-    description: {
-      sheet: '150 x 220 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '145 x 215 см',
-    },
-    price: 8500,
-    color: 'cream',
-  },
-  {
-    id: 'set-2',
-    name: 'Комплект "Изумруд"',
-    bedSize: '2-спальный',
-    images: [
-      '/img/fabrics/emerald.webp',
-      '/img/fabrics/mint.webp',
-      '/img/fabrics/evkalipt.webp',
-    ],
-    description: {
-      sheet: '180 x 220 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '175 x 215 см',
-    },
-    price: 10500,
-    color: 'emerald',
-  },
-  {
-    id: 'set-3',
-    name: 'Комплект "Индиго"',
-    bedSize: 'Евро',
-    images: [
-      '/img/fabrics/indigo.webp',
-      '/img/fabrics/water.webp',
-      '/img/fabrics/blue.webp',
-    ],
-    description: {
-      sheet: '240 x 260 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '200 x 220 см',
-    },
-    price: 12500,
-    color: 'indigo',
-  },
-  {
-    id: 'set-4',
-    name: 'Комплект "Лаванда"',
-    bedSize: '1.5-спальный',
-    images: [
-      '/img/fabrics/lavanda.webp',
-      '/img/fabrics/pink.webp',
-      '/img/fabrics/pouder.webp',
-    ],
-    description: {
-      sheet: '150 x 220 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '145 x 215 см',
-    },
-    price: 8500,
-    color: 'lavanda',
-  },
-  {
-    id: 'set-5',
-    name: 'Комплект "Мокко"',
-    bedSize: '2-спальный',
-    images: [
-      '/img/fabrics/mokko.webp',
-      '/img/fabrics/chocolate.webp',
-      '/img/fabrics/milk_chocolate.webp',
-    ],
-    description: {
-      sheet: '180 x 220 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '175 x 215 см',
-    },
-    price: 10500,
-    color: 'mokko',
-  },
-  {
-    id: 'set-6',
-    name: 'Комплект "Терракота"',
-    bedSize: 'Евро',
-    images: [
-      '/img/fabrics/terracota.webp',
-      '/img/fabrics/sand.webp',
-      '/img/fabrics/cream.webp',
-    ],
-    description: {
-      sheet: '240 x 260 см',
-      pillowcase: '50 x 70 см (2 шт)',
-      duvet: '200 x 220 см',
-    },
-    price: 12500,
-    color: 'terracota',
-  },
-];
+interface KitsData {
+  kits: ReadySetItem[];
+}
 
 const ImageSlider: React.FC<{ images: string[] }> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -139,7 +37,7 @@ const ImageSlider: React.FC<{ images: string[] }> = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full aspect-square overflow-hidden rounded-lg group">
+    <div className="relative w-full aspect-square overflow-hidden group">
       <img
         src={images[currentIndex]}
         alt="Комплект"
@@ -189,15 +87,15 @@ const SetCard: React.FC<{
   onAddToCart: (item: ReadySetItem) => void;
 }> = ({ set, onAddToCart }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-transparent border-2 border-[rgba(219,170,80,1)] overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <ImageSlider images={set.images} />
       
       <div className="p-4 sm:p-6">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-[rgba(19,54,92,1)] text-xl sm:text-2xl font-bold">
+          <h3 className="text-[rgba(19,54,92,1)] text-[1rem] sm:text-[1.25rem] font-bold">
             {set.name}
           </h3>
-          <span className="bg-[rgba(219,170,80,0.2)] text-[rgba(19,54,92,1)] px-3 py-1 rounded-full text-sm font-medium">
+          <span className="bg-[rgba(219,170,80,0.2)] text-[rgba(19,54,92,1)] px-3 py-1 rounded-full text-[0.8rem] font-medium">
             {set.bedSize}
           </span>
         </div>
@@ -212,7 +110,7 @@ const SetCard: React.FC<{
             <span className="font-medium">{set.description.pillowcase}</span>
           </div>
           <div className="flex justify-between text-sm sm:text-base">
-            <span>Пододеяльник:</span>
+            <span>Пободеяльник:</span>
             <span className="font-medium">{set.description.duvet}</span>
           </div>
         </div>
@@ -225,7 +123,7 @@ const SetCard: React.FC<{
         
         <button
           onClick={() => onAddToCart(set)}
-          className="w-full mt-4 bg-[rgba(219,170,80,1)] text-white text-lg sm:text-xl font-medium py-3 rounded-lg hover:bg-[rgba(199,150,60,1)] transition-all duration-300 transform hover:scale-[1.02]"
+          className="w-full mt-4 bg-[rgba(219,170,80,1)] text-white text-lg sm:text-xl font-medium py-3 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 transform hover:scale-[1.02]"
         >
           Добавить в корзину
         </button>
@@ -235,6 +133,61 @@ const SetCard: React.FC<{
 };
 
 export const ReadySets: React.FC<ReadySetsProps> = ({ onAddToCart }) => {
+  const [readySetsData, setReadySetsData] = useState<ReadySetItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchKits = async () => {
+      try {
+        setLoading(true);
+        // Загружаем данные с MODX ресурса kits (ID 15)
+        const response = await fetch('https://xn--80ativ2d.xn--p1ai/modx/index.php?id=15');
+        
+        if (!response.ok) {
+          throw new Error(`Ошибка загрузки комплектов: ${response.status}`);
+        }
+        
+        const data: KitsData = await response.json();
+        setReadySetsData(data.kits || []);
+        setError(null);
+      } catch (err) {
+        console.error('Ошибка загрузки готовых комплектов:', err);
+        setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
+        // Fallback: используем пустой массив
+        setReadySetsData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchKits();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="text-[rgba(19,54,92,1)] text-xl">Загрузка комплектов...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="text-red-600 text-lg">Ошибка: {error}</div>
+      </div>
+    );
+  }
+
+  if (readySetsData.length === 0) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="text-[rgba(19,54,92,1)] text-lg">Комплекты не найдены</div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
       {readySetsData.map((set) => (

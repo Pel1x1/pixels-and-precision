@@ -47,7 +47,7 @@ export const Header: React.FC = () => {
             </a>
             <a 
               href="#collection"
-              className="bg-[rgba(219,170,80,1)] text-white px-5 py-2 rounded hover:bg-[rgba(199,150,60,1)] transition-colors font-medium"
+              className="bg-[rgba(219,170,80,1)] text-white px-5 py-2 hover:bg-[rgba(199,150,60,1)] transition-colors font-medium"
             >
               Заказать
             </a>
