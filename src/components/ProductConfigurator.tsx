@@ -548,8 +548,8 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               hover:scale-[1.02]
               ${
               collectionTab === 'custom'
-                ? 'bg-transparent border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)]'
-                : 'bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+                ? 'bg-transparent border-[1px] border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)]'
+                : 'bg-[rgba(219,170,80,1)] border-[1px] border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
             }`}
           >
             Индивидуальный пошив
@@ -561,8 +561,8 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               hover:scale-[1.02]
               ${
               collectionTab === 'ready'
-                ? 'bg-transparent text-[rgba(19,54,92,1)]  border-2 border-[rgba(219,170,80,1)]'
-                : 'bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
+                ? 'bg-transparent text-[rgba(19,54,92,1)]  border-[1px] border-[rgba(219,170,80,1)]'
+                : 'bg-[rgba(219,170,80,1)] border-[1px] border-[rgba(219,170,80,1)] text-[rgba(19,54,92,1)] hover:bg-[rgba(219,170,80,0.1)]'
             }`}
           >
             Готовые комплекты
