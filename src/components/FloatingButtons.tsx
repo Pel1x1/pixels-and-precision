@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUp, MessageCircle } from 'lucide-react';
+import { ArrowUp, MessageCircle, ShoppingCart } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 export const FloatingButtons: React.FC = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showSocials, setShowSocials] = useState(false);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +17,22 @@ export const FloatingButtons: React.FC = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCartClick = () => {
+    if (cartCount > 0) {
+      // Scroll to cart section
+      const cartSection = document.querySelector('#cart-section');
+      if (cartSection) {
+        cartSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      // Scroll to collection section
+      const collectionSection = document.querySelector('#collection');
+      if (collectionSection) {
+        collectionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   };
 
   return (
@@ -68,6 +86,20 @@ export const FloatingButtons: React.FC = () => {
         aria-label="Открыть ссылки"
       >
         <MessageCircle className="w-6 h-6 text-white" />
+      </button>
+
+      {/* Кнопка корзины */}
+      <button
+        onClick={handleCartClick}
+        className="w-14 h-14 bg-[rgba(219,170,80,1)] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform relative"
+        aria-label="Корзина"
+      >
+        <ShoppingCart className="w-6 h-6 text-white" />
+        {cartCount > 0 && (
+          <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+            {cartCount > 99 ? '99+' : cartCount}
+          </span>
+        )}
       </button>
 
       {/* Кнопка "наверх" */}
