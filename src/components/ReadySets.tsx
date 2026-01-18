@@ -92,7 +92,7 @@ const SetCard: React.FC<{
       
       <div className="p-4 sm:p-6">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-[rgba(19,54,92,1)] text-[1rem] sm:text-[1.25rem] font-bold">
+          <h3 className="text-[rgba(19,54,92,1)] text-[1rem] sm:text-[1.15rem] font-bold">
             {set.name}
           </h3>
           <span className="bg-[rgba(219,170,80,0.2)] text-[rgba(19,54,92,1)] px-3 py-1 rounded-full text-[0.8rem] font-medium">

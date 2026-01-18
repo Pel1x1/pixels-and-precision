@@ -12,7 +12,7 @@ import { PaymentForm } from './PaymentForm';
 import vector1 from '@/lib/img/Vector 1.png';
 import { ReadySets, ReadySetItem } from './ReadySets';
 import { useCart, CartItemData } from '@/context/CartContext';
-
+import { Link as Link1} from "react-router-dom";
 
 interface ProductState {
   color: string;
@@ -693,6 +693,16 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               >
                 Оформить заказ
               </button>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Нажимая кнопку «Оформить заказ», вы подтверждаете, что ознакомлены с {" "}
+                <Link1
+                  to="/privacy"
+                  className="underline underline-offset-2 hover:text-primary text-xs"
+                >
+                  Политикой обработки персональных данных
+                </Link1>
+                {" "}и даёте согласие на их обработку в целях записи на приём и получения консультации.
+              </p>
 
             </div>
 

@@ -14,7 +14,7 @@ const Index: React.FC = () => {
     <div className="bg-[rgba(247,239,219,1)]">
       <Header />
       
-      <div className="min-h-screen max-w-[1585px] mx-auto">
+      <div className="min-h-screen max-w-[1585px] mx-auto bg-[rgba(247,239,219,1)]">
         <main>
           <Hero />
           <About />
