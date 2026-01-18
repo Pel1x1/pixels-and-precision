@@ -11,6 +11,7 @@ import { AddressInput } from './AddressInput';
 import { PaymentForm } from './PaymentForm';
 import vector1 from '@/lib/img/Vector 1.png';
 import { ReadySets, ReadySetItem } from './ReadySets';
+import { useCart, CartItemData } from '@/context/CartContext';
 
 
 interface ProductState {
@@ -19,16 +20,6 @@ interface ProductState {
   quantity: number;
   feature?: string; 
 }
-
-interface CartItem {
-  id: string;
-  section: SectionType | 'ready-set';
-  title: string;
-  config: ProductState;
-  price: number;
-  readySetData?: ReadySetItem;
-}
-
 
 type SectionType = 'sheet' | 'pillowcase' | 'duvet';
 type CollectionTab = 'custom' | 'ready';
@@ -140,10 +131,10 @@ export const ProductConfigurator: React.FC = () => {
 
   const [validationError, setValidationError] = useState<string>('');
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [totalAmount, setTotalAmount] = useState<number>(0); // оставить, но считать от cartItems
+  // Use shared cart context
+  const { cartItems, setCartItems } = useCart();
+  const [totalAmount, setTotalAmount] = useState<number>(0);
   const [orderSummary, setOrderSummary] = useState<string>('');
-  // activeSection больше не нужен как «шаг», можно убрать или оставить для аккордеона
   const [activeSection, setActiveSection] = useState<SectionType | null>(null);
   
   // Tab state for collection
@@ -207,7 +198,7 @@ export const ProductConfigurator: React.FC = () => {
   
   // Handler to add ready set to cart
   const handleAddReadySetToCart = (set: ReadySetItem) => {
-    const newItem: CartItem = {
+    const newItem: CartItemData = {
       id: `ready-set-${set.id}-${Date.now()}`,
       section: 'ready-set',
       title: set.name,
@@ -610,7 +601,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
           <ReadySets onAddToCart={handleAddReadySetToCart} />
         )}
         {cartItems.length > 0 && (
-          <div className="mt-8">
+          <div className="mt-8" id="cart-section">
             <h3 className="text-[rgba(19,54,92,1)] text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Корзина
             </h3>
