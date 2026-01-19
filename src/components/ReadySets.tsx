@@ -86,6 +86,14 @@ const SetCard: React.FC<{
   set: ReadySetItem;
   onAddToCart: (item: ReadySetItem) => void;
 }> = ({ set, onAddToCart }) => {
+  const [added, setAdded] = useState(false);
+
+  const handleClick = () => {
+    if (added) return; // защита от дабл-клика
+    onAddToCart(set);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000); // 2 секунды
+  };
   return (
     <div className="bg-transparent border-2 border-[rgba(219,170,80,1)] overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <ImageSlider images={set.images} />
@@ -122,10 +130,16 @@ const SetCard: React.FC<{
         </div>
         
         <button
-          onClick={() => onAddToCart(set)}
-          className="w-full mt-4 bg-[rgba(219,170,80,1)] text-white text-lg sm:text-xl font-medium py-3 hover:bg-[rgba(199,150,60,1)] transition-all duration-300 transform hover:scale-[1.02]"
+          onClick={handleClick}
+          disabled={added}
+          className={`w-full mt-4 text-lg sm:text-xl font-medium py-3 transition-all duration-300 transform
+            ${
+              added
+                ? 'bg-green-600 text-white cursor-default'
+                : 'bg-[rgba(219,170,80,1)] text-white hover:bg-[rgba(199,150,60,1)] hover:scale-[1.02]'
+            }`}
         >
-          Добавить в корзину
+          {added ? 'Добавлено в корзину ✓' : 'Добавить в корзину'}
         </button>
       </div>
     </div>

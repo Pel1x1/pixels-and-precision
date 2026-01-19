@@ -37,10 +37,13 @@ interface ConfigData {
 
 
 export const ProductConfigurator: React.FC = () => {
+  const [addedSection, setAddedSection] = useState<SectionType | null>(null);
+
   // Состояние для данных с API
   const [configData, setConfigData] = useState<ConfigData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
 
   const topRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -207,10 +210,7 @@ export const ProductConfigurator: React.FC = () => {
       readySetData: set,
     };
     setCartItems(prev => [...prev, newItem]);
-    
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+
   };
 
   
@@ -275,39 +275,37 @@ export const ProductConfigurator: React.FC = () => {
   };
 
   const handleAddToCart = (section: SectionType, config: ProductState) => {
-  const error = validateSection(section, config);
-  if (error) {
-    setValidationError(error);
-    setTimeout(() => setValidationError(''), 3000);
-    return;
-  }
+      const error = validateSection(section, config);
+      if (error) {
+        setValidationError(error);
+        setTimeout(() => setValidationError(''), 3000);
+        return false;
+      }
 
-  const price = getConfigPrice(config, section);
+      const price = getConfigPrice(config, section);
 
-  const title =
-    section === 'sheet'
-      ? 'Простыня'
-      : section === 'pillowcase'
-      ? 'Наволочка'
-      : 'Пододеяльник';
+      const title =
+        section === 'sheet'
+          ? 'Простыня'
+          : section === 'pillowcase'
+          ? 'Наволочка'
+          : 'Пододеяльник';
 
-  const id = `${section}-${config.color}-${config.feature}-${config.size}-${Date.now()}`;
+      const id = `${section}-${config.color}-${config.feature}-${config.size}-${Date.now()}`;
 
-  setCartItems(prev => [
-    ...prev,
-    {
-      id,
-      section,
-      title,
-      config,
-      price,
-    },
-  ]);
-    setActiveSection(null);
-  if (topRef.current) {
-    topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-};
+      setCartItems(prev => [
+        ...prev,
+        {
+          id,
+          section,
+          title,
+          config,
+          price,
+        },
+      ]);
+      return true;
+    };
+
 
   const handleCancel = () => {
     setSheetConfig({ color: '', size: '', quantity: 1, feature: 'без резинки' });
@@ -399,7 +397,7 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
   }> = ({ type, title, config, setConfig }) => {
     const isOpen = activeSection === type;
     const isMobile = useIsMobile();
-
+    const isJustAdded = addedSection === type;
     // Динамические размеры в зависимости от feature
     let sizesForSection: string[] = [];
     if (type === 'sheet') {
@@ -484,10 +482,24 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
                 <div></div>
                 <div className="w-full flex gap-4 mt-6">
                   <button
-                    onClick={() => handleAddToCart(type, config)}
-                    className="flex-1 bg-[rgba(219,170,80,1)] border-2 border-[rgba(219,170,80,1)] text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-white font-normal py-0 sm:py-[0.75rem] hover:bg-[rgba(199,150,60,1)] transition-all duration-300 transform"
+                    onClick={() => {
+                      const ok = handleAddToCart(type, config);
+                      if (!ok) return;
+
+                      setAddedSection(type);          // помечаем, что для этой секции добавлено
+                      setTimeout(() => {
+                        setAddedSection(null);        // через 2 секунды откатываем
+                      }, 2000);
+                    }}
+                    disabled={isJustAdded}
+                    className={`flex-1 border-2 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-normal py-0 sm:py-[0.75rem] transition-all duration-300 transform
+                      ${
+                        isJustAdded
+                          ? 'bg-green-600 border-green-600 text-white cursor-default'
+                          : 'bg-[rgba(219,170,80,1)] border-[rgba(219,170,80,1)] text-white hover:bg-[rgba(199,150,60,1)]'
+                      }`}
                   >
-                    добавить в корзину
+                    {isJustAdded ? 'Добавлено в корзину ✓' : 'добавить в корзину'}
                   </button>
 
                   <button
@@ -693,15 +705,15 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               >
                 Оформить заказ
               </button>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Нажимая кнопку «Оформить заказ», вы подтверждаете, что ознакомлены с {" "}
+              <p className="mt-3 text-xs text-muted-foreground w-full max-w-sm sm:max-w-md xl:max-w-full whitespace-normal break-words">
+                Нажимая кнопку «Оформить заказ», вы подтверждаете, что ознакомлены с{" "}
                 <Link1
                   to="/privacy"
                   className="underline underline-offset-2 hover:text-primary text-xs"
                 >
                   Политикой обработки персональных данных
                 </Link1>
-                {" "}и даёте согласие на их обработку в целях записи на приём и получения консультации.
+                {" "}и даёте согласие на их обработку в целях оформления заказа и получения консультации.
               </p>
 
             </div>
