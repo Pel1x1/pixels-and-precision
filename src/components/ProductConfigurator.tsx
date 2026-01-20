@@ -699,12 +699,19 @@ const cleanSize = (size: string): string => size.replace(/\s/g, '').replace(/\*/
               <button
                 onClick={() => {
                   const ok = handleShowPaymentFields();
+                  
+                  if (ok) {
+                    if (typeof window !== 'undefined' && (window as any).ym) {
+                      (window as any).ym(105783067, 'reachGoal', 'placedanorder');
+                    }
+                  }
                   setShowPaymentFields(ok);
                 }}
                 className="mt-4 w-full bg-[rgba(219,170,80,1)] text-white text-2xl py-3 rounded hover:bg-[rgba(199,150,60,1)] transition-all"
               >
                 Оформить заказ
               </button>
+
               <p className="mt-3 text-xs text-muted-foreground w-full max-w-sm sm:max-w-md xl:max-w-full whitespace-normal break-words">
                 Нажимая кнопку «Оформить заказ», вы подтверждаете, что ознакомлены с{" "}
                 <Link1
